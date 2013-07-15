@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="#ffffff">
+        
+    <LinearLayout
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" 
+		    android:background="#ffffff"
+		    android:gravity="center"
+		    android:paddingTop="10dp">
+		    
+        <Button
+		    android:id="@+id/btn_back"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:text="Back" 
+		    android:layout_weight="3"/>
+    	
+	    <TextView
+	        android:id="@+id/tv_selDev" 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:background="#00bb00"
+	        android:textColor="#000000"
+	        android:textSize="25sp"
+	        android:text="" 
+	        android:layout_weight="1"/>
+	    
+    </LinearLayout>
+    
+  
+
+
+	<View android:layout_marginTop="10dp" android:layout_width="fill_parent"   android:layout_height="1dp"   android:background="#000000"></View>
+
+    
+	<ListView android:id="@+id/content_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        android:fastScrollEnabled="true"
+        android:cacheColorHint="#00000000" 
+        android:clickable="true"/>
+</LinearLayout>

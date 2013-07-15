@@ -21,16 +21,32 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="com.geniusgithub.mediaplayer.AllShareApplication" >
+        
         <activity
-            android:name="com.geniusgithub.mediaplayer.MainActivity"
-            android:label="@string/app_name" >
+            android:name="com.geniusgithub.mediaplayer.activity.DMSActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+         <activity
+            android:name="com.geniusgithub.mediaplayer.activity.ContentActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+        
+         
+        <service android:name="com.geniusgithub.mediarender.center.DlnaService" android:enabled="true">
+			<intent-filter>
+                <action android:name="com.geniusgithub.allshare.search_device" />
+                <action android:name="com.geniusgithub.allshare.reset_search_device" />
+                
+            </intent-filter>
+		</service>
+        
     </application>
 
 </manifest>

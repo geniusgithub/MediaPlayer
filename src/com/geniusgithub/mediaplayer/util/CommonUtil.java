@@ -1,7 +1,6 @@
 package com.geniusgithub.mediaplayer.util;
 
 
-
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -9,21 +8,16 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import org.cybergarage.util.CommonLog;
-
+import org.cybergarage.util.LogFactory;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.NetworkInfo.State;
-import android.net.TrafficStats;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.net.wifi.WifiManager.MulticastLock;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -32,23 +26,8 @@ public class CommonUtil {
 
 	private static final CommonLog log = LogFactory.createLog();
 	
-	public static boolean hasSDCard() {
-		String status = Environment.getExternalStorageState();
-		if (!status.equals(Environment.MEDIA_MOUNTED)) {
-			return false;
-		} 
-		return true;
-	}
-	
-	public static String getRootFilePath() {
-		if (hasSDCard()) {
-			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/";// filePath:/sdcard/
-		} else {
-			return Environment.getDataDirectory().getAbsolutePath() + "/data/"; // filePath: /data/data/
-		}
-	}
-	
-	public static boolean checkNetworkState(Context context){
+	public static boolean checkNetState(Context context)
+    {
     	boolean netstate = false;
 		ConnectivityManager connectivity = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if(connectivity != null)
@@ -67,7 +46,28 @@ public class CommonUtil {
 		}
 		return netstate;
     }
-
+	
+	public static String getLocalIpAddress() throws SocketException {  
+		String defaultIP = "0.0.0.0";
+    
+        for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {  
+            NetworkInterface intf = en.nextElement();  
+            for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {  
+                InetAddress inetAddress = enumIpAddr.nextElement();  
+                if (!inetAddress.isLoopbackAddress()) {  
+                	String ip = inetAddress.getHostAddress().toString();  
+                	 if(ip == null)
+                 	  {
+                 		  continue;
+                 	  }
+                	 return ip;
+                }  
+            }  
+        }  
+  
+        return defaultIP;  
+    } 
+	
 	public static String getLocalMacAddress(Context mc){
 		String defmac = "00:00:00:00:00:00";
 		InputStream   input   =   null;
@@ -110,36 +110,25 @@ public class CommonUtil {
         return info.getMacAddress();   
     } 
 	
-	public static boolean openWifiBrocast(Context context){
-		WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-		MulticastLock  multicastLock=wifiManager.createMulticastLock("MediaRender");
-		if (multicastLock != null){
-			multicastLock.acquire();
-			return true;
-		}
-		return false;
-	}
-	
-	
-	public static void setCurrentVolume(int percent,Context mc){
-		AudioManager am=(AudioManager)mc.getSystemService(Context.AUDIO_SERVICE);
-		int maxvolume=am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		am.setStreamVolume(AudioManager.STREAM_MUSIC, (maxvolume*percent)/100, 
-				AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
-		am.setMode(AudioManager.MODE_INVALID);
-	}
-	
-	public static void setVolumeMute(Context mc){
-		AudioManager am=(AudioManager)mc.getSystemService(Context.AUDIO_SERVICE);
-		am.setStreamMute(AudioManager.STREAM_MUSIC, true);
-	}
-	public static void setVolumeUnmute(Context mc){
-		AudioManager am=(AudioManager)mc.getSystemService(Context.AUDIO_SERVICE);
-		am.setStreamMute(AudioManager.STREAM_MUSIC, false);
-	}
-	
 	public static void showToask(Context context, String tip){
 		Toast.makeText(context, tip, Toast.LENGTH_SHORT).show();
+	}
+	
+	public static boolean hasSDCard() {
+		String status = Environment.getExternalStorageState();
+		if (!status.equals(Environment.MEDIA_MOUNTED)) {
+		//	log.e("No sdcard");
+			return false;
+		} 
+		return true;
+	}
+	
+	public static String getRootFilePath() {
+		if (hasSDCard()) {
+			return Environment.getExternalStorageDirectory().getAbsolutePath() + "/";// filePath:/sdcard/
+		} else {
+			return Environment.getDataDirectory().getAbsolutePath() + "/data/"; // filePath: /data/data/
+		}
 	}
 
 	public static int getScreenWidth(Context context) {
@@ -164,6 +153,9 @@ public class CommonUtil {
 	    int height2 = getScreenHeight(context);      
 	    double fit2 = width2 * 1.0 / height2;  
 	    
+	    log.e("videoWidth = " + videoWidth + ", videoHeight = " + videoHeight + ",fit1 = " + fit1);
+	    log.e("width2 = " + width2 + ", height2 = " + height2 + ",fit2 = " + fit2);
+	    
 	    double fit = 1;
 	    if (fit1 > fit2)
 	    {
@@ -171,7 +163,9 @@ public class CommonUtil {
 	    }else{
 	    	fit = height2 * 1.0 / videoHeight;
 	    }
-
+	    
+	    log.e("fit = " + fit);
+	    
 	    ViewSize viewSize = new ViewSize();
 	    viewSize.width = (int) (fit * videoWidth);
 	    viewSize.height = (int) (fit * videoHeight);
@@ -185,50 +179,4 @@ public class CommonUtil {
 		public int height = 0;
 	}
     
-	  public static boolean getWifiState(Context context){
-		  ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);  
-		  State wifistate = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
-		  if (wifistate != State.CONNECTED){
-			  return false;
-		  }
-		  
-		  State mobileState = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
-		  boolean ret = State.CONNECTED != mobileState;
-		  return ret;
-	  }
-	  
-	  
-	  public static boolean getMobileState(Context context){
-		  ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);  
-		  State wifistate = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
-		  if (wifistate != State.CONNECTED){
-			  return false;
-		  }
-		  
-		  State mobileState = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
-		  boolean ret = State.CONNECTED == mobileState;
-		  return ret;
-	  }
-	  
-	  
-	  
-	  private static long m_lSysNetworkSpeedLastTs = 0;
-		private static long m_lSystNetworkLastBytes = 0;
-		private static float m_fSysNetowrkLastSpeed = 0.0f;
-		public static float getSysNetworkDownloadSpeed() {
-			long nowMS = System.currentTimeMillis();
-			long nowBytes = TrafficStats.getTotalRxBytes();
-
-			long timeinterval = nowMS - m_lSysNetworkSpeedLastTs;
-			long bytes = nowBytes - m_lSystNetworkLastBytes;
-
-			if(timeinterval > 0) m_fSysNetowrkLastSpeed = (float)bytes * 1.0f / (float)timeinterval;
-
-			m_lSysNetworkSpeedLastTs = nowMS;
-			m_lSystNetworkLastBytes = nowBytes;
-
-			return m_fSysNetowrkLastSpeed;
-		}
 }
-
-
