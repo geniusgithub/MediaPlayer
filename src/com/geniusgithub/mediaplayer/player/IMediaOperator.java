@@ -7,6 +7,6 @@ public interface IMediaOperator {
 	public void pause();
 	public void stop();
 	public void prev();
-	public void next();
+	public boolean next();
 	public void skipTo(int time);
 }

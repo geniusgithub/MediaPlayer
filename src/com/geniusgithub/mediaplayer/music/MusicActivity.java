@@ -293,7 +293,14 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		@Override
 		public void onTrackPlayComplete(MediaItem itemInfo) {
 			log.e("onTrackPlayComplete");
-			mMusicControlCenter.next();
+			boolean ret = mMusicControlCenter.next();
+			if (!ret){
+				mUIManager.showPlayErrorTip();
+				mUIManager.updateMediaInfoView(itemInfo);
+				mUIManager.showPlay(false);
+				mUIManager.showPrepareLoadView(false);
+				mUIManager.showControlView(true);
+			}
 		}
 
 	

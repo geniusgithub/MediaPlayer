@@ -14,7 +14,7 @@ public class MusicControlCenter implements IMediaOperator{
 	private int mCurPlayIndex = 0;
 	private List<MediaItem> mMusicList;
 	private MusicPlayEngineImpl mPlayerEngineImpl;
-	
+	private long playNextTimeMill = 0;
 	
 	public MusicControlCenter(Context context){
 		mContext = context;
@@ -64,16 +64,23 @@ public class MusicControlCenter implements IMediaOperator{
 	}
 
 	@Override
-	public void next() {
+	public boolean next() {
 		if (!isHaveFile())
 		{
-			return ;
+			return false;
 		}
+		long curTimeMill =  System.currentTimeMillis();
+		long timeInterfal = Math.abs(curTimeMill - playNextTimeMill);
+		if (timeInterfal < 1000){
+			return false;
+		}
+		playNextTimeMill = curTimeMill;
 		
 		mCurPlayIndex++;
 		mCurPlayIndex = reviceIndex(mCurPlayIndex);
 	
 		mPlayerEngineImpl.playMedia(mMusicList.get(mCurPlayIndex));
+		return true;
 	}
 
 	@Override
