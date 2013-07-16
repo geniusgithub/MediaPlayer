@@ -9,6 +9,7 @@ import org.cybergarage.util.LogFactory;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -21,12 +22,15 @@ import android.widget.TextView;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.adapter.ContentAdapter;
+import com.geniusgithub.mediaplayer.music.MusicActivity;
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.proxy.BrowseDMSProxy;
 import com.geniusgithub.mediaplayer.proxy.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.proxy.BrowseDMSProxy.BrowseRequestCallback;
+import com.geniusgithub.mediaplayer.proxy.MediaManager;
 import com.geniusgithub.mediaplayer.upnp.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
+import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
 import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
@@ -171,22 +175,14 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 
 	private void goMusicPlayerActivity(int index, MediaItem item){
 		
-//		MediaManager.getInstance().setMusicList(mCurItems);
-//		
-//		Intent intent = new Intent();
-//		intent.setClass(this, MusicPlayerActivity.class);
-//		intent.putExtra(MusicPlayerActivity.PLAY_INDEX, index);
-//		ItemFactory.putItemToIntent(item, intent);
-//		ContentActivity.this.startActivity(intent);
+		MediaManager.getInstance().setMusicList(mCurItems);
+		
+		Intent intent = new Intent();
+		intent.setClass(this, MusicActivity.class);
+		intent.putExtra(MusicActivity.PLAY_INDEX, index);
+		MediaItemFactory.putItemToIntent(item, intent);
+		ContentActivity.this.startActivity(intent);
 	}
-	
-//	private void goMusicPlayerActivity(int index, Item item){	
-//		Intent intent = new Intent();
-//		intent.setClass(this, DMCActivity.class);
-//		ItemFactory.putItemToIntent(item, intent);
-//		DMCFactory.putMusicIntoIntent(intent);
-//		ContentActivity.this.startActivity(intent);
-//	}
 	
 	private void goVideoPlayerActivity(int position, MediaItem item){
 		
@@ -200,13 +196,6 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 //		ContentActivity.this.startActivity(intent);
 	}
 	
-//	private void goVideoPlayerActivity(int position, Item item){
-//		Intent intent = new Intent();
-//		intent.setClass(this, DMCActivity.class);
-//		ItemFactory.putItemToIntent(item, intent);
-//		DMCFactory.putVideoIntoIntent(intent);
-//		ContentActivity.this.startActivity(intent);
-//	}
 	
 	private void goPicturePlayerActivity(int position, MediaItem item){
 		
@@ -220,14 +209,6 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 //		ContentActivity.this.startActivity(intent);
 	}
 	
-//	private void goPicturePlayerActivity(int position, Item item){
-//		Intent intent = new Intent();
-//		intent.setClass(this, DMCActivity.class);
-//		ItemFactory.putItemToIntent(item, intent);
-//		DMCFactory.putPhoneIntoIntent(intent);
-//		ContentActivity.this.startActivity(intent);
-//	}
-
 
 	private void back(){
 		mContentManager.popListItem();

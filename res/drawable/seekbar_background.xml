@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">  
+      
+    <item android:id="@android:id/background" android:drawable="@drawable/progress_bottom"/>
+    <item android:id="@android:id/secondaryProgress" android:drawable="@drawable/progress_second" /> 
+    <item android:id="@android:id/progress" android:drawable="@drawable/progress_first"/>
+          
+</layer-list> 

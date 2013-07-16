@@ -86,7 +86,7 @@ private static final CommonLog log = LogFactory.createLog();
 	
 	private void refreshDevices(){
 		log.e("refreshDevices...");
-		if (!CommonUtil.checkNetState(mContext)){
+		if (!CommonUtil.checkNetworkState(mContext)){
 			return ;
 		}
 

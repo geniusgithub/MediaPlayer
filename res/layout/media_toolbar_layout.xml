@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+			
+	<RelativeLayout 
+	    android:id="@+id/down_toolview"
+	    android:layout_width="fill_parent"
+	    android:layout_height="100dp"
+	    android:visibility="gone"
+	    android:layout_alignParentBottom="true"
+	    android:background="@drawable/media_tool_bg1">
+	    
+	    <RelativeLayout 
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true">		
+     
+            <ImageButton 
+	        android:id="@+id/btn_play" 
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+	        android:background="@drawable/selector_btn_play">
+	        </ImageButton>
+	        
+            <ImageButton 
+	        android:id="@+id/btn_pause" 
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:visibility="gone"
+	        android:background="@drawable/selector_btn_pause">
+	        </ImageButton>      
+            
+            <TextView 
+		    android:text="@string/init_time" 
+		    android:id="@+id/tv_totalTime" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginRight="10dp"
+		    android:layout_centerVertical="true"
+			android:textColor="@android:color/white"
+			android:textSize="24sp"
+		    android:layout_alignParentRight="true">
+		    </TextView>
+		    
+            <TextView 
+		    android:text="@string/separate" 
+		    android:id="@+id/tv_line" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" 	
+		    android:layout_centerVertical="true"
+	    	android:textColor="@android:color/white"
+	    	android:textSize="24sp"
+		    android:layout_toLeftOf="@id/tv_totalTime">
+		    </TextView>
+              
+            <TextView 
+		    android:text="@string/init_time" 
+		    android:id="@+id/tv_curTime" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" 	
+		    android:layout_centerVertical="true"
+	    	android:textColor="@android:color/white"
+	    	android:textSize="24sp"
+		    android:layout_toLeftOf="@id/tv_line">
+		    </TextView>
+		    
+		  
+           <SeekBar 
+	        android:id="@+id/playback_seeker"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"	  
+	        android:layout_centerVertical="true"
+	        android:layout_toLeftOf="@id/tv_curTime"
+	        android:layout_marginLeft="80dp"
+	        android:layout_marginRight="10dp"
+	        android:paddingLeft="15.0dip" 
+		    android:paddingRight="15.0dip"
+	        android:maxHeight="55.0dip" 
+		    android:minHeight="55.0dip" 
+	        android:max="100"
+	        android:thumbOffset="15dp"
+	        android:progressDrawable="@drawable/seekbar_background"
+	        android:thumb="@drawable/seekbar_thumb"/> 
+               	
+		</RelativeLayout>       
+			
+	</RelativeLayout>
+	
+	<RelativeLayout 
+	    android:id="@+id/up_toolview"
+	    android:layout_width="fill_parent"
+	    android:layout_height="50dp"
+	    android:visibility="gone"
+	    android:layout_alignParentTop="true"
+	    android:background="@drawable/media_tool_bg2">
+	    
+	    
+	        <TextView 
+		    android:id="@+id/tv_title" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" 	
+		    android:layout_centerInParent="true"
+	    	android:textColor="@android:color/white"
+	    	android:textSize="30sp">
+		    </TextView>
+		    
+	      
+	</RelativeLayout>
+	    
+
+</RelativeLayout>

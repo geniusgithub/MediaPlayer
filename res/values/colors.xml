@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Retrieved via Resources.getColor() and friends. -->
+	<color name="red">#f00</color>
+	<color name="green">#0f0</color>
+	<color name="blue">#00f</color>
+	<color name="black">#ff000000</color>
+	<color name="gray">#ddd</color>
+	<color name="white">#ffffff</color>
+	<color name="visualize_fx">#44b121</color>
+</resources>

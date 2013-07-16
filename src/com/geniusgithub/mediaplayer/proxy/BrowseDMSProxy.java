@@ -78,10 +78,10 @@ public class BrowseDMSProxy {
 		
 		
 		
-		Node selDevNode = selDevice.getDeviceNode();
-		if (selDevNode != null){
-			selDevNode.print();
-		}
+//		Node selDevNode = selDevice.getDeviceNode();
+//		if (selDevNode != null){
+//			selDevNode.print();
+//		}
 		
 		org.cybergarage.upnp.Service service = selDevice
 		.getService("urn:schemas-upnp-org:service:ContentDirectory:1");
@@ -91,10 +91,10 @@ public class BrowseDMSProxy {
 			return null;
 		}
 		
-		Node serverNode = service.getServiceNode();
-		if (serverNode != null){
-			serverNode.print();
-		}
+//		Node serverNode = service.getServiceNode();
+//		if (serverNode != null){
+//			serverNode.print();
+//		}
 	
 		Action action = service.getAction("Browse");
 		if(action == null)
@@ -111,17 +111,17 @@ public class BrowseDMSProxy {
 		argumentList.getArgument("SortCriteria").setValue("");
 		
 		ArgumentList actionInputArgList = action.getInputArgumentList();	
-		int size = actionInputArgList.size();
-		for(int i = 0; i < size; i++){
-			Argument argument =  (Argument) (actionInputArgList.get(i));
-			argument.getArgumentNode().print();
-		}
+//		int size = actionInputArgList.size();
+//		for(int i = 0; i < size; i++){
+//			Argument argument =  (Argument) (actionInputArgList.get(i));
+//			argument.getArgumentNode().print();
+//		}
 
 		if (action.postControlAction()) {
 			ArgumentList outArgList = action.getOutputArgumentList();
 			Argument result = outArgList.getArgument("Result");
 		
-			log.e("result value = \n" + result.getValue());	
+			log.d("result value = \n" + result.getValue());	
 			
 			
 			List<MediaItem> items = ParseUtil.parseResult(result);
@@ -171,7 +171,7 @@ public class BrowseDMSProxy {
 		if (action.postControlAction()) {
 			ArgumentList outArgList = action.getOutputArgumentList();
 			Argument result = outArgList.getArgument("Result");
-			log.e("result value = \n" + result.getValue());	
+			log.d("result value = \n" + result.getValue());	
 			
 			List<MediaItem> items = ParseUtil.parseResult(result);
 			return items;
