@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.adapter.ContentAdapter;
-import com.geniusgithub.mediaplayer.music.MusicActivity;
+import com.geniusgithub.mediaplayer.music.MusicPlayerActivity;
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.proxy.BrowseDMSProxy;
 import com.geniusgithub.mediaplayer.proxy.IDeviceChangeListener;
@@ -33,7 +33,8 @@ import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
 import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
-import com.geniusgithub.mediaplayer.video.VideoActivity;
+import com.geniusgithub.mediaplayer.video.VideoPlayerActivity;
+import com.geniusgithub.mediarender.picture.PicturePlayerActivity;
 
 public class ContentActivity extends Activity implements OnItemClickListener, IDeviceChangeListener, 
 												BrowseRequestCallback, OnClickListener{
@@ -179,8 +180,8 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 		MediaManager.getInstance().setMusicList(mCurItems);
 		
 		Intent intent = new Intent();
-		intent.setClass(this, MusicActivity.class);
-		intent.putExtra(MusicActivity.PLAY_INDEX, index);
+		intent.setClass(this, MusicPlayerActivity.class);
+		intent.putExtra(MusicPlayerActivity.PLAY_INDEX, index);
 		MediaItemFactory.putItemToIntent(item, intent);
 		ContentActivity.this.startActivity(intent);
 	}
@@ -190,8 +191,8 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 	    MediaManager.getInstance().setVideoList(mCurItems);
 		
 		Intent intent = new Intent();
-		intent.setClass(this, VideoActivity.class);
-		intent.putExtra(VideoActivity.PLAY_INDEX, position);
+		intent.setClass(this, VideoPlayerActivity.class);
+		intent.putExtra(VideoPlayerActivity.PLAY_INDEX, position);
 		MediaItemFactory.putItemToIntent(item, intent);
 		ContentActivity.this.startActivity(intent);
 	}
@@ -199,14 +200,13 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 	
 	private void goPicturePlayerActivity(int position, MediaItem item){
 		
-//		MediaManager.getInstance().setPictureList(mCurItems);
-//		
-//		
-//		Intent intent = new Intent();
-//		intent.setClass(this, PicturePlayerActivity.class);
-//		intent.putExtra(PicturePlayerActivity.PLAY_INDEX, position);
-//		ItemFactory.putItemToIntent(item, intent);
-//		ContentActivity.this.startActivity(intent);
+	    MediaManager.getInstance().setPictureList(mCurItems);
+		
+		Intent intent = new Intent();
+		intent.setClass(this, PicturePlayerActivity.class);
+		intent.putExtra(PicturePlayerActivity.PLAY_INDEX, position);
+		MediaItemFactory.putItemToIntent(item, intent);
+		ContentActivity.this.startActivity(intent);
 	}
 	
 

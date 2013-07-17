@@ -3,43 +3,58 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" 
-    android:background="#ffffff">
+    android:background="@drawable/main_bg">
 
    <LinearLayout 
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:layout_marginTop="10dp"
     android:orientation="horizontal" 
-    android:background="#ffffff">
+    android:gravity="center">
     
         
         <Button
 	    android:id="@+id/btn_search"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
 	    android:layout_weight="1"
-	    android:text="Search" />
+	    android:text="Search"
+	    android:textSize="18sp"
+	    android:textColor="#dddddd"
+	    android:background="@drawable/selector_btn" />
 	    
 	      
 	    <Button
 	    android:id="@+id/btn_reset"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
 	    android:layout_weight="1"
-	    android:text="reset" />
+	    android:text="reset" 
+	    android:textSize="18sp"
+	    android:textColor="#dddddd"
+	    android:background="@drawable/selector_btn"/>
 	    
 	    
 	    <Button
 	    android:id="@+id/btn_exit"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
 	    android:layout_weight="1"
-	    android:text="exit" />
+	    android:text="exit"
+	    android:textSize="18sp"
+	    android:textColor="#dddddd"
+	    android:background="@drawable/selector_btn" />
         
     </LinearLayout>
   
 
-	<View android:layout_marginTop="10dp" android:layout_width="fill_parent"   android:layout_height="1dp"   android:background="#000000"></View>
+	<View android:layout_marginTop="10dp" android:layout_width="fill_parent"   android:layout_height="2dp"   android:background="#000000"></View> 
     
 	<ListView android:id="@+id/device_list"
         android:layout_width="fill_parent"

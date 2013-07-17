@@ -41,7 +41,7 @@ import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.DlnaUtils;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
-public class MusicActivity extends Activity implements OnBufferingUpdateListener,
+public class MusicPlayerActivity extends Activity implements OnBufferingUpdateListener,
 												OnSeekCompleteListener, OnErrorListener{
 
 	public static final String PLAY_INDEX = "player_index";
@@ -572,7 +572,7 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		}
 		
 		public void showPlayErrorTip(){
-			Toast.makeText(MusicActivity.this, R.string.toast_musicplay_fail, Toast.LENGTH_SHORT).show();
+			Toast.makeText(MusicPlayerActivity.this, R.string.toast_musicplay_fail, Toast.LENGTH_SHORT).show();
 		}
 
 		@Override

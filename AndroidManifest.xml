@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-            android:name="com.geniusgithub.mediaplayer.music.MusicActivity"
+            android:name="com.geniusgithub.mediaplayer.music.MusicPlayerActivity"
             android:theme="@android:style/Theme.NoTitleBar"
     		android:screenOrientation="landscape" 
             android:launchMode="singleTask">
@@ -53,7 +53,7 @@
         </activity>
         
         <activity
-            android:name="com.geniusgithub.mediaplayer.video.VideoActivity"
+            android:name="com.geniusgithub.mediaplayer.video.VideoPlayerActivity"
             android:theme="@android:style/Theme.NoTitleBar"
     		android:screenOrientation="landscape" 
             android:launchMode="singleTask">
@@ -63,7 +63,11 @@
 <!--             </intent-filter> -->
         </activity>
         
-         
+        <activity
+            android:name="com.geniusgithub.mediarender.picture.PicturePlayerActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:launchMode="singleTask">
+        </activity>
         
          
         <service android:name="com.geniusgithub.mediarender.center.DlnaService" android:enabled="true">

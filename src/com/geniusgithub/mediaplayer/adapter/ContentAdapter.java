@@ -7,14 +7,18 @@ import org.cybergarage.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
+import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -26,10 +30,23 @@ public class ContentAdapter extends BaseAdapter{
 	private LayoutInflater mInflater;
 	private Context mContext;
 	
+	
+	private Drawable foldIcon;
+	private Drawable musicIcon;
+	private Drawable picIcon;
+	private Drawable videoIcon;
+	
+	
 	public ContentAdapter(Context context, List<MediaItem>  contentItem) {
 		mInflater = LayoutInflater.from(context);
 		this.contentItem = contentItem;
 		mContext = context;
+		
+		Resources res = context.getResources();
+		foldIcon = res.getDrawable(R.drawable.ic_menu_archive);
+		musicIcon = res.getDrawable(R.drawable.tab_icon_music);
+		picIcon = res.getDrawable(R.drawable.tab_icon_pic);
+		videoIcon = res.getDrawable(R.drawable.tab_icon_video);
 	}
 	
 	public void refreshData(List<MediaItem>  contentItem)
@@ -92,6 +109,18 @@ public class ContentAdapter extends BaseAdapter{
 		MediaItem dataItem = (MediaItem) getItem(position);
 		TextView tvContent = (TextView)convertView.findViewById(R.id.tv_content);
 		tvContent.setText(dataItem.getTitle());
+		
+		ImageView icon = (ImageView) convertView.findViewById(R.id.imageView);
+		if (UpnpUtil.isAudioItem(dataItem)){
+			icon.setBackgroundDrawable(musicIcon);
+		}else if (UpnpUtil.isVideoItem(dataItem)){
+			icon.setBackgroundDrawable(videoIcon);
+		}else if (UpnpUtil.isPictureItem(dataItem)){
+			icon.setBackgroundDrawable(picIcon);
+		}else{
+			icon.setBackgroundDrawable(foldIcon);
+		}
+			
 
 		return convertView;
 	}
