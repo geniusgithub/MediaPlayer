@@ -140,6 +140,11 @@ public static final String PLAY_INDEX = "player_index";
 					case CHECK_DELAY:
 						checkDelay();				
 						break;
+					case HIDE_TOOL:
+						if (!mPlayerEngineImpl.isPause()){
+							mUIManager.showControlView(false);
+						}
+						break;
 				}
 			}
 			
@@ -460,6 +465,7 @@ public static final String PLAY_INDEX = "player_index";
 		public void showControlView(boolean show){
 			if (show){
 				mControlView.setVisibility(View.VISIBLE);
+				delayToHideControlPanel();
 			}else{
 				mControlView.setVisibility(View.GONE);
 			}
