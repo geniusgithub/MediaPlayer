@@ -33,6 +33,7 @@ import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
 import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
+import com.geniusgithub.mediaplayer.video.VideoActivity;
 
 public class ContentActivity extends Activity implements OnItemClickListener, IDeviceChangeListener, 
 												BrowseRequestCallback, OnClickListener{
@@ -186,14 +187,13 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 	
 	private void goVideoPlayerActivity(int position, MediaItem item){
 		
-//		MediaManager.getInstance().setVideoList(mCurItems);
-//		
-//		Intent intent = new Intent();
-//		intent.setClass(this, VideoPlayerActivity.class);
-//		intent.putExtra(VideoPlayerActivity.PLAY_INDEX, position);
-//		
-//		ItemFactory.putItemToIntent(item, intent);
-//		ContentActivity.this.startActivity(intent);
+	    MediaManager.getInstance().setVideoList(mCurItems);
+		
+		Intent intent = new Intent();
+		intent.setClass(this, VideoActivity.class);
+		intent.putExtra(VideoActivity.PLAY_INDEX, position);
+		MediaItemFactory.putItemToIntent(item, intent);
+		ContentActivity.this.startActivity(intent);
 	}
 	
 	

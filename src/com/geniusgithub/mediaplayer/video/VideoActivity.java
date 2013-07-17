@@ -1,5 +1,4 @@
-package com.geniusgithub.mediaplayer.music;
-
+package com.geniusgithub.mediaplayer.video;
 
 import org.cybergarage.util.CommonLog;
 
@@ -17,6 +16,9 @@ import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
@@ -24,16 +26,17 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.music.LoaderHelper;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
-import com.geniusgithub.mediaplayer.player.MusicPlayEngineImpl;
 import com.geniusgithub.mediaplayer.player.PlayerEngineListener;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
+import com.geniusgithub.mediaplayer.player.VideoPlayEngineImpl;
 import com.geniusgithub.mediaplayer.proxy.MediaManager;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
@@ -41,24 +44,27 @@ import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.DlnaUtils;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
-public class MusicActivity extends Activity implements OnBufferingUpdateListener,
-												OnSeekCompleteListener, OnErrorListener{
+public class VideoActivity extends Activity implements OnBufferingUpdateListener,
+											OnSeekCompleteListener, OnErrorListener{
 
-	public static final String PLAY_INDEX = "player_index";
+public static final String PLAY_INDEX = "player_index";
 	
 	private static final CommonLog log = LogFactory.createLog();
 	
 	private final static int REFRESH_CURPOS = 0x0001;
 	private final static int REFRESH_SPEED = 0x0002;
 	private final static int CHECK_DELAY = 0x0003;
+	private final static int HIDE_TOOL = 0x0004;
 	private final static int LOAD_DRAWABLE_COMPLETE = 0x0006;
 	
+
+	private final static int HIDE_DELAY_TIME = 3000;
 	
 
 	private UIManager mUIManager;
-	private MusicPlayEngineImpl mPlayerEngineImpl;
-	private MusicPlayEngineListener mPlayEngineListener;
-	private MusicControlCenter mMusicControlCenter;
+	private VideoPlayEngineImpl mPlayerEngineImpl;
+	private VideoPlayEngineListener mPlayEngineListener;
+	private VideoControlCenter mVideoControlCenter;
 	
 	private Context mContext;
 	private MediaItem mMediaInfo = new MediaItem();	
@@ -68,6 +74,7 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 	private AbstractTimer mNetWorkTimer;
 	private CheckDelayTimer mCheckDelayTimer;
 	
+	private boolean isSurfaceCreate = false;
 	private boolean isDestroy = false;
 
 
@@ -75,7 +82,7 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
 		log.e("onCreate");
-		setContentView(R.layout.music_player_layout);
+		setContentView(R.layout.video_player_layout);
 		setupsView();	
 		initData();
 		
@@ -105,7 +112,7 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		mCheckDelayTimer.stopTimer();
 		mNetWorkTimer.stopTimer();
 		mPlayPosTimer.stopTimer();
-		mMusicControlCenter.exit();
+		mVideoControlCenter.exit();
 		super.onDestroy();
 
 	}
@@ -133,14 +140,6 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 					case CHECK_DELAY:
 						checkDelay();				
 						break;
-					case LOAD_DRAWABLE_COMPLETE:
-						Object object = msg.obj;
-						Drawable drawable = null;
-						if (object != null){
-							drawable = (Drawable) object;
-						}
-						onLoadDrawableComplete(drawable);
-						break;
 				}
 			}
 			
@@ -153,15 +152,15 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		mCheckDelayTimer = new CheckDelayTimer(this);
 		mCheckDelayTimer.setHandler(mHandler, CHECK_DELAY);
 
-		mPlayerEngineImpl = new MusicPlayEngineImpl(this);
+		mPlayerEngineImpl = new VideoPlayEngineImpl(this, mUIManager.holder);
 		mPlayerEngineImpl.setOnBuffUpdateListener(this);
 		mPlayerEngineImpl.setOnSeekCompleteListener(this);
-		mPlayerEngineImpl.setDataCaptureListener(mUIManager);
-		mPlayEngineListener = new MusicPlayEngineListener();
+
+		mPlayEngineListener = new VideoPlayEngineListener();
 		mPlayerEngineImpl.setPlayerListener(mPlayEngineListener);
 		
-		mMusicControlCenter = new MusicControlCenter(this);
-		mMusicControlCenter.bindMusicPlayEngine(mPlayerEngineImpl);
+		mVideoControlCenter = new VideoControlCenter(this);
+		mVideoControlCenter.bindVideoPlayEngine(mPlayerEngineImpl);
 		
 		
 		mNetWorkTimer.startTimer();
@@ -179,16 +178,63 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 			mMediaInfo = MediaItemFactory.getItemFromIntent(intent);
 		}
 		
-		mMusicControlCenter.updateMediaInfo(curIndex, MediaManager.getInstance().getMusicList());
+		mVideoControlCenter.updateMediaInfo(curIndex, MediaManager.getInstance().getVideoList());
 
 		mUIManager.updateMediaInfoView(mMediaInfo);
-		mPlayerEngineImpl.playMedia(mMediaInfo);
+		if (isSurfaceCreate){
+			mPlayerEngineImpl.playMedia(mMediaInfo);
+		}else{
+			delayToPlayMedia(mMediaInfo);
+		}
 		
 		mUIManager.showPrepareLoadView(true);
 		mUIManager.showLoadView(false);
 		mUIManager.showControlView(false);
 
 	}	
+	
+	private void delayToPlayMedia(final MediaItem mMediaInfo){
+		
+		mHandler.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (!isDestroy){
+					mPlayerEngineImpl.playMedia(mMediaInfo);
+				}else{
+					log.e("activity destroy...so don't playMedia...");
+				}
+			}
+		}, 1000);
+	}
+	
+	
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+
+		int action = ev.getAction();
+		int actionIdx = ev.getActionIndex();
+		int actionMask = ev.getActionMasked();
+	
+		if(actionIdx == 0 && action == MotionEvent.ACTION_UP) {
+			if(!mUIManager.isControlViewShow()) {	
+				mUIManager.showControlView(true);	
+				return true;
+			}else{
+				delayToHideControlPanel();
+			}
+		}
+		
+		return super.dispatchTouchEvent(ev);
+	}
+	
+	private void removeHideMessage(){
+		mHandler.removeMessages(HIDE_TOOL);
+	}
+	
+	private void delayToHideControlPanel(){
+		removeHideMessage();
+		mHandler.sendEmptyMessageDelayed(HIDE_TOOL, HIDE_DELAY_TIME);
+	}
 	
 	
 	public void refreshCurPos(){
@@ -221,22 +267,13 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		
 	}
 	
-	public void onLoadDrawableComplete(Drawable drawable){
-		if (isDestroy || drawable == null){
-			return ;
-		}
-		
-		mUIManager.updateAlbumPIC(drawable);
-		
-	}
-	
 	public void seek(int pos){
-		mMusicControlCenter.skipTo(pos);
+		mVideoControlCenter.skipTo(pos);
 		mUIManager.setSeekbarProgress(pos);
 		
 	}
 
-	private class MusicPlayEngineListener implements PlayerEngineListener
+	private class VideoPlayEngineListener implements PlayerEngineListener
 	{
 
 		@Override
@@ -289,14 +326,14 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		public void onTrackStreamError(MediaItem itemInfo) {
 			log.e("onTrackStreamError");
 			mPlayPosTimer.stopTimer();		
-			mMusicControlCenter.stop();	
+			mVideoControlCenter.stop();	
 			mUIManager.showPlayErrorTip();
 		}
 
 		@Override
 		public void onTrackPlayComplete(MediaItem itemInfo) {
 			log.e("onTrackPlayComplete");
-			boolean ret = mMusicControlCenter.next();
+			boolean ret = mVideoControlCenter.next();
 			if (!ret){
 				mUIManager.showPlayErrorTip();
 				mUIManager.updateMediaInfoView(itemInfo);
@@ -336,7 +373,7 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 	
 	
 	/*---------------------------------------------------------------------------*/
-	class UIManager implements OnClickListener, OnSeekBarChangeListener, OnDataCaptureListener{
+	class UIManager implements OnClickListener, OnSeekBarChangeListener, SurfaceHolder.Callback{
 		
 		public View mPrepareView;
 		public TextView mTVPrepareSpeed;
@@ -345,9 +382,7 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		public TextView mTVLoadSpeed;
 		
 		public View mControlView;	
-		public TextView mTVSongName;
-		public TextView mTVArtist;
-		public TextView mTVAlbum;
+		public TextView mTitle;
 	
 		public ImageButton mBtnPlay;
 		public ImageButton mBtnPause;
@@ -356,8 +391,9 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		public SeekBar mSeekBar;
 		public TextView mTVCurTime;
 		public TextView mTVTotalTime;
-		public VisualizerView mVisualizerView;
-		public ImageView mIVAlbum; 
+		
+		private SurfaceView mSurfaceView;
+		private SurfaceHolder holder = null;  
 		
 		public TranslateAnimation mHideDownTransformation;
 		public AlphaAnimation mAlphaHideTransformation;
@@ -376,9 +412,6 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 			mTVLoadSpeed = (TextView) findViewById(R.id.tv_speed);
 			
 			mControlView = findViewById(R.id.control_panel);	
-			mTVSongName = (TextView) findViewById(R.id.tv_title);
-			mTVArtist = (TextView) findViewById(R.id.tv_artist);
-			mTVAlbum = (TextView) findViewById(R.id.tv_album);
 			
 			mBtnPlay = (ImageButton) findViewById(R.id.btn_play);
 			mBtnPause = (ImageButton) findViewById(R.id.btn_pause);
@@ -392,30 +425,28 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 			mSeekBar = (SeekBar) findViewById(R.id.playback_seeker);
 			mTVCurTime = (TextView) findViewById(R.id.tv_curTime);
 			mTVTotalTime = (TextView) findViewById(R.id.tv_totalTime);
-			mVisualizerView = (VisualizerView) findViewById(R.id.mp_freq_view);
-			mIVAlbum = (ImageView) findViewById(R.id.iv_album);
+			mTitle = (TextView) findViewById(R.id.tv_title);
 			setSeekbarListener(this);
-		
+			
+			mSurfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+			holder = mSurfaceView.getHolder();
+		    holder.addCallback(this);  
+		    holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		    
+		
+			
+			
 			mHideDownTransformation = new TranslateAnimation(0.0f, 0.0f,0.0f,200.0f);  
 	    	mHideDownTransformation.setDuration(1000);
 	    	
 	    	mAlphaHideTransformation = new AlphaAnimation(1, 0);
 	    	mAlphaHideTransformation.setDuration(1000);
 	    	
-	    	updateAlbumPIC(getResources().getDrawable(R.drawable.mp_music_default));
 		}
 
 		
 		public void unInit(){
 			
-		}
-
-		public void updateAlbumPIC(Drawable drawable){
-			Bitmap bitmap = ImageUtils.createRotateReflectedMap(mContext, drawable);
-			if (bitmap != null){
-				mIVAlbum.setImageBitmap(bitmap);
-			}
 		}
 		
 		public void showPrepareLoadView(boolean isShow){
@@ -454,16 +485,16 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 			switch(v.getId())
 			{
 				case R.id.btn_play:
-					mMusicControlCenter.replay();
+					mVideoControlCenter.replay();
 					break;
 				case R.id.btn_pause:
-					mMusicControlCenter.pause();
+					mVideoControlCenter.pause();
 					break;
 				case R.id.btn_playpre:
-					mMusicControlCenter.prev();
+					mVideoControlCenter.prev();
 					break;
 				case R.id.btn_playnext:
-					mMusicControlCenter.next();
+					mVideoControlCenter.next();
 					break;
 			}
 		}
@@ -502,9 +533,9 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		
 		public void togglePlayPause(){
 			if (mBtnPlay.isShown()){
-				mMusicControlCenter.replay();
+				mVideoControlCenter.replay();
 			}else{
-				mMusicControlCenter.pause();
+				mVideoControlCenter.pause();
 			}
 		}
 		
@@ -535,15 +566,16 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 			mTVTotalTime.setText(timeString);
 		}
 		
+		public void setTitle(String title){
+			mTitle.setText(title);
+		}
+		
 		public void updateMediaInfoView(MediaItem mediaInfo){
 			setcurTime(0);
 			setTotalTime(0);
 			setSeekbarMax(100);
 			setSeekbarProgress(0);
-	
-			mTVSongName.setText(mediaInfo.getTitle());
-			mTVArtist.setText(mediaInfo.getArtist());
-			mTVAlbum.setText(mediaInfo.getAlbum());
+			setTitle(mediaInfo.getTitle());
 		}
 		
 		public void setSpeed(float speed){
@@ -572,20 +604,26 @@ public class MusicActivity extends Activity implements OnBufferingUpdateListener
 		}
 		
 		public void showPlayErrorTip(){
-			Toast.makeText(MusicActivity.this, R.string.toast_musicplay_fail, Toast.LENGTH_SHORT).show();
+			Toast.makeText(VideoActivity.this, R.string.toast_videoplay_fail, Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
-		public void onFftDataCapture(Visualizer visualizer, byte[] fft,
-				int samplingRate) {
-			mVisualizerView.updateVisualizer(fft);		
+		public void surfaceChanged(SurfaceHolder holder, int format, int width,
+				int height) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
-		public void onWaveFormDataCapture(Visualizer visualizer,
-				byte[] waveform, int samplingRate) {
-			mVisualizerView.updateVisualizer(waveform);
+		public void surfaceCreated(SurfaceHolder holder) {
+			// TODO Auto-generated method stub
+			isSurfaceCreate = true;
+		}
+
+		@Override
+		public void surfaceDestroyed(SurfaceHolder holder) {
+			// TODO Auto-generated method stub
+			isSurfaceCreate = false;
 		}
 	}
-
 }

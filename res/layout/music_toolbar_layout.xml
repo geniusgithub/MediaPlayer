@@ -7,7 +7,7 @@
 	<RelativeLayout 
 	    android:id="@+id/down_toolview"
 	    android:layout_width="fill_parent"
-	    android:layout_height="120dp"
+	    android:layout_height="100dp"
 	    android:layout_alignParentBottom="true"
 	    android:background="@drawable/media_tool_bg1">
 	    
@@ -15,7 +15,7 @@
 	    <RelativeLayout 
 	    android:id="@+id/miniplayLayout" 
 	    android:layout_width="fill_parent" 
-	    android:layout_height="60dp"
+	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true">		
      
 	        <ImageButton 
@@ -72,7 +72,7 @@
 		    android:layout_marginRight="10dp"
 		    android:layout_centerVertical="true"
 			android:textColor="@android:color/white"
-			android:textSize="24sp"
+			android:textSize="20sp"
 		    android:layout_alignParentRight="true">
 		    </TextView>
 		    
@@ -83,7 +83,7 @@
 		    android:layout_height="wrap_content" 	
 		    android:layout_centerVertical="true"
 	    	android:textColor="@android:color/white"
-	    	android:textSize="24sp"
+	    	android:textSize="20sp"
 		    android:layout_toLeftOf="@id/tv_totalTime">
 		    </TextView>
               
@@ -94,7 +94,7 @@
 		    android:layout_height="wrap_content" 	
 		    android:layout_centerVertical="true"
 	    	android:textColor="@android:color/white"
-	    	android:textSize="24sp"
+	    	android:textSize="20sp"
 		    android:layout_toLeftOf="@id/tv_line">
 		    </TextView>
 		    
