@@ -1,7 +1,7 @@
 a MediaPlay  run in Android Platform 
 ===========
 MediaPlayer is a DLNA device(DMP) that can find DMS in Local Area Networkand ant play it native<br /> 
-It uses the framework of dlna_framework, so you should download the library first
+It uses the library of dlna_framework, so you should download it first
 
 Example screenshot below:
 
