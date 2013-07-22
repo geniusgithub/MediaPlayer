@@ -7,6 +7,12 @@ import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
 
 import android.app.Application;
 
+
+/**
+ * @author lance
+ * @csdn  http://blog.csdn.net/geniuseoe2012
+ * @github https://github.com/geniusgithub
+ */
 public class AllShareApplication extends Application{
 
 	private AllShareProxy mAllShareProxy;
