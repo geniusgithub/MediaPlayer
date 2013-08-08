@@ -105,7 +105,7 @@ public class CommonUtil {
 	
 	public static boolean openWifiBrocast(Context context){
 		WifiManager wifiManager=(WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-		MulticastLock  multicastLock=wifiManager.createMulticastLock("MediaRender");
+		MulticastLock  multicastLock=wifiManager.createMulticastLock("MediaPlayer");
 		if (multicastLock != null){
 			multicastLock.acquire();
 			return true;

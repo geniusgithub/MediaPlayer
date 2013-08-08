@@ -1,14 +1,19 @@
 package com.geniusgithub.mediaplayer;
 
 import org.cybergarage.upnp.ControlPoint;
+import org.cybergarage.util.CommonLog;
+import org.cybergarage.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 
 import android.app.Application;
 
 public class AllShareApplication extends Application{
 
+	private static final CommonLog log = LogFactory.createLog();
+	
 	private AllShareProxy mAllShareProxy;
 
 	private ControlPoint mControlPoint;
@@ -26,6 +31,9 @@ public class AllShareApplication extends Application{
 		
 		mAllShareProxy = AllShareProxy.getInstance(this);
 		mAllShareApplication = this;
+		
+		boolean ret = CommonUtil.openWifiBrocast(this);
+		log.e("openWifiBrocast = " + ret);
 	}
 	
 	public void setControlPoint(ControlPoint controlPoint){
