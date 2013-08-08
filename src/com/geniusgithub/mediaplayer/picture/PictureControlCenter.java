@@ -1,4 +1,4 @@
-package com.geniusgithub.mediarender.picture;
+package com.geniusgithub.mediaplayer.picture;
 
 import java.util.List;
 

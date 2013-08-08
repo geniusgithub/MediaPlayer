@@ -64,13 +64,13 @@
         </activity>
         
         <activity
-            android:name="com.geniusgithub.mediarender.picture.PicturePlayerActivity"
+            android:name="com.geniusgithub.mediaplayer.picture.PicturePlayerActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:launchMode="singleTask">
         </activity>
         
          
-        <service android:name="com.geniusgithub.mediarender.center.DlnaService" android:enabled="true">
+        <service android:name="com.geniusgithub.mediaplayer.center.DlnaService" android:enabled="true">
 			<intent-filter>
                 <action android:name="com.geniusgithub.allshare.search_device" />
                 <action android:name="com.geniusgithub.allshare.reset_search_device" />

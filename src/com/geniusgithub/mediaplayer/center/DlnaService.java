@@ -1,4 +1,4 @@
-package com.geniusgithub.mediarender.center;
+package com.geniusgithub.mediaplayer.center;
 
 import org.cybergarage.upnp.ControlPoint;
 import org.cybergarage.upnp.Device;

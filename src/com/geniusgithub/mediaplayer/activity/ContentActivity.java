@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.adapter.ContentAdapter;
 import com.geniusgithub.mediaplayer.music.MusicPlayerActivity;
+import com.geniusgithub.mediaplayer.picture.PicturePlayerActivity;
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.proxy.BrowseDMSProxy;
 import com.geniusgithub.mediaplayer.proxy.IDeviceChangeListener;
@@ -34,7 +35,6 @@ import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
 import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.video.VideoPlayerActivity;
-import com.geniusgithub.mediarender.picture.PicturePlayerActivity;
 
 public class ContentActivity extends Activity implements OnItemClickListener, IDeviceChangeListener, 
 												BrowseRequestCallback, OnClickListener{

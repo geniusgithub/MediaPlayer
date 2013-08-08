@@ -7,10 +7,10 @@ import org.cybergarage.upnp.Device;
 import org.cybergarage.util.CommonLog;
 import org.cybergarage.util.LogFactory;
 
+import com.geniusgithub.mediaplayer.center.DlnaService;
 import com.geniusgithub.mediaplayer.upnp.AbstractMediaMng;
 import com.geniusgithub.mediaplayer.upnp.MediaServerMng;
 import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
-import com.geniusgithub.mediarender.center.DlnaService;
 
 import android.content.Context;
 import android.content.Intent;
