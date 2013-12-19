@@ -7,9 +7,8 @@ Example screenshot below:
 
 ![github](http://img.my.csdn.net/uploads/201307/17/1374056183_8683.png "github")  
 
-![github](http://my.csdn.net/my/album/detail/1650016#1650018 "github")  
 
-![github](http://my.csdn.net/my/album/detail/1732955#1554470 "github")  
+![github](http://img.my.csdn.net/uploads/201312/19/1387463576_5028.png "github")  
 
 ![github](http://img.my.csdn.net/uploads/201307/17/1374056183_8947.png "github")  
 
