@@ -31,9 +31,9 @@ public class LyricView extends View {
 	private boolean blLrc = false;
 	private float touchY; // 当触摸歌词View时，保存为当前触点的Y轴坐标
 	private int lrcIndex = 0; // 保存歌词TreeMap的下标
-	private int SIZEWORD = 32;// 显示歌词文字的大小值
-	private int SIZEWORDHL = 37;// 显示歌词文字的大小值
-	public static final int INTERVAL = 32;// 歌词每行的间隔
+	private int SIZEWORD = 22;// 显示歌词文字的大小值
+	private int SIZEWORDHL = 27;// 显示歌词文字的大小值
+	public static final int INTERVAL = 15;// 歌词每行的间隔
 	Paint paint = new Paint();// 画笔，用于画不是高亮的歌词
 	Paint paintHL = new Paint(); // 画笔，用于画高亮的歌词，即当前唱到这句歌词
 	private String title = "";
@@ -110,25 +110,25 @@ public class LyricView extends View {
 	 * 
 	 * @see android.view.View#onTouchEvent(android.view.MotionEvent)
 	 */
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		float tt = event.getY();
-		if (!blLrc) {
-			return super.onTouchEvent(event);
-		}
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			break;
-		case MotionEvent.ACTION_MOVE:
-			touchY = tt - touchY;
-			offsetY = offsetY + touchY;
-			break;
-		case MotionEvent.ACTION_UP:
-			break;
-		}
-		touchY = tt;
-		return true;
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		float tt = event.getY();
+//		if (!blLrc) {
+//			return super.onTouchEvent(event);
+//		}
+//		switch (event.getAction()) {
+//		case MotionEvent.ACTION_DOWN:
+//			break;
+//		case MotionEvent.ACTION_MOVE:
+//			touchY = tt - touchY;
+//			offsetY = offsetY + touchY;
+//			break;
+//		case MotionEvent.ACTION_UP:
+//			break;
+//		}
+//		touchY = tt;
+//		return true;
+//	}
 
 	public void init() {
 		offsetY = 320;

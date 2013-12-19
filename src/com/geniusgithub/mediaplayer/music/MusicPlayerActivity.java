@@ -244,10 +244,10 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 	
 	
 	public void refreshSpeed(){
-		if (mUIManager.isLoadViewShow()){
+	//	if (mUIManager.isLoadViewShow()){
 			float speed = CommonUtil.getSysNetworkDownloadSpeed();
 			mUIManager.setSpeed(speed);
-		}
+	//	}
 	}
 	
 	public void checkDelay(){

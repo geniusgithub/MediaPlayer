@@ -18,8 +18,8 @@
     <string name="video_speed_unit_second">S</string>
     <string name="buffering">Loading…</string>
     
-    <string name="mp_unknown_artist">未知艺术家</string>
-    <string name="mp_unknown_album">未知专辑</string>
-    <string name="mp_cant_find_lyrics">歌词暂未找到</string>
-    <string name="mp_lyrics_tips">***&#160;&#160;&#160;歌词源自互联网，仅供参考&#160;&#160;&#160;***</string>
+    <string name="mp_unknown_artist">Unknow Artist</string>
+    <string name="mp_unknown_album">Unknow Album</string>
+    <string name="mp_cant_find_lyrics">the lrc can\'t be found</string>
+    <string name="mp_lyrics_tips">***&#160;&#160;&#160;the lrc come from internet，just be reference&#160;&#160;&#160;***</string>
 </resources>

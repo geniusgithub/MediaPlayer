@@ -132,7 +132,7 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
     {
     	Device selDevice = mAllShareProxy.getDMSSelectedDevice();
     	if (selDevice == null){
-    		CommonUtil.showToask(this, "当前未选中任何设备...");
+    		CommonUtil.showToask(this, "can't select any devices...");
     		finish();
     		return ;
     	}
@@ -251,7 +251,7 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 	public void onDeviceChange(boolean isSelDeviceChange) {
 		// TODO Auto-generated method stub
 		if (isSelDeviceChange){
-			CommonUtil.showToask(this, "当前设备已卸载设备...");
+			CommonUtil.showToask(this, "current device has been drop...");
 			finish();
 		}
 	}
@@ -266,7 +266,7 @@ public class ContentActivity extends Activity implements OnItemClickListener, ID
 				// TODO Auto-generated method stub
 				showProgress(false);
 				if (list == null){
-					CommonUtil.showToask(ContentActivity.this, "无法获取目录...");
+					CommonUtil.showToask(ContentActivity.this, "can't get folder...");
 					return ;
 				}		
 				mContentManager.pushListItem(list);			

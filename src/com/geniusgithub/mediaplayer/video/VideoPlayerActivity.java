@@ -252,10 +252,10 @@ public static final String PLAY_INDEX = "player_index";
 	
 	
 	public void refreshSpeed(){
-		if (mUIManager.isLoadViewShow()){
+	//	if (mUIManager.isLoadViewShow()){
 			float speed = CommonUtil.getSysNetworkDownloadSpeed();
 			mUIManager.setSpeed(speed);
-		}
+	//	}
 	}
 	
 	public void checkDelay(){
