@@ -17,4 +17,9 @@
     <string name="video_loading">Loading…</string>
     <string name="video_speed_unit_second">S</string>
     <string name="buffering">Loading…</string>
+    
+    <string name="mp_unknown_artist">未知艺术家</string>
+    <string name="mp_unknown_album">未知专辑</string>
+    <string name="mp_cant_find_lyrics">歌词暂未找到</string>
+    <string name="mp_lyrics_tips">***&#160;&#160;&#160;歌词源自互联网，仅供参考&#160;&#160;&#160;***</string>
 </resources>

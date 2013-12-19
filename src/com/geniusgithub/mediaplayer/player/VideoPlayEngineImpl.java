@@ -8,6 +8,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnErrorListener;
+import android.media.MediaPlayer.OnInfoListener;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.view.SurfaceHolder;
 
@@ -15,7 +16,7 @@ import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
 
-public class VideoPlayEngineImpl extends AbstractMediaPlayEngine{
+public class VideoPlayEngineImpl extends AbstractMediaPlayEngine implements OnInfoListener{
 	
 	private final CommonLog log = LogFactory.createLog();	
 	private SurfaceHolder mHolder = null;  
@@ -64,6 +65,8 @@ public class VideoPlayEngineImpl extends AbstractMediaPlayEngine{
 			if (mOnErrorListener != null){
 				mMediaPlayer.setOnErrorListener(mOnErrorListener);
 			}
+			mMediaPlayer.setOnInfoListener(this);
+			
 			mMediaPlayer.prepareAsync();
 			log.e("mMediaPlayer.prepareAsync path = " + mMediaInfo.getRes());
 			mPlayState = PlayState.MPS_PARESYNC;
@@ -98,6 +101,24 @@ public class VideoPlayEngineImpl extends AbstractMediaPlayEngine{
 		performPlayListener(mPlayState);
 		
 		return true;
+	}
+
+	@Override
+	public boolean onInfo(MediaPlayer mp, int what, int extra) {
+	
+		log.e("onInfo --> what = " + what);
+		switch (what) {
+		case 701:
+			CommonUtil.showToask(mContext, "onInfo 701 --> MEDIA_INFO_BUFFERING_START");
+			break;
+		case 702:
+			CommonUtil.showToask(mContext, "onInfo 702 --> MEDIA_INFO_BUFFERING_END");
+			break;
+		default:
+			break;
+		}
+
+		return false;
 	}
 
 }

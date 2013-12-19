@@ -1,4 +1,4 @@
-package com.geniusgithub.mediarender.picture;
+package com.geniusgithub.mediaplayer.picture;
 
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 

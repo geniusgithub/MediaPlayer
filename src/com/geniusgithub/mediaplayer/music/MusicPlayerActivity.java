@@ -1,6 +1,8 @@
 package com.geniusgithub.mediaplayer.music;
 
 
+import java.io.File;
+
 import org.cybergarage.util.CommonLog;
 
 import android.app.Activity;
@@ -17,6 +19,7 @@ import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
@@ -29,6 +32,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.music.lrc.LrcDownLoadHelper;
+import com.geniusgithub.mediaplayer.music.lrc.LyricView;
+import com.geniusgithub.mediaplayer.music.lrc.MusicUtils;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.MusicPlayEngineImpl;
@@ -39,10 +45,12 @@ import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.DlnaUtils;
+import com.geniusgithub.mediaplayer.util.FileHelper;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
 public class MusicPlayerActivity extends Activity implements OnBufferingUpdateListener,
-												OnSeekCompleteListener, OnErrorListener{
+												OnSeekCompleteListener, OnErrorListener,
+												LrcDownLoadHelper.ILRCDownLoadCallback{
 
 	public static final String PLAY_INDEX = "player_index";
 	
@@ -52,7 +60,7 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 	private final static int REFRESH_SPEED = 0x0002;
 	private final static int CHECK_DELAY = 0x0003;
 	private final static int LOAD_DRAWABLE_COMPLETE = 0x0006;
-	
+	private final static int UPDATE_LRC_VIEW = 0x0007;
 	
 
 	private UIManager mUIManager;
@@ -70,6 +78,8 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 	
 	private boolean isDestroy = false;
 
+
+	private LrcDownLoadHelper mLrcDownLoadHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +112,35 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 		log.e("onDestroy");
 		isDestroy = true;
 		mUIManager.unInit();
+		mLrcDownLoadHelper.unInit();
 		mCheckDelayTimer.stopTimer();
 		mNetWorkTimer.stopTimer();
 		mPlayPosTimer.stopTimer();
 		mMusicControlCenter.exit();
 		super.onDestroy();
 
+	}
+
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		
+		int keyCode = event.getKeyCode();
+		int keyAction = event.getAction();
+		
+		switch(keyCode){
+			case KeyEvent.KEYCODE_MENU:
+				if (keyAction == KeyEvent.ACTION_UP){
+					if (mUIManager.isLRCViewShow()){
+						mUIManager.showLRCView(false);
+					}else{
+						mUIManager.showLRCView(true);
+					}
+					return true;
+				}
+				break;
+		}
+		
+		return super.dispatchKeyEvent(event);
 	}
 
 	public void setupsView()
@@ -126,6 +159,7 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 				{
 					case REFRESH_CURPOS:					
 						refreshCurPos();
+						mUIManager.refreshLyrc(mPlayerEngineImpl.getCurPosition());
 						break;
 					case REFRESH_SPEED:
 						refreshSpeed();
@@ -140,6 +174,9 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 							drawable = (Drawable) object;
 						}
 						onLoadDrawableComplete(drawable);
+						break;
+					case UPDATE_LRC_VIEW:
+						mUIManager.updateLyricView(mMediaInfo);
 						break;
 				}
 			}
@@ -167,7 +204,13 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 		mNetWorkTimer.startTimer();
 		mCheckDelayTimer.startTimer();
 		
+		mLrcDownLoadHelper = new LrcDownLoadHelper();
+		mLrcDownLoadHelper.init();
+		
+		mUIManager.showLRCView(false);
 	
+		boolean ret = FileHelper.createDirectory(MusicUtils.getLyricDir());
+		log.e(" FileHelper.createDirectory:" + MusicUtils.getLyricDir() + ", ret = " + ret);
 	}
 	
 	
@@ -273,6 +316,14 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 			mUIManager.showPlay(false);
 			mUIManager.showPrepareLoadView(true);
 			mUIManager.showControlView(false);
+			
+			mMediaInfo = itemInfo;
+			boolean need = checkNeedDownLyric(itemInfo);
+			log.e("checkNeedDownLyric need = " + need);
+			if (need){
+				mLrcDownLoadHelper.syncDownLoadLRC(itemInfo.title, itemInfo.artist, MusicPlayerActivity.this);
+			}			
+			mUIManager.updateLyricView(itemInfo);	
 		}
 
 		@Override
@@ -283,6 +334,8 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 			mUIManager.setSeekbarMax(duration);
 			mUIManager.setTotalTime(duration);
 			
+		
+
 		}
 		
 		@Override
@@ -303,6 +356,9 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 				mUIManager.showPlay(false);
 				mUIManager.showPrepareLoadView(false);
 				mUIManager.showControlView(true);
+				
+		
+				
 			}
 		}
 
@@ -362,6 +418,9 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 		public TranslateAnimation mHideDownTransformation;
 		public AlphaAnimation mAlphaHideTransformation;
 		
+		public View mSongInfoView;
+		public LyricView mLyricView;
+		public boolean lrcShow = false;
 		
 		public UIManager(){
 			initView();
@@ -404,6 +463,10 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 	    	mAlphaHideTransformation.setDuration(1000);
 	    	
 	    	updateAlbumPIC(getResources().getDrawable(R.drawable.mp_music_default));
+	    	
+	    	mSongInfoView = findViewById(R.id.song_info_view);
+
+	    	mLyricView = (LyricView) findViewById(R.id.lrc_view);
 		}
 
 		
@@ -411,6 +474,22 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 			
 		}
 
+		public void showLRCView(boolean bshow){
+			lrcShow = bshow;
+			if (bshow){
+				mLyricView.setVisibility(View.VISIBLE);
+				mSongInfoView.setVisibility(View.GONE);
+			}else{
+				mLyricView.setVisibility(View.GONE);
+				mSongInfoView.setVisibility(View.VISIBLE);
+			}
+		}
+		
+		public boolean isLRCViewShow(){
+			return lrcShow;
+		}
+		
+		
 		public void updateAlbumPIC(Drawable drawable){
 			Bitmap bitmap = ImageUtils.createRotateReflectedMap(mContext, drawable);
 			if (bitmap != null){
@@ -586,6 +665,52 @@ public class MusicPlayerActivity extends Activity implements OnBufferingUpdateLi
 				byte[] waveform, int samplingRate) {
 			mVisualizerView.updateVisualizer(waveform);
 		}
+		
+		private final static int DRAW_OFFSET_Y = 200;
+		public void updateLyricView(MediaItem mMediaInfo) {
+			log.e("updateLyricView song:" + mMediaInfo.title + ", artist:" + mMediaInfo.artist);
+
+			mLyricView.read(mMediaInfo.title, mMediaInfo.artist);
+			int pos = 0;
+			pos = mPlayerEngineImpl.getCurPosition();
+			refreshLyrc(pos);
+		}
+		
+		public void refreshLyrc(int pos){	
+			if (pos > 0) {
+				mLyricView.setOffsetY(DRAW_OFFSET_Y - mLyricView.selectIndex(pos)
+						* (mLyricView.getSIZEWORD() + LyricView.INTERVAL - 1));
+			} else {
+				mLyricView.setOffsetY(DRAW_OFFSET_Y);
+			}
+			mLyricView.invalidate();
+		}
 	}
+	
+	
+	private boolean checkNeedDownLyric(MediaItem mediaInfo) {
+		String lyricPath = MusicUtils.getLyricFile(mediaInfo.title, mediaInfo.artist);
+		if (lyricPath != null) {
+			File f = new File(lyricPath);
+			if (f.exists()) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	@Override
+	public void lrcDownLoadComplete(boolean isSuccess, String song, String artist) {
+
+		if (isSuccess && song.equals(mMediaInfo.title) && artist.equals(mMediaInfo.artist)){
+			Message msg = mHandler.obtainMessage(UPDATE_LRC_VIEW);
+			msg.sendToTarget();
+		}
+	}
+
+	
+
+	
 
 }

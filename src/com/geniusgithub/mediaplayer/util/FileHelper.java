@@ -77,8 +77,7 @@ public class FileHelper {
 			return true;
 		}
 		
-		file.mkdirs();
-		return true;
+		return file.mkdirs();
 	}
 	
 	public static boolean deleteDirectory(String filePath) {

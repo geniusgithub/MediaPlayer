@@ -28,7 +28,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-
+/**
+ * @author lance
+ * @csdn  http://blog.csdn.net/geniuseoe2012
+ * @github https://github.com/geniusgithub
+ */
 public class DMSActivity extends Activity implements OnClickListener, 
 															IDeviceChangeListener,
 															OnItemClickListener{

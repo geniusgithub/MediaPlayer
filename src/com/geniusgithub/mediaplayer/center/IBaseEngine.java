@@ -1,4 +1,4 @@
-package com.geniusgithub.mediarender.center;
+package com.geniusgithub.mediaplayer.center;
 
 public interface IBaseEngine {
 
