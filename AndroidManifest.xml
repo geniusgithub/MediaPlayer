@@ -18,6 +18,8 @@
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" /> 
+	
 	
 	
     <application
@@ -26,6 +28,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name="com.geniusgithub.mediaplayer.AllShareApplication" >
+        
+        <meta-data android:name="TD_APP_ID" android:value="5B70D16B20EE5F806E5107FBCED03C94" /> 
+        <meta-data android:name="TD_CHANNEL_ID" android:value="91.com" />
         
         <activity
             android:name="com.geniusgithub.mediaplayer.activity.DMSActivity"

@@ -19,6 +19,7 @@ import android.os.Message;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
 public class DlnaService extends Service implements IBaseEngine,
@@ -108,6 +109,9 @@ public class DlnaService extends Service implements IBaseEngine,
 		};
 		
 		registerNetworkStatusBR();
+		
+		boolean ret = CommonUtil.openWifiBrocast(this);
+		log.e("openWifiBrocast = " + ret);
 	}
 	
 	private void unInit(){
@@ -149,6 +153,7 @@ public class DlnaService extends Service implements IBaseEngine,
 
 	@Override
 	public void deviceRemoved(Device dev) {
+		log.e("deviceRemoved dev = " + dev.getUDN());
 		mAllShareProxy.removeDevice(dev);
 	}
 	

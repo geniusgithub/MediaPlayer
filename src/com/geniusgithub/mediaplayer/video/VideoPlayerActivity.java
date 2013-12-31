@@ -31,6 +31,7 @@ import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.activity.BaseActivity;
 import com.geniusgithub.mediaplayer.music.LoaderHelper;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
@@ -44,7 +45,7 @@ import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.DlnaUtils;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
-public class VideoPlayerActivity extends Activity implements OnBufferingUpdateListener,
+public class VideoPlayerActivity extends BaseActivity implements OnBufferingUpdateListener,
 											OnSeekCompleteListener, OnErrorListener{
 
 public static final String PLAY_INDEX = "player_index";

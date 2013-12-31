@@ -36,7 +36,7 @@ import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.video.VideoPlayerActivity;
 
-public class ContentActivity extends Activity implements OnItemClickListener, IDeviceChangeListener, 
+public class ContentActivity extends BaseActivity implements OnItemClickListener, IDeviceChangeListener, 
 												BrowseRequestCallback, OnClickListener{
 
 	private static final CommonLog log = LogFactory.createLog();

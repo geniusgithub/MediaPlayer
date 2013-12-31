@@ -9,6 +9,7 @@ import org.cybergarage.util.CommonLog;
 import org.cybergarage.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.activity.BaseActivity;
 import com.geniusgithub.mediaplayer.proxy.MediaManager;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
@@ -25,7 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class PicturePlayerActivity extends Activity implements DownLoadHelper.IDownLoadCallback,
+public class PicturePlayerActivity extends BaseActivity implements DownLoadHelper.IDownLoadCallback,
 																		PictureUtil.IScalCallback{
 	private static final CommonLog log = LogFactory.createLog();
 	

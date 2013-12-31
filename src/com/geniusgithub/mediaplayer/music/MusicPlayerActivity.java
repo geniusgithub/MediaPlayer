@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.activity.BaseActivity;
 import com.geniusgithub.mediaplayer.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.music.lrc.LyricView;
 import com.geniusgithub.mediaplayer.music.lrc.MusicUtils;
@@ -48,7 +49,7 @@ import com.geniusgithub.mediaplayer.util.DlnaUtils;
 import com.geniusgithub.mediaplayer.util.FileHelper;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
-public class MusicPlayerActivity extends Activity implements OnBufferingUpdateListener,
+public class MusicPlayerActivity extends BaseActivity implements OnBufferingUpdateListener,
 												OnSeekCompleteListener, OnErrorListener,
 												LrcDownLoadHelper.ILRCDownLoadCallback{
 
