@@ -366,7 +366,7 @@ If you want to add something that will require some for of persistence incl. per
 
 
 ### Links
-csdn blog : [http://blog.csdn.net/geniuseoe2012](http://blog.csdn.net/geniuseoe2012)<br /> 
+csdn blog : [http://blog.csdn.net/geniuseoe2012](http://blog.csdn.net/lancees/article/details/8477513)<br /> 
 dlna doc: [DLNA Document](http://download.csdn.net/detail/geniuseoe2012/4969961)<br />
 
 
