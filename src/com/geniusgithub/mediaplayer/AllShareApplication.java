@@ -43,6 +43,7 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		mAllShareProxy = AllShareProxy.getInstance(this);
 		mAllShareApplication = this;
 		
+		TCAgent.init(this);
 	}
 	
 	public void setControlPoint(ControlPoint controlPoint){
