@@ -1,19 +1,19 @@
 package com.geniusgithub.mediaplayer.proxy;
 
 
-import java.util.List;
-
-import org.cybergarage.upnp.Device;
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import android.content.Context;
+import android.content.Intent;
 
 import com.geniusgithub.mediaplayer.center.DlnaService;
 import com.geniusgithub.mediaplayer.upnp.AbstractMediaMng;
 import com.geniusgithub.mediaplayer.upnp.MediaServerMng;
 import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 
-import android.content.Context;
-import android.content.Intent;
+import org.cybergarage.upnp.Device;
+import org.cybergarage.util.CommonLog;
+import org.cybergarage.util.LogFactory;
+
+import java.util.List;
 
 
 public class AllShareProxy implements IDeviceOperator,
@@ -41,17 +41,19 @@ public class AllShareProxy implements IDeviceOperator,
 	}
 
 	public void startSearch(){
-		mContext.startService(new Intent(DlnaService.SEARCH_DEVICES));
+		Intent intent = new Intent(DlnaService.SEARCH_DEVICES);
+		intent.setPackage(mContext.getPackageName());
+		mContext.startService(intent);
 	}
 	
 	public void resetSearch(){
-
-		mContext.startService(new Intent(DlnaService.RESET_SEARCH_DEVICES));
+		Intent intent = new Intent(DlnaService.RESET_SEARCH_DEVICES);
+		intent.setPackage(mContext.getPackageName());
+		mContext.startService(intent);
 		clearDevice();
 	}
 	
 	public void exitSearch(){
-
 		mContext.stopService(new Intent(mContext, DlnaService.class));
 		clearDevice();
 	}
