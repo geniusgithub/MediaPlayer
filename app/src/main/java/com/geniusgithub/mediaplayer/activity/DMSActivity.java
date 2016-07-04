@@ -1,20 +1,6 @@
 package com.geniusgithub.mediaplayer.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.cybergarage.upnp.Device;
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
-
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.DhcpInfo;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +15,13 @@ import com.geniusgithub.mediaplayer.adapter.DeviceAdapter;
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.proxy.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.upnp.DMSDeviceBrocastFactory;
+
+import org.cybergarage.upnp.Device;
+import org.cybergarage.util.CommonLog;
+import org.cybergarage.util.LogFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
