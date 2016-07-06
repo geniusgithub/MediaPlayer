@@ -1,3 +1,4 @@
+// remove by geniusgithub begin
 /******************************************************************
 *
 *	CyberXML for Java
@@ -14,7 +15,8 @@
 *		- Changed to the file name from Parser.java to XercesParser.java.
 *		- Changed to implement org.cybergarage.xml.Parser interface.
 *
-******************************************************************/
+******************************************************************//*
+
 
 package org.cybergarage.xml.parser;
 
@@ -95,3 +97,5 @@ public class kXML2Parser extends org.cybergarage.xml.Parser
 	
 }
 
+*/
+// remove by geniusgithub end

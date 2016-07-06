@@ -1,3 +1,4 @@
+// remove by geniusgithub begin
 /******************************************************************
 *
 *	CyberXML for Java
@@ -18,7 +19,8 @@
 *		- Fixed a bug in XercesParser::parse(Node,Node,int) that is when you faound an xml like that <test></test> 
 *		  you crate a node with name="test" and value=null that is non correct. It should had name="test" and value="". 
 *
-******************************************************************/
+******************************************************************//*
+
 
 package org.cybergarage.xml.parser;
 
@@ -120,13 +122,15 @@ public class XercesParser extends org.cybergarage.xml.Parser
 
 			if (docElem != null)
 				root = parse(root, docElem);
+*/
 /*
 			NodeList rootList = doc.getElementsByTagName("root");
 			Debug.message("rootList = " + rootList.getLength());
 			
 			if (0 < rootList.getLength())
 				root = parse(root, rootList.item(0));
-*/
+*//*
+
 		}
 		catch (Exception e) {
 			throw new ParserException(e);
@@ -137,3 +141,5 @@ public class XercesParser extends org.cybergarage.xml.Parser
 	
 }
 
+*/
+// remove by geniusgithub end
