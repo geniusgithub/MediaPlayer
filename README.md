@@ -354,8 +354,8 @@ Run requirements
 Android OS 4.4x and up<br />
 
 ## Acknowledgements
-It uses open source libraries is fork from:
-*[cybergarage]（https://github.com/cybergarage/cybergarage-upnp）
+The upnp framework is CyberGarage,fork from [CyberLink4Java](https://github.com/cybergarage/CyberLink4Java)!
+
 
 
 Contributing
