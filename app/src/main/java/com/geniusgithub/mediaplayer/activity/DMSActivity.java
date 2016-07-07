@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.adapter.DeviceAdapter;
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
@@ -101,6 +102,8 @@ public class DMSActivity extends BaseActivity implements OnClickListener,
     	
     	mBrocastFactory = new DMSDeviceBrocastFactory(this);
     	mBrocastFactory.registerListener(this);
+
+		AllShareApplication.getInstance().setStatus(true);
 	}
 
 

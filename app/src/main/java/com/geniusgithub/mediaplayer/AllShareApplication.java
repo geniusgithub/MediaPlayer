@@ -1,19 +1,18 @@
 package com.geniusgithub.mediaplayer;
 
-import java.util.HashMap;
-
-import org.cybergarage.upnp.ControlPoint;
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.tendcloud.tenddata.TCAgent;
 
+import org.cybergarage.upnp.ControlPoint;
+import org.cybergarage.util.CommonLog;
+import org.cybergarage.util.LogFactory;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
+import java.util.HashMap;
 
 
 /**
@@ -30,6 +29,8 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 	private ControlPoint mControlPoint;
 	
 	private static AllShareApplication mAllShareApplication;
+
+	private boolean mEnterMain = false;
 	
 	public static AllShareApplication getInstance(){
 		return mAllShareApplication;
@@ -48,6 +49,14 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		
 		boolean ret = CommonUtil.openWifiBrocast(this);
 
+	}
+
+	public void setStatus(boolean flag){
+		mEnterMain = flag;
+	}
+
+	public boolean getEnterFlag(){
+		return mEnterMain;
 	}
 	
 	public void setControlPoint(ControlPoint controlPoint){

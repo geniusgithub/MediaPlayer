@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">>
 
     <string name="app_name">MediaPlayer</string>
     <string name="hello_world">Hello world!</string>
@@ -22,4 +22,11 @@
     <string name="mp_unknown_album">Unknow Album</string>
     <string name="mp_cant_find_lyrics">the lrc can\'t be found</string>
     <string name="mp_lyrics_tips">***&#160;&#160;&#160;the lrc come from internet，just be reference&#160;&#160;&#160;***</string>
+
+    <string name="about_bottom">Copyright @2016 MediaPlayer\nAll Rights Reserved</string>
+
+    <string name="permission_title" >提醒</string>
+    <string name="permission_setting_guidedialog">MediaPlayer<xliff:g id="permission">%s</xliff:g>被禁用，导致应用无法正常运行，请尝试进入权限管理，打开上述权限后，重新运行。</string>
+    <string name="permission_gosetting" >去设置</string>
+    <string name="permission_know" >知道了</string>
 </resources>

@@ -2,18 +2,72 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.geniusgithub.mediaplayer">
 
-    
+
+    <!-- group:android.permission-group.PHONE-->
+    <!--    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ADD_VOICEMAIL"/>
+    <uses-permission android:name="android.permission.USE_SIP"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/> -->
+
+
+
+    <!-- group:android.permission-group.CONTACTS-->
+    <!--     	 <uses-permission android:name="android.permission.READ_CONTACTS"/> -->
+    <!--     <uses-permission android:name="android.permission.WRITE_CONTACTS"/> -->
+    <!--     <uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
+
+
+    <!-- group:android.permission-group.SMS-->
+    <!-- 	 <uses-permission android:name="android.permission.SEND_SMS"/> -->
+    <!--     <uses-permission android:name="android.permission.RECEIVE_SMS"/> -->
+    <!--     <uses-permission android:name="android.permission.READ_SMS"/> -->
+    <!--     <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH"/> -->
+    <!--     <uses-permission android:name="android.permission.RECEIVE_MMS"/> -->
+    <!--     <uses-permission android:name="android.permission.READ_CELL_BROADCASTS"/> -->
+
+
+    <!-- group:android.permission-group.LOCATION-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
+
+
+    <!-- group:android.permission-group.STORAGE-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
+
+
+
+    <!-- group:android.permission-group.CALENDAR-->
+    <!--     <uses-permission android:name="android.permission.READ_CALENDAR"/> -->
+    <!--     <uses-permission android:name="android.permission.WRITE_CALENDAR"/> -->
+
+    <!-- ANDROID.PERMISSION-GROUP.MICROPHONE -->
+       <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <!-- ANDROID.PERMISSION-GROUP.SENSORS -->
+    <!--     <uses-permission android:name="android.permission.BODY_SENSORS"/> -->
+
+    <!-- ANDROID.PERMISSION-GROUP.CAMERA -->
+    <!--     <uses-permission android:name="android.permission.CAMERA"/> -->
+
+
+
+
+
+
+
+
     
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-	<uses-permission android:name="android.permission.RECORD_AUDIO" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" /> 
 	
 	
 	
@@ -26,14 +80,24 @@
         
         <meta-data android:name="TD_APP_ID" android:value="5B70D16B20EE5F806E5107FBCED03C94" /> 
         <meta-data android:name="TD_CHANNEL_ID" android:value="91.com" />
-        
+
         <activity
-            android:name="com.geniusgithub.mediaplayer.activity.DMSActivity"
+            android:name="com.geniusgithub.mediaplayer.activity.WelcomActivity"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.geniusgithub.mediaplayer.activity.DMSActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
+          <!--  <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
         </activity>
         
          <activity
