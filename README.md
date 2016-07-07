@@ -354,8 +354,8 @@ Run requirements
 Android OS 4.4x and up<br />
 
 ## Acknowledgements
-It uses open source libraries below:
-* [dlna_framework](https://github.com/geniusgithub/dlna_framework)
+It uses open source libraries is fork from:
+*[cybergarage]（https://github.com/cybergarage/cybergarage-upnp）
 
 
 Contributing
