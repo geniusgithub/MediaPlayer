@@ -1,12 +1,12 @@
 package com.geniusgithub.mediaplayer.activity;
 
 
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
 import com.geniusgithub.mediaplayer.AllShareApplication;
 
-import android.app.Activity;
-import android.os.Bundle;
-
-public class BaseActivity extends Activity{
+public class BaseActivity extends AppCompatActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

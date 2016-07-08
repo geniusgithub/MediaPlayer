@@ -83,7 +83,7 @@
 
         <activity
             android:name="com.geniusgithub.mediaplayer.activity.WelcomActivity"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -92,8 +92,7 @@
 
 
         <activity
-            android:name="com.geniusgithub.mediaplayer.activity.DMSActivity"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:name="com.geniusgithub.mediaplayer.activity.DMSActivity">
           <!--  <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -101,13 +100,12 @@
         </activity>
         
          <activity
-            android:name="com.geniusgithub.mediaplayer.activity.ContentActivity"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:name="com.geniusgithub.mediaplayer.activity.ContentActivity">
         </activity>
 
         <activity
             android:name="com.geniusgithub.mediaplayer.music.MusicPlayerActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     		android:screenOrientation="landscape" 
             android:launchMode="singleTask">
 <!--              <intent-filter> -->
@@ -118,7 +116,7 @@
         
         <activity
             android:name="com.geniusgithub.mediaplayer.video.VideoPlayerActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     		android:screenOrientation="landscape" 
             android:launchMode="singleTask">
 <!--              <intent-filter> -->
@@ -129,7 +127,7 @@
         
         <activity
             android:name="com.geniusgithub.mediaplayer.picture.PicturePlayerActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:launchMode="singleTask">
         </activity>
         

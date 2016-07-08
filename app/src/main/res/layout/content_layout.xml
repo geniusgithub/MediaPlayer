@@ -15,24 +15,23 @@
 		    android:id="@+id/btn_back"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:background="@drawable/selector_btn_back"/>
+			android:text="BACK"
+			android:theme="@style/GreenButton"/>
     	
 	    <TextView
 	        android:id="@+id/tv_selDev" 
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:gravity="center"
-	        android:background="@drawable/selector_btn_whatsnew"
 	        android:textColor="#ffffff"
-	        android:textSize="25sp"
-	        android:text="" />
+	        android:textSize="25sp"/>
 	    
     </LinearLayout>
     
   
 
 
-	<View android:layout_marginTop="10dp" android:layout_width="fill_parent"   android:layout_height="1dp"   android:background="#000000"></View>
+<!--	<View android:layout_marginTop="10dp" android:layout_width="fill_parent"   android:layout_height="1dp"   android:background="#000000"></View>-->
 
     
 	<ListView android:id="@+id/content_list"
