@@ -4,6 +4,8 @@
     <string name="app_name">MediaPlayer</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="open" >打开</string>
+    <string name="close" >关闭</string>
 
     <string name="second">S</string>
     <string name="separate"> / </string>
