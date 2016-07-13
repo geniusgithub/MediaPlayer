@@ -7,6 +7,8 @@
     <string name="open" >打开</string>
     <string name="close" >关闭</string>
 
+    <string name="tab_library">LIBRARY</string>
+
     <string name="second">S</string>
     <string name="separate"> / </string>
     <string name="init_time">00:00</string>
