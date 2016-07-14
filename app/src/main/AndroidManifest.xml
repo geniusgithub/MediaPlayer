@@ -1,152 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.geniusgithub.mediaplayer">
+<manifest package="com.geniusgithub.mediaplayer"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-
-    <!-- group:android.permission-group.PHONE-->
-    <!--    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <!-- group:android.permission-group.PHONE -->
+    <!--
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ADD_VOICEMAIL"/>
     <uses-permission android:name="android.permission.USE_SIP"/>
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/> -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    -->
 
 
-
-    <!-- group:android.permission-group.CONTACTS-->
-    <!--     	 <uses-permission android:name="android.permission.READ_CONTACTS"/> -->
-    <!--     <uses-permission android:name="android.permission.WRITE_CONTACTS"/> -->
-    <!--     <uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
-
-
-    <!-- group:android.permission-group.SMS-->
-    <!-- 	 <uses-permission android:name="android.permission.SEND_SMS"/> -->
-    <!--     <uses-permission android:name="android.permission.RECEIVE_SMS"/> -->
-    <!--     <uses-permission android:name="android.permission.READ_SMS"/> -->
-    <!--     <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH"/> -->
-    <!--     <uses-permission android:name="android.permission.RECEIVE_MMS"/> -->
-    <!--     <uses-permission android:name="android.permission.READ_CELL_BROADCASTS"/> -->
+    <!-- group:android.permission-group.CONTACTS -->
+    <!-- <uses-permission android:name="android.permission.READ_CONTACTS"/> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_CONTACTS"/> -->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
 
 
-    <!-- group:android.permission-group.LOCATION-->
-    <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
+    <!-- group:android.permission-group.SMS -->
+    <!-- <uses-permission android:name="android.permission.SEND_SMS"/> -->
+    <!-- <uses-permission android:name="android.permission.RECEIVE_SMS"/> -->
+    <!-- <uses-permission android:name="android.permission.READ_SMS"/> -->
+    <!-- <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH"/> -->
+    <!-- <uses-permission android:name="android.permission.RECEIVE_MMS"/> -->
+    <!-- <uses-permission android:name="android.permission.READ_CELL_BROADCASTS"/> -->
 
 
-    <!-- group:android.permission-group.STORAGE-->
+    <!-- group:android.permission-group.LOCATION -->
+    <!--
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    -->
+
+
+    <!-- group:android.permission-group.STORAGE -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
 
 
+    <!-- group:android.permission-group.CALENDAR -->
+    <!-- <uses-permission android:name="android.permission.READ_CALENDAR"/> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_CALENDAR"/> -->
 
-    <!-- group:android.permission-group.CALENDAR-->
-    <!--     <uses-permission android:name="android.permission.READ_CALENDAR"/> -->
-    <!--     <uses-permission android:name="android.permission.WRITE_CALENDAR"/> -->
 
     <!-- ANDROID.PERMISSION-GROUP.MICROPHONE -->
-       <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <!-- ANDROID.PERMISSION-GROUP.SENSORS -->
-    <!--     <uses-permission android:name="android.permission.BODY_SENSORS"/> -->
+    <!-- <uses-permission android:name="android.permission.BODY_SENSORS"/> -->
+
 
     <!-- ANDROID.PERMISSION-GROUP.CAMERA -->
-    <!--     <uses-permission android:name="android.permission.CAMERA"/> -->
+    <!-- <uses-permission android:name="android.permission.CAMERA"/> -->
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
-
-
-
-
-
-
-    
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-	<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-	
-	
-	
     <application
+        android:name=".AllShareApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:name="com.geniusgithub.mediaplayer.AllShareApplication" >
-        
-        <meta-data android:name="TD_APP_ID" android:value="5B70D16B20EE5F806E5107FBCED03C94" /> 
-        <meta-data android:name="TD_CHANNEL_ID" android:value="91.com" />
+        >
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="5B70D16B20EE5F806E5107FBCED03C94"
+            />
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="91.com"
+            />
 
         <activity
-            android:name="com.geniusgithub.mediaplayer.activity.WelcomActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:name=".activity.WelcomActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+                <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".activity.MainFrameActivity"
+            android:theme="@style/ActivityBaseTheme"
+            >
+<!--            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".activity.DMSActivity"
+                  android:theme="@style/ActivityBaseTheme">
+
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".activity.ContentActivity"
+                  android:theme="@style/ActivityBaseTheme">
+        </activity>
+        <activity
+            android:name=".music.MusicPlayerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".video.VideoPlayerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".picture.PicturePlayerActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            >
         </activity>
 
-        <activity
-            android:name="com.geniusgithub.mediaplayer.activity.MainFrameActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
- <!--           <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-        <activity
-            android:name="com.geniusgithub.mediaplayer.activity.DMSActivity">
-          <!--  <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-        
-         <activity
-            android:name="com.geniusgithub.mediaplayer.activity.ContentActivity">
-        </activity>
-
-        <activity
-            android:name="com.geniusgithub.mediaplayer.music.MusicPlayerActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-    		android:screenOrientation="landscape" 
-            android:launchMode="singleTask">
-<!--              <intent-filter> -->
-<!--                 <action android:name="android.intent.action.MAIN" /> -->
-<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
-        </activity>
-        
-        <activity
-            android:name="com.geniusgithub.mediaplayer.video.VideoPlayerActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-    		android:screenOrientation="landscape" 
-            android:launchMode="singleTask">
-<!--              <intent-filter> -->
-<!--                 <action android:name="android.intent.action.MAIN" /> -->
-<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
-        </activity>
-        
-        <activity
-            android:name="com.geniusgithub.mediaplayer.picture.PicturePlayerActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:launchMode="singleTask">
-        </activity>
-        
-         
-        <service android:name="com.geniusgithub.mediaplayer.center.DlnaService" android:enabled="true">
-			<intent-filter>
-                <action android:name="com.geniusgithub.allshare.search_device" />
-                <action android:name="com.geniusgithub.allshare.reset_search_device" />
-                
+        <service
+            android:name=".center.DlnaService"
+            android:enabled="true"
+            >
+            <intent-filter>
+                <action android:name="com.geniusgithub.allshare.search_device"/>
+                <action android:name="com.geniusgithub.allshare.reset_search_device"/>
             </intent-filter>
-		</service>
-        
+        </service><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"
+            />
     </application>
 
 </manifest>
