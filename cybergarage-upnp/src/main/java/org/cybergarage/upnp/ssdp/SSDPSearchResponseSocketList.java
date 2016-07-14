@@ -17,19 +17,21 @@
 
 package org.cybergarage.upnp.ssdp;
 
+import org.cybergarage.net.HostInterface;
+import org.cybergarage.upnp.ControlPoint;
+import org.cybergarage.util.AlwaysLog;
+
 import java.net.InetAddress;
-import java.util.*;
-
-import org.cybergarage.net.*;
-
-import org.cybergarage.upnp.*;
+import java.util.Vector;
 
 public class SSDPSearchResponseSocketList extends Vector 
 {
 	////////////////////////////////////////////////
 	//	Constructor
 	////////////////////////////////////////////////
-	
+	// add by geniusgithub begin
+	private final static String TAG = SSDPSearchResponseSocketList.class.getSimpleName();
+	// add by geniusgithub end
 	private InetAddress[] binds = null;
 	
 	public SSDPSearchResponseSocketList() {
@@ -72,7 +74,22 @@ public class SSDPSearchResponseSocketList extends Vector
 	////////////////////////////////////////////////
 	//	Methods
 	////////////////////////////////////////////////
-	
+
+	// add by geniusgithub begin
+	public boolean isValidAddress(String address){
+		if (address == null || address.length() < 1){
+			return false;
+		}
+		
+		int pos = address.indexOf(':');
+		if (pos == -1){
+			return true;
+		}
+		
+		return false;
+	}
+	// add by geniusgithub end
+
 	public boolean open(int port){
 		InetAddress[] binds=this.binds ;
 		String[] bindAddresses;
@@ -87,11 +104,40 @@ public class SSDPSearchResponseSocketList extends Vector
 			for (int n=0; n<nHostAddrs; n++) {
 				bindAddresses[n] = HostInterface.getHostAddress(n);
 			}
-		}		
+		}
+
+		// add by geniusgithub begin
+		boolean flag = false;
+		for(int k = 0; k < bindAddresses.length; k++){
+			AlwaysLog.i(TAG, "bindAddresses k = " + k + ", addr = " + bindAddresses[k]);
+		}
+		// add by geniusgithub end
+
+
 		try {
-			for (int j = 0; j < bindAddresses.length; j++) {				
+			for (int j = 0; j < bindAddresses.length; j++) {
+				// modify by geniusgithub begin
+				//SSDPSearchResponseSocket socket = new SSDPSearchResponseSocket(bindAddresses[j], port);
+				//add(socket);
+
+				if (!isValidAddress(bindAddresses[j])){
+					AlwaysLog.e(TAG, "ready to create SSDPSearchResponseSocket bindAddresses = " + bindAddresses[j]+ ", it's invalid so drop it!!!" );
+					continue;
+				}
+
 				SSDPSearchResponseSocket socket = new SSDPSearchResponseSocket(bindAddresses[j], port);
+
+				if (socket.getDatagramSocket() == null){
+					AlwaysLog.e(TAG, "SSDPSearchResponseSocket.getSocket() == null!!!");
+					continue;
+				}
+				AlwaysLog.i(TAG, "SSDPSearchResponseSocket create success!!!bindAddresses = " + bindAddresses[j]);
+
 				add(socket);
+				flag = true;
+				continue;
+				// modify by geniusgithub end
+
 			}
 		}catch (Exception e) {
 			stop();
@@ -99,7 +145,12 @@ public class SSDPSearchResponseSocketList extends Vector
 			clear();
 			return false;
 		}
-		return true;
+
+		// modify by geniusgithub end
+		//return true;
+		return flag;
+		// modify by geniusgithub end
+
 	}
 
 	public boolean open() 

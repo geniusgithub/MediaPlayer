@@ -84,6 +84,7 @@ import org.cybergarage.upnp.ssdp.SSDPNotifySocketList;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
 import org.cybergarage.upnp.ssdp.SSDPSearchRequest;
 import org.cybergarage.upnp.ssdp.SSDPSearchResponseSocketList;
+import org.cybergarage.util.AlwaysLog;
 import org.cybergarage.util.Debug;
 import org.cybergarage.util.ListenerList;
 import org.cybergarage.util.Mutex;
@@ -99,6 +100,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ControlPoint implements HTTPRequestListener
 {
+	// add by geniusgithub begin
+	private final static String TAG = ControlPoint.class.getSimpleName();
+	// add by geniusgithub end
+
 	private final static int DEFAULT_EVENTSUB_PORT = 8058;
 	private final static int DEFAULT_SSDP_PORT = 8008;
 	private final static int DEFAULT_EXPIRED_DEVICE_MONITORING_INTERVAL = 60;
@@ -243,11 +248,32 @@ public class ControlPoint implements HTTPRequestListener
 		}
 	}
 
+	// add by geniusgithub begin
+	private boolean isValidLocation(String location) {
+		if (location == null || location.length() < 1) {
+			return false;
+		}
+
+		int pos = location.indexOf("http://[");
+		if (pos >= 0) {
+			return false;
+		}
+		return true;
+	}
+	// add by geniusgithub end
+
 	private synchronized void addDevice(SSDPPacket ssdpPacket)
 	{
 		if (ssdpPacket.isRootDevice() == false)
 			return;
-			
+
+		// add by geniusgithub begin
+		if (!isValidLocation(ssdpPacket.getLocation())){
+			AlwaysLog.e(TAG, "ssdpPacket.getLocation() = " + ssdpPacket.getLocation() + ", so drop it!!!");
+			return ;
+		}
+		// add by geniusgithub end
+
 		String usn = ssdpPacket.getUSN();
 		String udn = USN.getUDN(usn);
 		Device dev = getDevice(udn);
@@ -530,8 +556,10 @@ public class ControlPoint implements HTTPRequestListener
 	{
 		if (packet.isRootDevice() == true) {
 			if (packet.isAlive() == true){
+				AlwaysLog.d(TAG, "is isAlive message , packet = "+ packet.toString());
 				addDevice(packet);
-			}else if (packet.isByeBye() == true){ 
+			}else if (packet.isByeBye() == true){
+				AlwaysLog.d(TAG, "is byebye message , packet = "+ packet.toString());
 				removeDevice(packet);
 			}
 		}
@@ -563,6 +591,7 @@ public class ControlPoint implements HTTPRequestListener
 
 	public boolean search(String target, int mx)
 	{
+		AlwaysLog.i(TAG, "target = " + target + ", mx = " + mx);
 		SSDPSearchRequest msReq = new SSDPSearchRequest(target, mx);
 		SSDPSearchResponseSocketList ssdpSearchResponseSocketList = getSSDPSearchResponseSocketList();
 		boolean ret = ssdpSearchResponseSocketList.post(msReq);
@@ -962,7 +991,22 @@ public class ControlPoint implements HTTPRequestListener
 			renewSub.stop();
 			setRenewSubscriber(null);
 		}
-		
+
+
+		// add by geniusgithub begin
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+
+		AlwaysLog.i(TAG, "ready to clear devNodeList...devNodeList.size = " + devNodeList.size());
+		devNodeListLock.writeLock().lock();
+		devNodeList.clear();
+		devNodeListLock.writeLock().unlock();
+		// add by geniusgithub end
+
 		return true;
 	}
 

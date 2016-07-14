@@ -15,19 +15,23 @@
 
 package org.cybergarage.upnp.ssdp;
 
+import org.cybergarage.net.HostInterface;
+import org.cybergarage.upnp.ControlPoint;
+import org.cybergarage.util.AlwaysLog;
+
 import java.net.InetAddress;
-import java.util.*;
-
-import org.cybergarage.net.*;
-
-import org.cybergarage.upnp.*;
+import java.util.Vector;
 
 public class SSDPNotifySocketList extends Vector 
 {
 	////////////////////////////////////////////////
 	//	Constructor
 	////////////////////////////////////////////////
-	
+
+	// add by geniusgithub begin
+	private final static String TAG = SSDPNotifySocketList.class.getSimpleName();
+	// add by geniusgithub end
+
 	private InetAddress[] binds = null;
 
 	public SSDPNotifySocketList() {
@@ -67,6 +71,21 @@ public class SSDPNotifySocketList extends Vector
 	////////////////////////////////////////////////
 	//	Methods
 	////////////////////////////////////////////////
+
+	// add by geniusgithub begin
+	public boolean isValidAddress(String address){
+		if (address == null || address.length() < 1){
+			return false;
+		}
+		
+		int pos = address.indexOf(':');
+		if (pos == -1){
+			return true;
+		}
+		
+		return false;
+	}
+	// add by geniusgithub end
 	
 	public boolean open(){
 		InetAddress[] binds=this.binds ;
@@ -82,13 +101,34 @@ public class SSDPNotifySocketList extends Vector
 			for (int n=0; n<nHostAddrs; n++) {
 				bindAddresses[n] = HostInterface.getHostAddress(n);
 			}
-		}		
-		
+		}
+		// add by geiusgithub begin
+		boolean flag = false;
+		// add by geiusgithub begin
 		for (int i = 0; i < bindAddresses.length; i++) {
-			if(bindAddresses[i]!=null){
+
+			// modify by geiusgithub begin
+/*			if(bindAddresses[i]!=null) {
 				SSDPNotifySocket ssdpNotifySocket = new SSDPNotifySocket(bindAddresses[i]);
 				add(ssdpNotifySocket);
+			}*/
+
+			if (!isValidAddress(bindAddresses[i])){
+				AlwaysLog.e(TAG, "ready to create SSDPNotifySocket bindAddresses = " + bindAddresses[i]+ ", it's invalid so drop it!!!" );
+				continue;
 			}
+
+			if(bindAddresses[i]!=null) {
+				SSDPNotifySocket ssdpNotifySocket = new SSDPNotifySocket(bindAddresses[i]);
+				if (ssdpNotifySocket.getSocket() == null){
+					AlwaysLog.e(TAG, "ssdpNotifySocket.getSocket() == null!!!");
+					continue;
+				}
+				AlwaysLog.i(TAG, "ssdpNotifySocket create success!!!bindAddresses = " + bindAddresses[i]);
+				add(ssdpNotifySocket);
+				flag = true;
+			}
+			// modify by geiusgithub end
 		}
 		return true;
 	}
