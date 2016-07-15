@@ -1,12 +1,5 @@
 package com.geniusgithub.mediaplayer.center;
 
-import org.cybergarage.upnp.ControlPoint;
-import org.cybergarage.upnp.Device;
-import org.cybergarage.upnp.device.DeviceChangeListener;
-import org.cybergarage.upnp.device.SearchResponseListener;
-import org.cybergarage.upnp.ssdp.SSDPPacket;
-import org.cybergarage.util.CommonLog;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,8 +12,15 @@ import android.os.Message;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
+
+import org.cybergarage.upnp.ControlPoint;
+import org.cybergarage.upnp.Device;
+import org.cybergarage.upnp.device.DeviceChangeListener;
+import org.cybergarage.upnp.device.SearchResponseListener;
+import org.cybergarage.upnp.ssdp.SSDPPacket;
 
 public class DlnaService extends Service implements IBaseEngine,
 													DeviceChangeListener,

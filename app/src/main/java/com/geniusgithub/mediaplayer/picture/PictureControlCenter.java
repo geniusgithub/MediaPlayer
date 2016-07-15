@@ -1,9 +1,5 @@
 package com.geniusgithub.mediaplayer.picture;
 
-import java.util.List;
-
-import org.cybergarage.util.CommonLog;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +7,10 @@ import android.os.Message;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
+
+import java.util.List;
 
 public class PictureControlCenter implements  DownLoadHelper.IDownLoadCallback{
 	private static final CommonLog log = LogFactory.createLog();

@@ -9,8 +9,8 @@ import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.tendcloud.tenddata.TCAgent;
 
 import org.cybergarage.upnp.ControlPoint;
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import java.util.HashMap;
 

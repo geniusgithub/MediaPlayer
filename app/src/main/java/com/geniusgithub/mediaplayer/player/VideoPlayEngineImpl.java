@@ -1,8 +1,6 @@
 package com.geniusgithub.mediaplayer.player;
 
 
-import org.cybergarage.util.CommonLog;
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -12,13 +10,14 @@ import android.media.MediaPlayer.OnInfoListener;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.view.SurfaceHolder;
 
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
 
 public class VideoPlayEngineImpl extends AbstractMediaPlayEngine implements OnInfoListener{
 	
-	private final CommonLog log = LogFactory.createLog();	
+	private final CommonLog log = LogFactory.createLog();
 	private SurfaceHolder mHolder = null;  
 	private OnBufferingUpdateListener mBufferingUpdateListener;
 	private OnSeekCompleteListener mSeekCompleteListener;

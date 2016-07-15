@@ -1,13 +1,12 @@
 package com.geniusgithub.mediaplayer.center;
 
-import org.cybergarage.upnp.ControlPoint;
-import org.cybergarage.upnp.device.ST;
-import org.cybergarage.util.CommonLog;
-
 import android.content.Context;
 
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
+
+import org.cybergarage.upnp.ControlPoint;
 
 public class ControlCenterWorkThread extends Thread{
 

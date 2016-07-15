@@ -1,11 +1,10 @@
 package com.geniusgithub.mediaplayer.music;
 
-import org.cybergarage.util.CommonLog;
-
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
 

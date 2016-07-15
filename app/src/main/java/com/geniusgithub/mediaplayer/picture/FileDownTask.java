@@ -1,15 +1,14 @@
 package com.geniusgithub.mediaplayer.picture;
 
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.FileHelper;
+import com.geniusgithub.mediaplayer.util.LogFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import org.cybergarage.util.CommonLog;
-
-import com.geniusgithub.mediaplayer.util.FileHelper;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 
 public class FileDownTask implements Runnable{

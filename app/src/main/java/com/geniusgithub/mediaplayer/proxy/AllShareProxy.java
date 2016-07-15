@@ -10,8 +10,8 @@ import com.geniusgithub.mediaplayer.upnp.MediaServerMng;
 import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 
 import org.cybergarage.upnp.Device;
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import java.util.List;
 

@@ -16,28 +16,17 @@
 
 package com.geniusgithub.mediaplayer.music.lrc;
 
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
+
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-
-import org.cybergarage.util.CommonLog;
-
-import com.geniusgithub.mediaplayer.util.LogFactory;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 
 
 public class MusicUtils {

@@ -7,9 +7,8 @@ import org.cybergarage.upnp.Argument;
 import org.cybergarage.upnp.ArgumentList;
 import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.UPnPStatus;
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
-import org.cybergarage.xml.Node;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.util.ParseUtil;

@@ -3,12 +3,6 @@ package com.geniusgithub.mediaplayer.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.cybergarage.util.CommonLog;
-
-import com.geniusgithub.mediaplayer.upnp.MediaItem;
-
-import android.content.Context;
-
 
 public class DlnaUtils {
 

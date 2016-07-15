@@ -1,11 +1,6 @@
 package com.geniusgithub.mediaplayer.music;
 
 
-import java.io.File;
-
-import org.cybergarage.util.CommonLog;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -44,10 +39,13 @@ import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.proxy.MediaManager;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.DlnaUtils;
 import com.geniusgithub.mediaplayer.util.FileHelper;
 import com.geniusgithub.mediaplayer.util.LogFactory;
+
+import java.io.File;
 
 public class MusicPlayerActivity extends BaseActivity implements OnBufferingUpdateListener,
 												OnSeekCompleteListener, OnErrorListener,

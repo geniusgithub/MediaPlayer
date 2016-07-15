@@ -2,8 +2,8 @@ package com.geniusgithub.mediaplayer.adapter;
 
 import java.util.List;
 
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
@@ -13,7 +13,6 @@ import com.geniusgithub.mediaplayer.upnp.UpnpUtil;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -3,8 +3,8 @@ package com.geniusgithub.mediaplayer.activity;
 import java.util.List;
 import java.util.Stack;
 
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
 

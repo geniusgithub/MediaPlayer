@@ -1,12 +1,10 @@
 package com.geniusgithub.mediaplayer.picture;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import org.cybergarage.util.CommonLog;
-
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class DownLoadHelper {

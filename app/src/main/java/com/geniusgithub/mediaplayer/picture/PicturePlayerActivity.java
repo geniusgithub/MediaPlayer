@@ -1,12 +1,7 @@
 package com.geniusgithub.mediaplayer.picture;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.List;
-
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.activity.BaseActivity;
@@ -16,7 +11,6 @@ import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.FileHelper;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;

@@ -1,7 +1,7 @@
 package com.geniusgithub.mediaplayer.upnp;
 
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import com.geniusgithub.mediaplayer.proxy.IDeviceChangeListener;
 

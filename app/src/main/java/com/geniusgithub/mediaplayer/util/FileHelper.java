@@ -18,9 +18,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;

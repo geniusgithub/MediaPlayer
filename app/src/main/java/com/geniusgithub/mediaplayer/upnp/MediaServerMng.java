@@ -1,8 +1,5 @@
 package com.geniusgithub.mediaplayer.upnp;
 
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
-
 
 import android.content.Context;
 

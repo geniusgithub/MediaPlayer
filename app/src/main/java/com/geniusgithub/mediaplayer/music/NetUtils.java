@@ -1,15 +1,13 @@
 package com.geniusgithub.mediaplayer.music;
 
+import android.graphics.drawable.Drawable;
+
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.cybergarage.util.CommonLog;
-
-import android.graphics.drawable.Drawable;
-
-import com.geniusgithub.mediaplayer.util.LogFactory;
-
 
 
 public class NetUtils {

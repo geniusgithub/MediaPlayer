@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -20,7 +21,7 @@ import android.view.View;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.fragment.MediaServiceFragmen;
-import com.google.android.gms.appindexing.AppIndex;
+import com.geniusgithub.mediaplayer.util.AlwaysLog;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.List;
 
 public class MainFrameActivity extends AppCompatActivity {
 
+    private static final String TAG = MainFrameActivity.class.getSimpleName();
     private static final String TAG_DMS_FRAGMENT = "tag_dms_fragment";
 
     private Context mContext;
@@ -58,9 +60,6 @@ public class MainFrameActivity extends AppCompatActivity {
         mResource = mContext.getResources();
         initView();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -91,12 +90,15 @@ public class MainFrameActivity extends AppCompatActivity {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
 
+                AlwaysLog.i(TAG, "onDrawerOpened");
+
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
 
+                AlwaysLog.i(TAG, "onDrawerClosed");
             }
         };
 
@@ -110,6 +112,28 @@ public class MainFrameActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        AlwaysLog.i(TAG, "onOptionsItemSelected id = " + id + ", home = " + android.R.id.home);
+        if (id == android.R.id.home) {
+            toggleDrawLayout();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleDrawLayout(){
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            mDrawerLayout.closeDrawers();
+        }else{
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
 
     }
 

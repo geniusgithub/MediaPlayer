@@ -1,18 +1,11 @@
 package com.geniusgithub.mediaplayer.video;
 
-import org.cybergarage.util.CommonLog;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnSeekCompleteListener;
-import android.media.audiofx.Visualizer;
-import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,11 +17,10 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.activity.BaseActivity;
@@ -41,6 +33,7 @@ import com.geniusgithub.mediaplayer.player.VideoPlayEngineImpl;
 import com.geniusgithub.mediaplayer.proxy.MediaManager;
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
 import com.geniusgithub.mediaplayer.upnp.MediaItemFactory;
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.DlnaUtils;
 import com.geniusgithub.mediaplayer.util.LogFactory;

@@ -1,8 +1,6 @@
 package com.geniusgithub.mediaplayer.player;
 
 
-import org.cybergarage.util.CommonLog;
-
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -10,12 +8,11 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 
 import com.geniusgithub.mediaplayer.upnp.MediaItem;
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
 
-
-
-public abstract class AbstractMediaPlayEngine implements IBasePlayEngine, OnCompletionListener, 
+public abstract class AbstractMediaPlayEngine implements IBasePlayEngine, OnCompletionListener,
 												OnPreparedListener, OnErrorListener{
 	
 	private static final CommonLog log = LogFactory.createLog();

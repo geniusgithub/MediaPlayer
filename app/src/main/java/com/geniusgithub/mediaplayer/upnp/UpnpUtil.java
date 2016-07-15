@@ -6,12 +6,8 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import org.cybergarage.upnp.Device;
-import org.cybergarage.util.CommonLog;
-import org.cybergarage.util.LogFactory;
-
-import android.util.Log;
-
-
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 
 
 public class UpnpUtil {

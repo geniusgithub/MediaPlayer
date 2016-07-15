@@ -1,7 +1,5 @@
 package com.geniusgithub.mediaplayer.player;
 
-import org.cybergarage.util.CommonLog;
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -10,14 +8,13 @@ import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.media.audiofx.Visualizer;
 import android.media.audiofx.Visualizer.OnDataCaptureListener;
 
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
-
-
 
 
 public class MusicPlayEngineImpl extends AbstractMediaPlayEngine{
 
-	private final CommonLog log = LogFactory.createLog();	
+	private final CommonLog log = LogFactory.createLog();
 	
 	private OnBufferingUpdateListener mBufferingUpdateListener;
 	private OnSeekCompleteListener mSeekCompleteListener;

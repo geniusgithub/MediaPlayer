@@ -4,8 +4,6 @@ package com.geniusgithub.mediaplayer.util;
 
 import java.io.InputStream;
 
-import org.cybergarage.util.CommonLog;
-
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;

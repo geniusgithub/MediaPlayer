@@ -1,4 +1,4 @@
-package org.cybergarage.util;
+package com.geniusgithub.mediaplayer.util;
 
 import android.util.Log;
 
