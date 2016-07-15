@@ -72,7 +72,7 @@ public class WelcomActivity extends BaseActivity {
 
 		if (PermissionsUtil.hasNecessaryRequiredPermissions(this)){
 			Intent intent = new Intent();
-			intent.setClass(this, DMSActivity.class);
+			intent.setClass(this, MainFrameActivity.class);
 			startActivity(intent);
 			finish();
 		}else{

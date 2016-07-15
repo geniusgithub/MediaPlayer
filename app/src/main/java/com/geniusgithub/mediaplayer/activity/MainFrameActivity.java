@@ -20,9 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.fragment.MediaServiceFragmen;
+import com.geniusgithub.mediaplayer.fragment.MediaServiceFragment;
 import com.geniusgithub.mediaplayer.util.AlwaysLog;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +43,6 @@ public class MainFrameActivity extends AppCompatActivity {
 
     private TabLayout.Tab mTabLibrary;
     private TabLayout.Tab mTabEmpty;
-
-    private MediaServiceFragmen mMediaServiceFragment;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +110,7 @@ public class MainFrameActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        AlwaysLog.i(TAG, "onOptionsItemSelected id = " + id + ", home = " + android.R.id.home);
+
         if (id == android.R.id.home) {
             toggleDrawLayout();
 
@@ -166,13 +158,13 @@ public class MainFrameActivity extends AppCompatActivity {
 
         List<String> titles = new ArrayList<String>();
         titles.add("LIBRARY");
-        titles.add("EMPTY");
+      //  titles.add("EMPTY");
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
+      //  mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
 
         List<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new MediaServiceFragmen());
-        fragments.add(new MediaServiceFragmen());
+        fragments.add(new MediaServiceFragment());
+     //   fragments.add(new MediaServiceFragment());
         MainFragmentAdapter adapter = new MainFragmentAdapter(getFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
 

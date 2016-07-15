@@ -5,12 +5,12 @@ import android.app.Application;
 import android.content.Context;
 
 import com.geniusgithub.mediaplayer.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
+import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.tendcloud.tenddata.TCAgent;
 
 import org.cybergarage.upnp.ControlPoint;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import java.util.HashMap;
 

@@ -84,7 +84,7 @@
         <activity
             android:name=".activity.WelcomActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            >
+            android:screenOrientation="portrait">
                 <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -94,25 +94,16 @@
         <activity
             android:name=".activity.MainFrameActivity"
             android:theme="@style/ActivityBaseTheme"
-            >
+            android:screenOrientation="portrait" >
 <!--            <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>-->
         </activity>
-        <activity android:name=".activity.DMSActivity"
-                  android:theme="@style/ActivityBaseTheme">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
         <activity android:name=".activity.ContentActivity"
-                  android:theme="@style/ActivityBaseTheme">
+                  android:theme="@style/ActivityBaseTheme"
+                  android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".music.MusicPlayerActivity"
