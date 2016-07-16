@@ -5,9 +5,11 @@ It uses the library of dlna_framework
 
 Example screenshot below:
 
-![github](http://img.my.csdn.net/uploads/201307/17/1374056183_8683.png "github")  
+![github](https://github.com/geniusgithub/MediaPlayer/blob/master/images/welcome.png?raw=true "github")  
 
-![github](http://img.my.csdn.net/uploads/201307/17/1374056183_5235.png "github")  
+![github](https://github.com/geniusgithub/MediaPlayer/blob/master/images/main.png?raw=true "github")  
+
+![github](https://github.com/geniusgithub/MediaPlayer/blob/master/images/content.png?raw=true "github")  
 
 ![github](http://img.my.csdn.net/uploads/201312/19/1387463576_5028.png "github")  
 
