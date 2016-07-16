@@ -10,7 +10,7 @@
     <View
         android:id="@+id/toolbar_shadow"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="4dp"
         android:background="@drawable/toolbar_dropshadow" />
 
 
@@ -30,7 +30,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
             app:tabIndicatorColor="?attr/colorPrimary"/>
     </android.support.design.widget.AppBarLayout>
 

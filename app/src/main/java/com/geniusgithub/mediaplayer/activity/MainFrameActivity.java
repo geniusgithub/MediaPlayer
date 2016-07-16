@@ -26,7 +26,7 @@ import com.geniusgithub.mediaplayer.util.AlwaysLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFrameActivity extends AppCompatActivity {
+public class MainFrameActivity extends BaseActivity {
 
     private static final String TAG = MainFrameActivity.class.getSimpleName();
     private static final String TAG_DMS_FRAGMENT = "tag_dms_fragment";

@@ -1,48 +1,43 @@
 <resources>
 
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!--   <item name="android:imageButtonStyle">@style/CustomImagebuttonStyle</item>-->
+    </style>
+
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="@android:style/Theme.DeviceDefault.Light.DarkActionBar">
-    <!--    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-       <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:imageButtonStyle">@style/CustomImagebuttonStyle</item>
+    <style name="AppBaseTheme" parent="Base.Theme.Design">
     </style>
 
     <style name="ActivityBaseTheme" parent="Base.Theme.Design">
     </style>
 
-    <style name="Base.Theme.Design" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.Design" parent="@style/Theme.AppCompat.Light.NoActionBar">
            <item name="colorPrimary">@color/colorPrimary</item>
            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
            <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
+    <style name="Theme.AppStartLoad" parent="android:Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/welcome</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
     <style name="CustomImagebuttonStyle" parent="@android:style/Widget.DeviceDefault.Light.ImageButton">
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="BlueButton">
-        <item name="android:colorButtonNormal">#0288d1</item>
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
     </style>
 
 
     <style name="GreenButton">
-        <item name="android:colorButtonNormal">#00c853</item>
+        <item name="android:colorButtonNormal">@color/colorPrimary</item>
     </style>
 </resources>
