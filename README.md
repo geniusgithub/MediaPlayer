@@ -9,7 +9,7 @@ Example screenshot below:
 
 ![github](https://github.com/geniusgithub/MediaPlayer/blob/master/images/main.png?raw=true "github")  
 
-![github](https://github.com/geniusgithub/MediaPlayer/blob/master/images/content.png?raw=true "github")  
+![github](https://github.com/geniusgithub/MediaPlayer/blob/master/images/initpintcontent.jpg?raw=true "github")  
 
 ![github](http://img.my.csdn.net/uploads/201312/19/1387463576_5028.png "github")  
 
