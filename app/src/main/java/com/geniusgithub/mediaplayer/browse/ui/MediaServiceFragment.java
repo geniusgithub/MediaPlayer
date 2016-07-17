@@ -149,6 +149,8 @@ public class MediaServiceFragment extends Fragment implements View.OnClickListen
         AllShareApplication.getInstance().setStatus(true);
 
         mHandler = new Handler();
+
+        updateDeviceList();
     }
 
 
@@ -205,6 +207,7 @@ public class MediaServiceFragment extends Fragment implements View.OnClickListen
 
         updateDeviceList();
         if (isSelDeviceChange){
+            mContentManager.clear();
             switchView(VIEW_DMS);
         }
     }
