@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MediaPlayer.iml" filepath="$PROJECT_DIR$/MediaPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.geniusgithub.common/com.geniusgithub.common.iml" filepath="$PROJECT_DIR$/com.geniusgithub.common/com.geniusgithub.common.iml" />
       <module fileurl="file://$PROJECT_DIR$/cybergarage-upnp/cybergarage-upnp.iml" filepath="$PROJECT_DIR$/cybergarage-upnp/cybergarage-upnp.iml" />
     </modules>
   </component>
