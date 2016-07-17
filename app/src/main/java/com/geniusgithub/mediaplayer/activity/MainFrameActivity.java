@@ -25,10 +25,10 @@ import com.geniusgithub.common.util.AlwaysLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFrameActivity extends BaseActivity {
+public class MainFrameActivity extends BaseActivity implements IToolBar{
 
-    private static final String TAG = MainFrameActivity.class.getSimpleName();
-    private static final String TAG_DMS_FRAGMENT = "tag_dms_fragment";
+    public static final String TAG = "MainFrameActivity";
+    public static final String TAG_DMS_FRAGMENT = "tag_dms_fragment";
 
     private Context mContext;
     private Resources mResource;
@@ -43,6 +43,16 @@ public class MainFrameActivity extends BaseActivity {
     private TabLayout.Tab mTabLibrary;
     private TabLayout.Tab mTabEmpty;
 
+
+    private MediaServiceFragment mMediaServiceFragment;
+
+
+
+    @Override
+    public void updateToolTitle(String title) {
+        mToolbar.setTitle(title);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,17 +65,17 @@ public class MainFrameActivity extends BaseActivity {
 
 
     private void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        initToolBar(toolbar);
-        initDrawLayout(toolbar);
+        initToolBar();
+        initDrawLayout();
         setupViewPager();
     }
 
 
-    private void initToolBar(Toolbar toolbar) {
-        toolbar.setTitle("DLNA");
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        setSupportActionBar(toolbar);
+    private void initToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("DLNA");
+        mToolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        setSupportActionBar(mToolbar);
 
 
         final ActionBar ab = getSupportActionBar();
@@ -75,7 +85,7 @@ public class MainFrameActivity extends BaseActivity {
 
     }
 
-    private void initDrawLayout(Toolbar toolbar) {
+    private void initDrawLayout() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -161,8 +171,9 @@ public class MainFrameActivity extends BaseActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
       //  mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
 
+        mMediaServiceFragment = new MediaServiceFragment(this);
         List<Fragment> fragments = new ArrayList<Fragment>();
-        fragments.add(new MediaServiceFragment());
+        fragments.add(mMediaServiceFragment);
      //   fragments.add(new MediaServiceFragment());
         MainFragmentAdapter adapter = new MainFragmentAdapter(getFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
@@ -200,4 +211,11 @@ public class MainFrameActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        boolean back = mMediaServiceFragment.back();
+        if (!back){
+            super.onBackPressed();
+        }
+    }
 }

@@ -101,10 +101,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>-->
         </activity>
-        <activity android:name=".browse.ui.ContentActivity"
-                  android:theme="@style/ActivityBaseTheme"
-                  android:screenOrientation="portrait">
-        </activity>
         <activity
             android:name=".player.music.MusicPlayerActivity"
             android:launchMode="singleTask"

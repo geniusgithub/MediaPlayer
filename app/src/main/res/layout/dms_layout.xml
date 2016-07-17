@@ -55,14 +55,35 @@
   
 
 	<View android:layout_marginTop="5dp" android:layout_width="fill_parent"   android:layout_height="2dp"   android:background="#666666"></View>
-    
-	<ListView android:id="@+id/device_list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
-        android:fastScrollEnabled="true"
-        android:cacheColorHint="#00000000" 
-        android:clickable="true"/>
+
+
+	<FrameLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+			<ListView android:id="@+id/device_list"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  android:layout_marginLeft="5dp"
+			  android:layout_marginRight="5dp"
+			  android:layout_marginTop="10dp"
+			  android:fastScrollEnabled="true"
+			  android:cacheColorHint="#00000000"
+			  android:clickable="true"/>
+
+
+			<ListView android:id="@+id/content_list"
+			  android:layout_width="fill_parent"
+			  android:layout_height="wrap_content"
+			  android:layout_marginLeft="5dp"
+			  android:layout_marginRight="5dp"
+			  android:layout_marginTop="20dp"
+			  android:fastScrollEnabled="true"
+			  android:cacheColorHint="#00000000"
+			  android:clickable="true"/>
+
+	</FrameLayout>
+
+
+
 </LinearLayout>
