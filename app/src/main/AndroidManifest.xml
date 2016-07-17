@@ -101,12 +101,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>-->
         </activity>
-        <activity android:name=".activity.ContentActivity"
+        <activity android:name=".browse.ui.ContentActivity"
                   android:theme="@style/ActivityBaseTheme"
                   android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".music.MusicPlayerActivity"
+            android:name=".player.music.MusicPlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -118,7 +118,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".video.VideoPlayerActivity"
+            android:name=".player.video.VideoPlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -130,26 +130,23 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".picture.PicturePlayerActivity"
+            android:name=".player.picture.PicturePlayerActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >
         </activity>
 
         <service
-            android:name=".center.DlnaService"
+            android:name=".dlna.center.DlnaService"
             android:enabled="true"
             >
             <intent-filter>
                 <action android:name="com.geniusgithub.allshare.search_device"/>
                 <action android:name="com.geniusgithub.allshare.reset_search_device"/>
             </intent-filter>
-        </service><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"
-            />
+        </service>
+
+
     </application>
 
 </manifest>

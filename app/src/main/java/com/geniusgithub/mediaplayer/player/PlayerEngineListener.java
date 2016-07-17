@@ -16,7 +16,7 @@
 
 package com.geniusgithub.mediaplayer.player;
 
-import com.geniusgithub.mediaplayer.upnp.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
 public interface PlayerEngineListener {
 	

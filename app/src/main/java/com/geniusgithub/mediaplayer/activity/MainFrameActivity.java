@@ -14,14 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.fragment.MediaServiceFragment;
-import com.geniusgithub.mediaplayer.util.AlwaysLog;
+import com.geniusgithub.mediaplayer.browse.ui.MediaServiceFragment;
+import com.geniusgithub.common.util.AlwaysLog;
 
 import java.util.ArrayList;
 import java.util.List;

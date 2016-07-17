@@ -120,7 +120,7 @@
 	</RelativeLayout>
 
 	
-	<com.geniusgithub.mediaplayer.music.VisualizerView
+	<com.geniusgithub.mediaplayer.player.music.VisualizerView
         android:id="@+id/mp_freq_view"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
@@ -186,7 +186,7 @@
 	   	android:layout_above="@id/down_toolview"
 	    android:gravity="center">
 	    
-	    <com.geniusgithub.mediaplayer.music.lrc.LyricView
+	    <com.geniusgithub.mediaplayer.player.music.lrc.LyricView
         android:id="@+id/lrc_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

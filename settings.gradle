@@ -1,1 +1,1 @@
-include ':app', ':cybergarage-upnp'
+include ':app', ':cybergarage-upnp', ':com.geniusgithub.common'
