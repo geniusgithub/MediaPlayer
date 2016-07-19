@@ -25,7 +25,7 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
     private Context mContext;
     private Button mBtnSearch;
     private Button mBtnReset;
-    private Button mBtnExit;
+    private Button mBtnStop;
 
     private ListView mDevListView;
     private ListView mContentListView;
@@ -53,10 +53,10 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
     private void initView(View view){
         mBtnSearch = (Button) view.findViewById(R.id.btn_search);
         mBtnReset = (Button) view.findViewById(R.id.btn_reset);
-        mBtnExit = (Button) view.findViewById(R.id.btn_exit);
+        mBtnStop = (Button) view.findViewById(R.id.btn_stop);
         mBtnSearch.setOnClickListener(this);
         mBtnReset.setOnClickListener(this);
-        mBtnExit.setOnClickListener(this);
+        mBtnStop.setOnClickListener(this);
 
         mDevListView = (ListView) view.findViewById(R.id.device_list);
         mOnDeviceItemClick = new OnDeviceItemClick();
@@ -85,7 +85,7 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
                 case R.id.btn_reset:
                     mIBrowsePresenter.onReset();
                      break;
-                case R.id.btn_exit:
+                case R.id.btn_stop:
                     mIBrowsePresenter.onExit();
                       break;
             }

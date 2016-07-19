@@ -117,12 +117,12 @@ public class ControlPoint implements HTTPRequestListener
 	private SSDPNotifySocketList ssdpNotifySocketList;
 	private SSDPSearchResponseSocketList ssdpSearchResponseSocketList;
 
-	private SSDPNotifySocketList getSSDPNotifySocketList()
+	public SSDPNotifySocketList getSSDPNotifySocketList()
 	{
 		return ssdpNotifySocketList;
 	}
-	
-	private SSDPSearchResponseSocketList getSSDPSearchResponseSocketList()
+
+	public SSDPSearchResponseSocketList getSSDPSearchResponseSocketList()
 	{
 		return ssdpSearchResponseSocketList;
 	}

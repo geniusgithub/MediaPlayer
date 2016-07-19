@@ -11,12 +11,12 @@ import android.os.IBinder;
 import android.os.Message;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
+import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
-import org.cybergarage.upnp.ControlPoint;
 import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.device.DeviceChangeListener;
 import org.cybergarage.upnp.device.SearchResponseListener;
@@ -36,7 +36,7 @@ public class DlnaService extends Service implements IBaseEngine,
 	private  NetworkStatusChangeBR mNetworkStatusChangeBR;
 	
 	
-	private  ControlPoint mControlPoint;
+	private ControlPointImpl mControlPoint;
 	private  ControlCenterWorkThread mCenterWorkThread;
 	private  AllShareProxy mAllShareProxy;
 	private  Handler mHandler;
@@ -84,7 +84,7 @@ public class DlnaService extends Service implements IBaseEngine,
 	private void init(){
 		mAllShareProxy = AllShareProxy.getInstance(this);
 		
-		mControlPoint = new ControlPoint();
+		mControlPoint = new ControlPointImpl();
 		AllShareApplication.getInstance().setControlPoint(mControlPoint);
 		mControlPoint.addDeviceChangeListener(this);
 		mControlPoint.addSearchResponseListener(new SearchResponseListener() {		
@@ -188,15 +188,29 @@ public class DlnaService extends Service implements IBaseEngine,
 	@Override
 	public void onSearchComplete(boolean searchSuccess) {
 
-		if (!searchSuccess){
+/*		if (!searchSuccess){
 			sendSearchDeviceFailBrocast(this);
-		}
+		}*/
 	}
-	
-	public static final String SEARCH_DEVICES_FAIL = "com.geniusgithub.allshare.search_devices_fail";
+
+	@Override
+	public void onStartComplete(boolean startSuccess) {
+
+		mControlPoint.flushLocalAddress();
+		sendStartDeviceEventBrocast(this, startSuccess);
+	}
+
+/*	public static final String SEARCH_DEVICES_FAIL = "com.geniusgithub.allshare.search_devices_fail";
 	public static void sendSearchDeviceFailBrocast(Context context){
 		log.e("sendSearchDeviceFailBrocast");
 		Intent intent = new Intent(SEARCH_DEVICES_FAIL);
+		context.sendBroadcast(intent);
+	}*/
+
+	public static final String START_DEVICES_EVENT = "com.geniusgithub.allshare.start_devices_event";
+	public static void sendStartDeviceEventBrocast(Context context, boolean startSuccess){
+		log.e("sendStartDeviceEventBrocast startSuccess = " + startSuccess);
+		Intent intent = new Intent(START_DEVICES_EVENT);
 		context.sendBroadcast(intent);
 	}
 	

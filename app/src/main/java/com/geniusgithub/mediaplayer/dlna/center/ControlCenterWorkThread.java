@@ -2,29 +2,29 @@ package com.geniusgithub.mediaplayer.dlna.center;
 
 import android.content.Context;
 
-import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
-import org.cybergarage.upnp.ControlPoint;
+import org.cybergarage.util.AlwaysLog;
 
 public class ControlCenterWorkThread extends Thread{
 
-private static final CommonLog log = LogFactory.createLog();
-	
+	private final static String TAG = ControlCenterWorkThread.class.getSimpleName();
+
 	private static final int REFRESH_DEVICES_INTERVAL = 30 * 1000; 
 	
 	public static interface ISearchDeviceListener{
 		public void onSearchComplete(boolean searchSuccess);
+		public void onStartComplete(boolean startSuccess);
 	}
 	
-	private ControlPoint mCP = null;
+	private ControlPointImpl mCP = null;
 	private Context mContext = null;
 	private boolean mStartComplete = false;
 	private boolean mIsExit = false;
 	private ISearchDeviceListener mSearchDeviceListener;
 	
-	public ControlCenterWorkThread(Context context, ControlPoint controlPoint){
+	public ControlCenterWorkThread(Context context, ControlPointImpl controlPoint){
 		mContext = context;
 		mCP = controlPoint; 
 	}
@@ -57,7 +57,7 @@ private static final CommonLog log = LogFactory.createLog();
 	
 	@Override
 	public void run() {
-		log.e("ControlCenterWorkThread run...");		
+		AlwaysLog.i(TAG, "ControlCenterWorkThread run...");
 		
 		while(true)
 		{
@@ -80,28 +80,31 @@ private static final CommonLog log = LogFactory.createLog();
 				}				
 			}
 		}
-		
-		log.e("ControlCenterWorkThread over...");		
+
+		AlwaysLog.i(TAG, "ControlCenterWorkThread over...");
 	}
 	
 	private void refreshDevices(){
-		log.e("refreshDevices...");
+		AlwaysLog.d(TAG, "refreshDevices...");
 		if (!CommonUtil.checkNetworkState(mContext)){
 			return ;
 		}
 
 		try {
 			if (mStartComplete){
-				boolean searchRet = mCP.search();	
-				log.e("mCP.search() ret = "  + searchRet);
+				boolean searchRet = mCP.search();
+				AlwaysLog.i(TAG, "mCP.search() ret = "  + searchRet);
 				if (mSearchDeviceListener != null){
 					mSearchDeviceListener.onSearchComplete(searchRet);
 				}
 			}else{
 				boolean startRet = mCP.start();
-				log.e("mCP.start() ret = "  + startRet);
+				AlwaysLog.i(TAG, "mCP.start() ret = "  + startRet);
 				if (startRet){
 					mStartComplete = true;
+				}
+				if (mSearchDeviceListener != null){
+					mSearchDeviceListener.onStartComplete(startRet);
 				}
 			}
 		} catch (Exception e) {

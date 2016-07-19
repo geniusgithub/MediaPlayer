@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.tendcloud.tenddata.TCAgent;
-
-import org.cybergarage.upnp.ControlPoint;
 
 import java.util.HashMap;
 
@@ -26,7 +25,7 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 	
 	private AllShareProxy mAllShareProxy;
 
-	private ControlPoint mControlPoint;
+	private ControlPointImpl mControlPoint;
 	
 	private static AllShareApplication mAllShareApplication;
 
@@ -59,11 +58,18 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		return mEnterMain;
 	}
 	
-	public void setControlPoint(ControlPoint controlPoint){
+	public void setControlPoint(ControlPointImpl controlPoint){
 		mControlPoint = controlPoint;
 	}
-	
-	public ControlPoint getControlPoint(){
+
+	public String getLocalAddress(){
+		if (mControlPoint != null){
+			return mControlPoint.getLocalAddress();
+		}
+
+		return "";
+	}
+	public ControlPointImpl getControlPoint(){
 		return mControlPoint;
 	}
 

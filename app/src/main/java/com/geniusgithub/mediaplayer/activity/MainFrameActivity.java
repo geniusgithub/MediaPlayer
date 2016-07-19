@@ -44,6 +44,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
     private TabLayout.Tab mTabLibrary;
     private TabLayout.Tab mTabEmpty;
 
+   // private TextView mTVLocalAddress;
 
     private MediaServiceFragment mMediaServiceFragment;
 
@@ -61,7 +62,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
         mContext = this;
         mResource = mContext.getResources();
         initView();
-
+        initData();
     }
 
 
@@ -73,6 +74,10 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
         AllShareApplication.getInstance().setStatus(true);
     }
 
+    private void initData(){
+        String address = AllShareApplication.getInstance().getLocalAddress();
+        updateLocalAddress(address);
+    }
 
     private void initToolBar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -160,6 +165,12 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
                         return true;
                     }
                 });
+
+
+    }
+
+    public void updateLocalAddress(String address){
+    //    mTVLocalAddress.setText(address);
     }
 
     private void setupViewPager() {
