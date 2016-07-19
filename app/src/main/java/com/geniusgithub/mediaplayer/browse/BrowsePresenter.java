@@ -1,5 +1,6 @@
 package com.geniusgithub.mediaplayer.browse;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.browse.model.ContentManager;
 import com.geniusgithub.mediaplayer.browse.proxy.BrowseDMSProxy;
 import com.geniusgithub.mediaplayer.browse.ui.BroswerView;
+import com.geniusgithub.mediaplayer.browse.ui.MediaServiceFragment;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -67,6 +69,13 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
     private int mViewType = VIEW_DMS;
 
     private Handler mHandler;
+    private Fragment mFragmentInstance;
+
+    @Override
+    public void bindFragment(Fragment fragment) {
+        mFragmentInstance = fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         mContext = context;
@@ -219,6 +228,7 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
     }
 
     private void switchView(int viewType){
+
         switch (viewType){
             case VIEW_DMS:
                 mIBrowseView.showDeviceList(true);
@@ -230,8 +240,25 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
                 break;
         }
         mViewType = viewType;
+        onViewSwitch(mViewType);
     }
 
+
+    private void onViewSwitch(int viewType){
+        String title = "DLNA";
+        if (viewType == VIEW_CONTENT){
+            Device device = mAllShareProxy.getDMSSelectedDevice();
+            if (device != null){
+                title = device.getFriendlyName();
+            }
+        }
+
+        if (mFragmentInstance != null){
+            if (mFragmentInstance instanceof MediaServiceFragment){
+                ((MediaServiceFragment) mFragmentInstance).onViewSwitch(title);
+            }
+        }
+    }
 
 
     private void requestDirectory()

@@ -58,6 +58,7 @@ public class MediaServiceFragment extends Fragment {
     public MediaServiceFragment(IToolBar toolbar) {
         mExternToolbar = toolbar;
         mBrwsePresenter = createPresenter();
+        mBrwsePresenter.bindFragment(this);
     }
 
 
@@ -120,6 +121,14 @@ public class MediaServiceFragment extends Fragment {
 
     public boolean back(){
         return mBrwsePresenter.onBackPressed();
+    }
+
+
+
+    public void onViewSwitch(String title){
+        if (mExternToolbar != null){
+            mExternToolbar.updateToolTitle(title);
+        }
     }
 
 }
