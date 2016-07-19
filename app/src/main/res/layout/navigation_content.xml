@@ -30,7 +30,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0dp"
             app:tabIndicatorColor="?attr/colorPrimary"/>
     </android.support.design.widget.AppBarLayout>
 

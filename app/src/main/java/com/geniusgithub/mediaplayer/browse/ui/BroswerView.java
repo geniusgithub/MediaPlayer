@@ -132,25 +132,12 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
     }
 
     @Override
-    public void switchView(int viewType){
-      /*  switch (viewType){
-            case VIEW_DMS:
-                mDevListView.setVisibility(View.VISIBLE);
-                mContentListView.setVisibility(View.GONE);
-                updateToolTitle("DLNA");
-                break;
-            case VIEW_CONTENT:
-                mDevListView.setVisibility(View.GONE);
-                mContentListView.setVisibility(View.VISIBLE);
-                Device device  = mAllShareProxy.getDMSSelectedDevice();
-                if (device == null)
-                {
-                    updateToolTitle("no select device");
-                }else{
-                    updateToolTitle(device.getFriendlyName());
-                }
-                break;
-        }
-        mViewType = viewType;*/
+    public void showDeviceList(boolean bShow){
+        mDevListView.setVisibility(bShow ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showItemList(boolean bShow){
+        mContentListView.setVisibility(bShow ? View.VISIBLE : View.GONE);
     }
 }

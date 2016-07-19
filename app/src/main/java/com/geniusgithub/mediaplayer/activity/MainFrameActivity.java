@@ -18,9 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.geniusgithub.common.util.AlwaysLog;
+import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.browse.ui.MediaServiceFragment;
-import com.geniusgithub.common.util.AlwaysLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,8 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
         initToolBar();
         initDrawLayout();
         setupViewPager();
+
+        AllShareApplication.getInstance().setStatus(true);
     }
 
 

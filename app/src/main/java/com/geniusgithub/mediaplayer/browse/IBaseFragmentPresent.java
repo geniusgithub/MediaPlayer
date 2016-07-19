@@ -16,4 +16,5 @@ public interface IBaseFragmentPresent {
     public void onResume();
     public void onPause();
     public void onDestroy();
+    public boolean onBackPressed();
 }

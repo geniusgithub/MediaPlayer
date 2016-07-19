@@ -43,8 +43,9 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
         public void bindPresent(IBrowsePresenter presenter);
         public void showProgress(boolean bShow);
         public void updateDeviceList(List<Device> devices);
-        public void switchView(int viewType);
         public void updateItemList(List<MediaItem>  contentItem);
+        public void showDeviceList(boolean bShow);
+        public void showItemList(boolean bShow);
     }
 
     private IBrowseView mIBrowseView;
@@ -88,7 +89,8 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mIBrowseView.bindView(mContext, view);
-        mIBrowseView.switchView(VIEW_DMS);
+        updateDeviceList();
+        switchView(VIEW_DMS);
 
         mBrocastFactory = new DMSDeviceBrocastFactory(mContext);
         mBrocastFactory.registerListener(this);
@@ -114,13 +116,33 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
         mContentManager.clear();
     }
 
+    @Override
+    public boolean onBackPressed(){
+        switch (mViewType){
+            case VIEW_DMS:
+                break;
+            case VIEW_CONTENT:{
+                mContentManager.popListItem();
+                List<MediaItem> list = mContentManager.peekListItem();
+                if (list == null){
+                    switchView(VIEW_DMS);
+                }else{
+                    updateItemList(list);
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public void onDeviceChange(boolean isSelDeviceChange) {
 
         updateDeviceList();
         if (mViewType != VIEW_DMS && isSelDeviceChange){
-            mIBrowseView.switchView(VIEW_DMS);
+            mContentManager.clear();
+            switchView(VIEW_DMS);
         }
     }
 
@@ -141,7 +163,7 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
                 updateItemList(list);
 
                 if (mViewType == VIEW_DMS){
-                    mIBrowseView.switchView(VIEW_CONTENT);
+                    switchView(VIEW_CONTENT);
                 }
             }
         });
@@ -194,6 +216,20 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
     {
         mCurItems = list;
         mIBrowseView.updateItemList(list);
+    }
+
+    private void switchView(int viewType){
+        switch (viewType){
+            case VIEW_DMS:
+                mIBrowseView.showDeviceList(true);
+                mIBrowseView.showItemList(false);
+                break;
+            case VIEW_CONTENT:
+                mIBrowseView.showDeviceList(false);
+                mIBrowseView.showItemList(true);
+                break;
+        }
+        mViewType = viewType;
     }
 
 
