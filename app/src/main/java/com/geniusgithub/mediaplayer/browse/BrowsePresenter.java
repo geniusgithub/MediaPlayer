@@ -21,7 +21,8 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
-import com.geniusgithub.mediaplayer.player.music.MusicPlayerActivity;
+import com.geniusgithub.mediaplayer.player.music.MusicPlayerActivityEx;
+import com.geniusgithub.mediaplayer.player.music.MusicPlayerFragment;
 import com.geniusgithub.mediaplayer.player.picture.PicturePlayerActivity;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
@@ -278,8 +279,8 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
         MediaManager.getInstance().setMusicList(mCurItems);
 
         Intent intent = new Intent();
-        intent.setClass(mContext, MusicPlayerActivity.class);
-        intent.putExtra(MusicPlayerActivity.PLAY_INDEX, index);
+        intent.setClass(mContext, MusicPlayerActivityEx.class);
+        intent.putExtra(MusicPlayerFragment.PLAY_INDEX, index);
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);
     }

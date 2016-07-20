@@ -1,3 +1,4 @@
+/*
 package com.geniusgithub.mediaplayer.player.music;
 
 
@@ -390,7 +391,9 @@ public class MusicPlayerActivity extends BaseActivity implements OnBufferingUpda
 
 	
 	
-	/*---------------------------------------------------------------------------*/
+	*/
+/*---------------------------------------------------------------------------*//*
+
 	class UIManager implements OnClickListener, OnSeekBarChangeListener, OnDataCaptureListener{
 		
 		public View mPrepareView;
@@ -708,8 +711,6 @@ public class MusicPlayerActivity extends BaseActivity implements OnBufferingUpda
 		}
 	}
 
-	
-
-	
 
 }
+*/
