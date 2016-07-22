@@ -28,7 +28,7 @@ public class MusicPlayerActivityEx extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.music_options_menu, menu);
+   //    getMenuInflater().inflate(R.menu.music_options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

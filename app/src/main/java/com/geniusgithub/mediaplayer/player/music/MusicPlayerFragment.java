@@ -177,6 +177,7 @@ public class MusicPlayerFragment extends Fragment implements MediaPlayer.OnBuffe
         log.e(" FileHelper.createDirectory:" + MusicUtils.getLyricDir() + ", ret = " + ret);
     }
 
+
     public void refreshIntent(Intent intent){
         log.e("refreshIntent");
         int curIndex = 0;
@@ -184,6 +185,7 @@ public class MusicPlayerFragment extends Fragment implements MediaPlayer.OnBuffe
             curIndex = intent.getIntExtra(PLAY_INDEX, 0);
             mMediaInfo = MediaItemFactory.getItemFromIntent(intent);
         }
+
 
         mMusicControlCenter.updateMediaInfo(curIndex, MediaManager.getInstance().getMusicList());
 

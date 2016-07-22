@@ -3,33 +3,27 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/media_bacground">
-			
-	<RelativeLayout 
-	    android:id="@+id/down_toolview"
-	    android:layout_width="fill_parent"
-	    android:layout_height="100dp"
-	    android:layout_alignParentBottom="true"
-	    android:background="@drawable/media_tool_bg1">
-	    
+
 	    
 	    <RelativeLayout 
 	    android:id="@+id/miniplayLayout" 
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true">		
+	    android:layout_alignParentBottom="true"
+		android:layout_marginBottom="10dp">
      
 	        <ImageButton 
 	        android:id="@+id/btn_play" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="70dp"
+	        android:layout_height="70dp"
 			android:layout_centerInParent="true"
 	        android:background="@drawable/selector_btn_play">
 	        </ImageButton>
 	        
             <ImageButton 
 	        android:id="@+id/btn_pause" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="210px"
+	        android:layout_height="210px"
 	        android:layout_centerInParent="true"
 			android:visibility="gone"
 	        android:background="@drawable/selector_btn_pause">
@@ -38,8 +32,8 @@
    
 	        <ImageButton 
 	        android:id="@+id/btn_playpre" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="180px"
+	        android:layout_height="180px"
 	        android:layout_toLeftOf="@id/btn_play"
 			android:layout_marginRight="20dp"
 	        android:layout_centerVertical="true"
@@ -48,8 +42,8 @@
 	        
 	        <ImageButton 
 	        android:id="@+id/btn_playnext" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="180px"
+	        android:layout_height="180px"
 	        android:layout_toRightOf="@id/btn_play"
 	 		android:layout_marginLeft="20dp"
 	        android:layout_centerVertical="true"
@@ -59,139 +53,129 @@
 	    </RelativeLayout>
 	
 	     
-	    <RelativeLayout 
+	    <RelativeLayout
+		android:id="@+id/rl_seekLayout"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
-	    android:layout_above="@id/miniplayLayout">		
-      
+	    android:layout_above="@id/miniplayLayout"
+		android:layout_marginLeft="15dp"
+		android:layout_marginRight="15dp"
+		android:layout_marginBottom="2dp">
+
+			<TextView
+				android:text="@string/init_time"
+				android:id="@+id/tv_curTime"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:textColor="@android:color/white"
+				android:textSize="10sp"
+				android:layout_alignParentLeft="true">
+			</TextView>
+
+
             <TextView 
-		    android:text="@string/init_time" 
+		    android:text="@string/init_time"
 		    android:id="@+id/tv_totalTime" 
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-		    android:layout_marginRight="10dp"
 		    android:layout_centerVertical="true"
 			android:textColor="@android:color/white"
-			android:textSize="20sp"
+			android:textSize="10sp"
 		    android:layout_alignParentRight="true">
 		    </TextView>
-		    
-            <TextView 
-		    android:text="@string/separate" 
-		    android:id="@+id/tv_line" 
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" 	
-		    android:layout_centerVertical="true"
-	    	android:textColor="@android:color/white"
-	    	android:textSize="20sp"
-		    android:layout_toLeftOf="@id/tv_totalTime">
-		    </TextView>
-              
-            <TextView 
-		    android:text="@string/init_time" 
-		    android:id="@+id/tv_curTime" 
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" 	
-		    android:layout_centerVertical="true"
-	    	android:textColor="@android:color/white"
-	    	android:textSize="20sp"
-		    android:layout_toLeftOf="@id/tv_line">
-		    </TextView>
-		    
 		  
            <SeekBar 
 	        android:id="@+id/playback_seeker"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"	  
 	        android:layout_centerVertical="true"
-	        android:layout_toLeftOf="@id/tv_curTime"
-	        android:layout_marginRight="10dp"
-	        android:paddingLeft="15.0dip" 
-		    android:paddingRight="15.0dip"
-	        android:maxHeight="55.0dip" 
-		    android:minHeight="55.0dip" 
+	        android:layout_toLeftOf="@id/tv_totalTime"
+			android:layout_toRightOf="@id/tv_curTime"
 	        android:max="100"
-	        android:thumbOffset="15dp"
+	        android:thumbOffset="5dp"
 	        android:progressDrawable="@drawable/seekbar_background"
 	        android:thumb="@drawable/seekbar_thumb"/> 
                	
 		</RelativeLayout>       
-			
-	</RelativeLayout>
+
 
 	
-	<com.geniusgithub.mediaplayer.player.music.VisualizerView
-        android:id="@+id/mp_freq_view"
-        android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_above="@id/down_toolview"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"/>
-	     
-	
-	<LinearLayout
-	    android:id="@+id/song_info_view"
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	   	android:layout_above="@id/down_toolview"
-	    android:gravity="center">
-	    
-	    <ImageView
-        android:id="@+id/iv_album"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/mp_music_default"
-        android:scaleType="centerInside"/>
-	    
-		    <LinearLayout
-		    android:layout_width="wrap_content" 
-		    android:layout_height="fill_parent"
-		   	android:orientation="vertical"
-		   	android:layout_marginLeft="20dp">
-           
-		        
-		          <TextView 
-		            android:id="@+id/tv_title" 
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content" 	
-			    	android:textColor="@android:color/white"
-			    	android:textSize="30sp">
-				    </TextView>
-				    
-		           <TextView 
-		            android:id="@+id/tv_album" 
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content" 	
-			    	android:textColor="@android:color/white"
-			    	android:textSize="18sp">
-		           </TextView>
-				    
-		            <TextView 
-		            android:id="@+id/tv_artist" 
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content" 	
-			    	android:textColor="@android:color/white"
-			    	android:textSize="18sp">
-				    </TextView>
-		        
-		    </LinearLayout>
-	    
-	    
-	</LinearLayout>
-    
-    <LinearLayout
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	   	android:layout_above="@id/down_toolview"
-	    android:gravity="center">
-	    
-	    <com.geniusgithub.mediaplayer.player.music.lrc.LyricView
-        android:id="@+id/lrc_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"/>
-	    
-	</LinearLayout>
+		<com.geniusgithub.mediaplayer.player.music.VisualizerView
+			android:id="@+id/mp_freq_view"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="15dp"
+			android:layout_marginRight="15dp"
+			android:layout_above="@id/rl_seekLayout"/>
+
+
+
+		<RelativeLayout
+			android:id="@+id/rl_centerLayout"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_above="@id/rl_seekLayout">
+
+
+			<LinearLayout
+				android:id="@+id/song_info_view"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:gravity="center">
+
+				<ImageView
+					android:id="@+id/iv_album"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/mp_music_default"
+					android:scaleType="centerInside"/>
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:layout_marginLeft="20dp">
+
+
+					<TextView
+						android:id="@+id/tv_title"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@android:color/white"
+						android:textSize="30sp">
+					</TextView>
+
+					<TextView
+						android:id="@+id/tv_album"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@android:color/white"
+						android:textSize="18sp">
+					</TextView>
+
+					<TextView
+						android:id="@+id/tv_artist"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textColor="@android:color/white"
+						android:textSize="18sp">
+					</TextView>
+
+				</LinearLayout>
+			</LinearLayout>
+
+
+			<com.geniusgithub.mediaplayer.player.music.lrc.LyricView
+				android:id="@+id/lrc_view"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_centerInParent="true"/>
+
+
+
+		</RelativeLayout>
+
     
 </RelativeLayout>
