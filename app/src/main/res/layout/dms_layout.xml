@@ -5,71 +5,14 @@
     android:orientation="vertical" 
     android:background="@color/window_background">
 
-   <LinearLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="60dp"
-    android:layout_marginTop="5dp"
-    android:orientation="horizontal" 
-    android:gravity="center">
-    
-        
-        <Button
-	    android:id="@+id/btn_search"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="5dp"
-	    android:layout_marginRight="5dp"
-	    android:layout_weight="1"
-	    android:text="Search"
-	    android:textSize="18sp"
-	    android:textColor="#dddddd"
-		android:theme="@style/BlueButton"/>
-	    
-	      
-	    <Button
-	    android:id="@+id/btn_reset"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="5dp"
-	    android:layout_marginRight="5dp"
-	    android:layout_weight="1"
-	    android:text="Restart"
-	    android:textSize="18sp"
-	    android:textColor="#dddddd"
-		android:theme="@style/BlueButton"/>
-	    
-	    
-	    <Button
-	    android:id="@+id/btn_stop"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="5dp"
-	    android:layout_marginRight="5dp"
-	    android:layout_weight="1"
-	    android:text="STOP"
-	    android:textSize="18sp"
-	    android:textColor="#dddddd"
-		android:theme="@style/BlueButton"/>
-        
-    </LinearLayout>
-  
-
-	<View android:layout_marginTop="5dp" android:layout_width="fill_parent"   android:layout_height="2dp"   android:background="#666666"></View>
-
 
 	<FrameLayout
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-			<ListView android:id="@+id/device_list"
-			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
-			  android:layout_marginLeft="5dp"
-			  android:layout_marginRight="5dp"
-			  android:layout_marginTop="10dp"
-			  android:fastScrollEnabled="true"
-			  android:cacheColorHint="#00000000"
-			  android:clickable="true"/>
+			<android.support.v7.widget.RecyclerView android:id="@+id/device_list"
+			android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"/>
 
 
 			<ListView android:id="@+id/content_list"

@@ -3,7 +3,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <!--   <item name="android:imageButtonStyle">@style/CustomImagebuttonStyle</item>-->
+           <item name="android:imageButtonStyle">@style/CustomImagebuttonStyle</item>
     </style>
 
     <!--
@@ -39,5 +39,38 @@
 
     <style name="GreenButton">
         <item name="android:colorButtonNormal">@color/colorPrimary</item>
+    </style>
+
+    <style name="leba_bg_base_layout">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">12.0dip</item>
+        <item name="android:paddingBottom">12.0dip</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="CardView">
+        <item name="cardBackgroundColor">#FFFFFFFF</item>
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardMaxElevation">4dp</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="cardPreventCornerOverlap">true</item>
+    </style>
+
+    <style name="DeviceCardStyle" parent="CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:baselineAligned">false</item>
+        <item name="cardCornerRadius">6dp</item>
+        <item name="cardBackgroundColor">#ffffff</item>
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 </resources>

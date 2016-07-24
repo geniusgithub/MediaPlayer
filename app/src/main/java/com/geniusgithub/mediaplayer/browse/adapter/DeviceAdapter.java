@@ -1,94 +1,130 @@
 package com.geniusgithub.mediaplayer.browse.adapter;
 
-import java.util.List;
-
-import org.cybergarage.upnp.Device;
-
-import com.geniusgithub.mediaplayer.R;
-
-
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
-public class DeviceAdapter extends BaseAdapter{
+import com.geniusgithub.mediaplayer.R;
 
-	private  List<Device> devices;
-	private LayoutInflater mInflater;
+import org.cybergarage.upnp.Device;
+
+import java.util.List;
+
+public class DeviceAdapter extends RecyclerView.Adapter<ViewHolder> implements DeviceItemViewHolder.onItemClickListener {
+
+
+    private final static String TAG = DeviceAdapter.class.getSimpleName();
 	private Context mContext;
-	
-	public DeviceAdapter(Context context, List<Device>  devices) {
-		mInflater = LayoutInflater.from(context);
-		this.devices = devices;
+    private  List<Device> devices;
+
+
+	public DeviceAdapter(Context context, List<Device>  devices){
+		super();
 		mContext = context;
+        this.devices = devices;
 	}
+
+    public void refreshDevices(List<Device> devices)
+    {
+
+        this.devices = devices;
+        notifyDataSetChanged();
+    }
+
+    public DeviceItemViewHolder.onItemClickListener mOnItemClickListener;
+    public void setOnItemClickListener(DeviceItemViewHolder.onItemClickListener listener){
+        mOnItemClickListener = listener;
+    }
+
+
+   @Override
+   public int getItemCount() {
+       int count = 0;
+       if (devices != null){
+           count = devices.size();
+       }
+
+      return count;
+   }
 	
-	public void refreshData(List<Device>  devices)
-	{
-		this.devices = devices;
-		notifyDataSetChanged();
+    public Object getItem(int position) {
+        if (devices == null) {
+            return null;
+        }
+        return devices.get(position);
+    }
+    
+    
+	
+	private final int NORMAL_DEVICE_TYPE = 0;
+	
+    @Override
+    public int getItemViewType(int position) {
+    	return NORMAL_DEVICE_TYPE;
+    }
+
+	@Override
+	public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        switch (getItemViewType(position)) {
+            case NORMAL_DEVICE_TYPE:
+                bindDeviceViewHolder(viewHolder, position);
+                break;
+            default:
+                bindDeviceViewHolder(viewHolder, position);
+                break;
+        }
+
 	}
 
+	@Override
+	public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-	/**
-	 * The number of items in the list is determined by the number of
-	 * speeches in our array.
-	 * 
-	 * @see android.widget.ListAdapter#getCount()
-	 */
-	public int getCount() {
-		return devices.size();
-	}
+		switch (viewType) {
+		case NORMAL_DEVICE_TYPE:
+			return createDeviceEntryViewHolder(viewGroup);
 
-	/**
-	 * Since the data comes from an array, just returning the index is
-	 * sufficent to get at the data. If we were using a more complex data
-	 * structure, we would return whatever object represents one row in the
-	 * list.
-	 * 
-	 * @see android.widget.ListAdapter#getItem(int)
-	 */
-	public Object getItem(int position) {
-		return devices.get(position);
-	}
-
-	/**
-	 * Use the array index as a unique id.
-	 * 
-	 * @see android.widget.ListAdapter#getItemId(int)
-	 */
-	public long getItemId(int position) {
-		return position;
-	}
-
-	/**
-	 * Make a view to hold each row.
-	 * 
-	 * @see android.widget.ListAdapter#getView(int, android.view.View,
-	 *      android.view.ViewGroup)
-	 */
-
-	public View getView(int position, View convertView, ViewGroup parent) {
-
-		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.device_list_item, null);
+		default:
+			break;
 		}
-		
-		Device dataItem = (Device) getItem(position);
-		TextView geckoView = (TextView)convertView.findViewById(R.id.ctrl_list_item_name);
-		geckoView.setText(dataItem.getFriendlyName());
-		TextView locationView = (TextView)convertView.findViewById(R.id.ctrl_list_item_location);
-		locationView.setText(dataItem.getLocation());
-		TextView uuidView = (TextView)convertView.findViewById(R.id.ctrl_list_item_uuid);
-		uuidView.setText(dataItem.getUDN());
-		TextView typeView = (TextView)convertView.findViewById(R.id.ctrl_list_item_type);
-		typeView.setText(dataItem.getDeviceType());
-		
-		return convertView;
+
+		return createDeviceEntryViewHolder(viewGroup);
 	}
 	
 	
+	
+    private ViewHolder createDeviceEntryViewHolder(ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View view = inflater.inflate(R.layout.device_list_item, parent, false);
+        DeviceItemViewHolder viewHolder = new DeviceItemViewHolder(view);
+        viewHolder.setOnItemClickListener(this);
+        return viewHolder;
+    }
+    
+    private void bindDeviceViewHolder(ViewHolder viewHolder, int position) {
+        Device device = (Device) getItem(position);
+        if (device == null) {
+            return;
+        }
+
+        DeviceItemViewHolder callLogListItemViewHolder = (DeviceItemViewHolder) viewHolder;
+        callLogListItemViewHolder.bindInfo(device);
+    }
+
+
+    @Override
+    public void onItemClick(Device device) {
+        if (mOnItemClickListener != null){
+            mOnItemClickListener.onItemClick(device);
+        }
+    }
+
+    @Override
+    public void onDetailClick(Device device)   {
+          if (mOnItemClickListener != null) {
+              mOnItemClickListener.onDetailClick(device);
+          }
+    }
 }

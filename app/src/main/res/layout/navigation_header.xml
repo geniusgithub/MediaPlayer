@@ -1,28 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="?attr/colorPrimary"
-              android:gravity="center"
-              android:orientation="vertical"
-              android:padding="16dp"
-              android:theme="@style/ThemeOverlay.AppCompat.Light">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/nav_head"/>
 
-    <TextView
-        android:id="@+id/tv_localAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="20sp"/>
+
+    <LinearLayout  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:padding="8dp"
+                  android:gravity="center"
+                  android:background="?attr/colorPrimary"
+                  android:theme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/nav_head"/>
+
+        <TextView
+            android:id="@+id/tv_localAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text=""
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="visible"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/window_background">
+
+            <LinearLayout
+                android:id="@+id/ll_search"
+                style="@style/leba_bg_base_layout" >
+                <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon" />
+                <TextView android:textSize="16.0dip" android:textColor="#ff333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="SEARCH" android:layout_weight="1.0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_restart"
+                style="@style/leba_bg_base_layout" >
+                <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon" />
+                <TextView android:textSize="16.0dip" android:textColor="#ff333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="RESET" android:layout_weight="1.0" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_stop"
+                style="@style/leba_bg_base_layout" >
+                <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon" />
+                <TextView android:textSize="16.0dip" android:textColor="#ff333333" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="STOP" android:layout_weight="1.0" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>

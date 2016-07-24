@@ -2,16 +2,18 @@ package com.geniusgithub.mediaplayer.browse.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
 import com.geniusgithub.mediaplayer.browse.IBrowsePresenter;
-import com.geniusgithub.mediaplayer.browse.adapter.ContentAdapter;
 import com.geniusgithub.mediaplayer.browse.adapter.DeviceAdapter;
+import com.geniusgithub.mediaplayer.browse.adapter.DeviceItemViewHolder;
+import com.geniusgithub.mediaplayer.browse.adapter.ContentAdapter;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
 import org.cybergarage.upnp.Device;
@@ -19,21 +21,19 @@ import org.cybergarage.upnp.Device;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BroswerView implements BrowsePresenter.IBrowseView,
-                                    View.OnClickListener{
+public class BroswerView implements BrowsePresenter.IBrowseView{
 
     private Context mContext;
-    private Button mBtnSearch;
-    private Button mBtnReset;
-    private Button mBtnStop;
 
-    private ListView mDevListView;
-    private ListView mContentListView;
+    private RecyclerView mDevListView;
     private DeviceAdapter mDevAdapter;
-    private ContentAdapter mContentAdapter;
-
-    private  OnContentItemClick mOnContentItemClick;
     private  OnDeviceItemClick mOnDeviceItemClick;
+    private LinearLayoutManager mLayoutManager;
+
+    private ListView mContentListView;
+    private ContentAdapter mContentAdapter;
+    private OnContentItemClick mOnContentItemClick;
+
 
     private ProgressDialog mProgressDialog;
 
@@ -51,45 +51,34 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
     }
 
     private void initView(View view){
-        mBtnSearch = (Button) view.findViewById(R.id.btn_search);
-        mBtnReset = (Button) view.findViewById(R.id.btn_reset);
-        mBtnStop = (Button) view.findViewById(R.id.btn_stop);
-        mBtnSearch.setOnClickListener(this);
-        mBtnReset.setOnClickListener(this);
-        mBtnStop.setOnClickListener(this);
 
-        mDevListView = (ListView) view.findViewById(R.id.device_list);
+        mDevListView = (RecyclerView) view.findViewById(R.id.device_list);
+        mDevListView.setHasFixedSize(true);
+        mDevListView.setNestedScrollingEnabled(false);
+        mLayoutManager = new LinearLayoutManager(mContext);
+        mDevListView.setLayoutManager(mLayoutManager);
+
+        mDevAdapter = new DeviceAdapter(mContext, new ArrayList<Device>());
         mOnDeviceItemClick = new OnDeviceItemClick();
-        mDevListView.setOnItemClickListener(mOnDeviceItemClick);
+        mDevAdapter.setOnItemClickListener(mOnDeviceItemClick);
+        mDevListView.setAdapter(mDevAdapter);
+
+
+
+
 
         mContentListView = (ListView) view.findViewById(R.id.content_list);
         mOnContentItemClick = new OnContentItemClick();
         mContentListView.setOnItemClickListener(mOnContentItemClick);
+        mContentAdapter = new ContentAdapter(mContext,  new ArrayList<MediaItem>());
+        mContentListView.setAdapter(mContentAdapter);
+
 
         mProgressDialog = new ProgressDialog(mContext);
         mProgressDialog.setMessage("Loading...");
 
-        mDevAdapter = new DeviceAdapter(mContext, new ArrayList<Device>());
-        mDevListView.setAdapter(mDevAdapter);
 
-        mContentAdapter = new ContentAdapter(mContext,  new ArrayList<MediaItem>());
-        mContentListView.setAdapter(mContentAdapter);
     }
-
-    @Override
-    public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.btn_search:
-                    mIBrowsePresenter.onSearch();
-                    break;
-                case R.id.btn_reset:
-                    mIBrowsePresenter.onReset();
-                     break;
-                case R.id.btn_stop:
-                    mIBrowsePresenter.onExit();
-                      break;
-            }
-     }
 
     @Override
     public void showProgress(boolean bShow)
@@ -101,11 +90,15 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
 
     }
 
-    private class OnDeviceItemClick implements AdapterView.OnItemClickListener{
+    private class OnDeviceItemClick  implements DeviceItemViewHolder.onItemClickListener{
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Device device = (Device) parent.getItemAtPosition(position);
+        public void onItemClick(Device device) {
             mIBrowsePresenter.enterDevice(device);
+        }
+
+        @Override
+        public void onDetailClick(Device device) {
+            mIBrowsePresenter.showDeviceDetail(device);
         }
     }
 
@@ -122,7 +115,7 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
     @Override
     public void updateDeviceList(List<Device> devices)
     {
-        mDevAdapter.refreshData(devices);
+        mDevAdapter.refreshDevices(devices);
     }
 
     @Override
@@ -134,6 +127,11 @@ public class BroswerView implements BrowsePresenter.IBrowseView,
     @Override
     public void showDeviceList(boolean bShow){
         mDevListView.setVisibility(bShow ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showDeviceDetail(Device device) {
+
     }
 
     @Override

@@ -22,11 +22,12 @@ import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.browse.ui.MediaServiceFragment;
+import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFrameActivity extends BaseActivity implements IToolBar{
+public class MainFrameActivity extends BaseActivity implements IToolBar, View.OnClickListener{
 
     public static final String TAG = "MainFrameActivity";
     public static final String TAG_DMS_FRAGMENT = "tag_dms_fragment";
@@ -44,10 +45,15 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
     private TabLayout.Tab mTabLibrary;
     private TabLayout.Tab mTabEmpty;
 
+    private View mSearch;
+    private View mRest;
+    private View mStop;
+
    // private TextView mTVLocalAddress;
 
     private MediaServiceFragment mMediaServiceFragment;
 
+    private AllShareProxy mAllShareProxy;
 
 
     @Override
@@ -75,6 +81,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
     }
 
     private void initData(){
+        mAllShareProxy = AllShareProxy.getInstance(this);
         String address = AllShareApplication.getInstance().getLocalAddress();
         updateLocalAddress(address);
     }
@@ -166,7 +173,15 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
                     }
                 });
 
+        View headView = navigationView.getHeaderView(0);
 
+        mSearch = headView.findViewById(R.id.ll_search);
+        mRest = headView.findViewById(R.id.ll_restart);
+        mStop = headView.findViewById(R.id.ll_stop);
+
+        mSearch.setOnClickListener(this);
+        mRest.setOnClickListener(this);
+        mStop.setOnClickListener(this);
     }
 
     public void updateLocalAddress(String address){
@@ -195,6 +210,21 @@ public class MainFrameActivity extends BaseActivity implements IToolBar{
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabsFromPagerAdapter(adapter);
         mViewPager.setOffscreenPageLimit(mTabLayout.getTabCount());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.ll_search:
+                mAllShareProxy.startSearch();
+                break;
+            case R.id.ll_restart:
+                mAllShareProxy.resetSearch();
+                break;
+            case R.id.ll_stop:
+                mAllShareProxy.exitSearch();
+                break;
+        }
     }
 
     private class MainFragmentAdapter extends FragmentPagerAdapter {

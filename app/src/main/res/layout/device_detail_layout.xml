@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingTop="15dp"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Manufact:" android:textSize="16.0dip" android:textColor="#ff888888"/>
+        <TextView android:id="@+id/tv_mfact" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Modelname:" android:textSize="16.0dip" android:textColor="#ff888888"/>
+        <TextView android:id="@+id/tv_mname" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Modeldesc:" android:textSize="16.0dip" android:textColor="#ff888888"/>
+        <TextView android:id="@+id/tv_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+        <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Desx.XML:" android:textSize="16.0dip" android:textColor="#ff888888"/>
+        <TextView android:id="@+id/tv_url"  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp">
+        <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="UDN:" android:textSize="16.0dip" android:textColor="#ff888888"/>
+        <TextView android:id="@+id/tv_udn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
+    </LinearLayout>
+
+</LinearLayout>

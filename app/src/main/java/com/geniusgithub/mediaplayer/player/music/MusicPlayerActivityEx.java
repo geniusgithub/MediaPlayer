@@ -18,6 +18,7 @@ public class MusicPlayerActivityEx extends BaseActivity {
     private MusicPlayerFragment mMusicPlayerFragment;
     private MenuItem mOptionItem;
 
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -74,6 +75,8 @@ public class MusicPlayerActivityEx extends BaseActivity {
         getFragmentManager().beginTransaction().add(R.id.content_container, mMusicPlayerFragment, TAG_MUSIC_FRAGMENT).commit();
 
         initToolBar();
+
+
     }
 
     private void initToolBar() {

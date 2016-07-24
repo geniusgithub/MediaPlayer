@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.geniusgithub.mediaplayer.DialogFactory;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.browse.model.ContentManager;
 import com.geniusgithub.mediaplayer.browse.proxy.BrowseDMSProxy;
@@ -48,6 +49,7 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
         public void updateDeviceList(List<Device> devices);
         public void updateItemList(List<MediaItem>  contentItem);
         public void showDeviceList(boolean bShow);
+        public void showDeviceDetail(Device device);
         public void showItemList(boolean bShow);
     }
 
@@ -117,13 +119,14 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
 
     @Override
     public void onPause() {
-
+        DialogFactory.closeAllDialog();
     }
 
     @Override
     public void onDestroy() {
         mBrocastFactory.unRegisterListener();
         mContentManager.clear();
+        DialogFactory.releaseDialogResource();
     }
 
     @Override
@@ -148,7 +151,6 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
 
     @Override
     public void onDeviceChange(boolean isSelDeviceChange) {
-
         updateDeviceList();
         if (mViewType != VIEW_DMS && isSelDeviceChange){
             mContentManager.clear();
@@ -181,24 +183,15 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
 
     ///////////////////////////////////////////////// presenter callback begin
     @Override
-    public void onSearch() {
-        mAllShareProxy.startSearch();
-    }
-
-    @Override
-    public void onReset() {
-        mAllShareProxy.resetSearch();
-    }
-
-    @Override
-    public void onExit() {
-        mAllShareProxy.exitSearch();
-    }
-
-    @Override
     public void enterDevice(Device device) {
         mAllShareProxy.setDMSSelectedDevice(device);
         requestDirectory();
+    }
+
+    @Override
+    public void showDeviceDetail(Device device) {
+        DialogFactory.popupDeviceDetailDialog(mFragmentInstance.getActivity(),  device);
+    //    mIBrowseView.showDeviceDetail(device);
     }
 
     @Override

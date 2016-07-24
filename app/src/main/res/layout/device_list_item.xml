@@ -1,45 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp">
-    <TextView android:id="@+id/ctrl_list_item_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        android:singleLine="true"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:text="@null" />
-    <TextView android:id="@+id/ctrl_list_item_location"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-    	android:textColor="@color/black"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:text="@null" />
-    <TextView android:id="@+id/ctrl_list_item_uuid"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-   		android:textColor="@color/black"
-        android:singleLine="true"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:text="@null"/>
-    <TextView android:id="@+id/ctrl_list_item_type"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        android:singleLine="true"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:text="@null"/>
+              android:id="@+id/device_list_item"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:layout_marginLeft="10dp"
+              android:layout_marginRight="10dp"
+              android:layout_marginTop="10dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        style="@style/DeviceCardStyle"
+        android:minHeight="70dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
+
+
+            <FrameLayout
+                android:id="@+id/fl_detail"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/device_details"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/fl_detail"
+                android:layout_marginLeft="5dp"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+                <TextView android:id="@+id/ctrl_list_item_name"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:textSize="20sp"
+                          android:textColor="@color/colorPrimary"
+                          android:singleLine="true"
+                          android:gravity="center_vertical"
+                          android:layout_centerVertical="true"
+                          android:text="@null" />
+                <TextView android:id="@+id/ctrl_list_item_ip"
+                          android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:textSize="14sp"
+                          android:textColor="@color/black"
+                          android:singleLine="true"
+                          android:gravity="center_vertical"
+                          android:layout_centerVertical="true"
+                          android:text="@null"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>
+
