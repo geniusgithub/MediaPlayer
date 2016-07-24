@@ -1,12 +1,16 @@
 package com.geniusgithub.mediaplayer.browse.ui;
 
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.geniusgithub.mediaplayer.activity.IToolBar;
 import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
 import com.geniusgithub.mediaplayer.browse.IBaseFragmentPresent;
@@ -34,9 +38,23 @@ public class MediaServiceFragment extends Fragment {
         return new BrowsePresenter();
     }
 
+    @TargetApi(23)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        onAttachToContext(context);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
+        }
+    }
+
+    protected void onAttachToContext(Context context) {
         mContext = context;
 
         mBrwsePresenter.onAttach(mContext);

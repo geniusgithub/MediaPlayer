@@ -86,9 +86,10 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         mIBrowseView = createBrosweView();
         mIBrowseView.bindPresent(this);
-        mAllShareProxy = AllShareProxy.getInstance(mContext.getApplicationContext());
+        mAllShareProxy = AllShareProxy.getInstance(mContext);
     }
 
     @Override

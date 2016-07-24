@@ -1,5 +1,7 @@
 package com.geniusgithub.mediaplayer.player.music;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -77,12 +80,25 @@ public class MusicPlayerFragment extends Fragment implements MediaPlayer.OnBuffe
 
 
 
-
+    @TargetApi(23)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        onAttachToContext(context);
 
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onAttachToContext(activity);
+        }
+    }
+
+    protected void onAttachToContext(Context context) {
+        mContext = context;
     }
 
     @Override
