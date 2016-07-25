@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
         <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Modeldesc:" android:textSize="16.0dip" android:textColor="#ff888888"/>
-        <TextView android:id="@+id/tv_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
+        <TextView  android:id="@+id/tv_desc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
     </LinearLayout>
 
 
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
         <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Desx.XML:" android:textSize="16.0dip" android:textColor="#ff888888"/>
-        <TextView android:id="@+id/tv_url"  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/black"/>
+        <TextView android:id="@+id/tv_url" android:autoLink="all" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16.0dip" android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
     <LinearLayout

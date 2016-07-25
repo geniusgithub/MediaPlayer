@@ -42,7 +42,7 @@ public class DeviceItemViewHolder extends RecyclerView.ViewHolder implements Vie
 		mDevice = dataItem;
 
 		mNameView.setText(dataItem.getFriendlyName());
-		mIPView.setText(dataItem.getInterfaceAddress());
+		mIPView.setText(dataItem.getHost());
 	}
 
 	public void setOnItemClickListener(onItemClickListener listener){
