@@ -366,7 +366,14 @@ public class Device implements org.cybergarage.http.HTTPRequestListener,
 
 		return "";
 	}
+	public String getHost(){
+		String location = getLocation();
+		if (location !=  null){
+			return HTTP.getHost(location);
+		}
 
+		return "";
+	}
 /*	public String getAbsoluteURL(String urlString) {
 		String baseURLStr = null;
 		String locationURLStr = null;

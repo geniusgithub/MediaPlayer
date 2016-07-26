@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/media_bacground">
+    android:layout_height="fill_parent">
 
 	    
 	    <RelativeLayout 
@@ -22,8 +21,8 @@
 	        
             <ImageButton 
 	        android:id="@+id/btn_pause" 
-	        android:layout_width="210px"
-	        android:layout_height="210px"
+	        android:layout_width="70dp"
+	        android:layout_height="70dp"
 	        android:layout_centerInParent="true"
 			android:visibility="gone"
 	        android:background="@drawable/selector_btn_pause">
@@ -32,8 +31,8 @@
    
 	        <ImageButton 
 	        android:id="@+id/btn_playpre" 
-	        android:layout_width="180px"
-	        android:layout_height="180px"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
 	        android:layout_toLeftOf="@id/btn_play"
 			android:layout_marginRight="20dp"
 	        android:layout_centerVertical="true"
@@ -42,8 +41,8 @@
 	        
 	        <ImageButton 
 	        android:id="@+id/btn_playnext" 
-	        android:layout_width="180px"
-	        android:layout_height="180px"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
 	        android:layout_toRightOf="@id/btn_play"
 	 		android:layout_marginLeft="20dp"
 	        android:layout_centerVertical="true"

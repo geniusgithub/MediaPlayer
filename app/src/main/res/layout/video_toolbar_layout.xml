@@ -6,9 +6,8 @@
 	<RelativeLayout 
 	    android:id="@+id/down_toolview"
 	    android:layout_width="fill_parent"
-	    android:layout_height="100dp"
-	    android:layout_alignParentBottom="true"
-	    android:background="@drawable/media_tool_bg1">
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true">
 	    
 	    <RelativeLayout 
 	    android:id="@+id/miniplayLayout" 
@@ -18,16 +17,16 @@
      
 	        <ImageButton 
 	        android:id="@+id/btn_play" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="70dp"
+	        android:layout_height="70dp"
 			android:layout_centerInParent="true"
 	        android:background="@drawable/selector_btn_play">
 	        </ImageButton>
 	        
             <ImageButton 
 	        android:id="@+id/btn_pause" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="70dp"
+	        android:layout_height="70dp"
 	        android:layout_centerInParent="true"
 			android:visibility="gone"
 	        android:background="@drawable/selector_btn_pause">
@@ -36,8 +35,8 @@
    
 	        <ImageButton 
 	        android:id="@+id/btn_playpre" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
 	        android:layout_toLeftOf="@id/btn_play"
 			android:layout_marginRight="20dp"
 	        android:layout_centerVertical="true"
@@ -46,8 +45,8 @@
 	        
 	        <ImageButton 
 	        android:id="@+id/btn_playnext" 
-	        android:layout_width="wrap_content" 
-	        android:layout_height="wrap_content"
+	        android:layout_width="60dp"
+	        android:layout_height="60dp"
 	        android:layout_toRightOf="@id/btn_play"
 	 		android:layout_marginLeft="20dp"
 	        android:layout_centerVertical="true"
@@ -104,12 +103,8 @@
 	        android:layout_centerVertical="true"
 	        android:layout_toLeftOf="@id/tv_curTime"
 	        android:layout_marginRight="10dp"
-	        android:paddingLeft="15.0dip" 
-		    android:paddingRight="15.0dip"
-	        android:maxHeight="55.0dip" 
-		    android:minHeight="55.0dip" 
 	        android:max="100"
-	        android:thumbOffset="15dp"
+	        android:thumbOffset="5dp"
 	        android:progressDrawable="@drawable/seekbar_background"
 	        android:thumb="@drawable/seekbar_thumb"/> 
                	
@@ -121,8 +116,7 @@
 	    android:id="@+id/up_toolview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="30dp"
-	    android:layout_alignParentTop="true"
-	    android:background="@drawable/media_tool_bg2">
+	    android:layout_alignParentTop="true">
 	    
 	    
 	        <TextView 

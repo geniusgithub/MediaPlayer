@@ -14,6 +14,7 @@
     </style>
 
     <style name="ActivityBaseTheme" parent="Base.Theme.Design">
+      <!--  <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>-->
     </style>
 
     <style name="Base.Theme.Design" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -26,6 +27,10 @@
     <style name="Theme.AppStartLoad" parent="android:Theme.Black.NoTitleBar.Fullscreen">
         <item name="android:windowBackground">@drawable/welcome</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
     </style>
 
     <style name="CustomImagebuttonStyle" parent="@android:style/Widget.DeviceDefault.Light.ImageButton">

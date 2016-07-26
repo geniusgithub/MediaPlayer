@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/window_background">
+    android:background="@drawable/media_bacground">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
+        app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     <FrameLayout
         android:id="@+id/content_container"
