@@ -34,7 +34,7 @@ import com.geniusgithub.mediaplayer.R;
 
 public class PermissionsUtil {
 
-    public static final String PHONE = permission.CALL_PHONE;
+    public static final String PHONE = permission.READ_PHONE_STATE;
     public static final String CONTACTS = permission.READ_CONTACTS;
     public static final String SMS = permission.SEND_SMS;
     public static final String LOCATION = permission.ACCESS_FINE_LOCATION;
@@ -53,7 +53,7 @@ public class PermissionsUtil {
         return android.os.Build.VERSION.SDK_INT;
     }
 
-    public static String[] sRequiredPermissions = new String[] {  STORAGE, MICROPHONE };
+    public static String[] sRequiredPermissions = new String[] {  STORAGE, MICROPHONE, PHONE};
     
 
 

@@ -45,7 +45,9 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		
 		  TCAgent.init(this);
 		  TCAgent.setReportUncaughtExceptions(true);
-		
+
+
+
 		boolean ret = CommonUtil.openWifiBrocast(this);
 
 	}

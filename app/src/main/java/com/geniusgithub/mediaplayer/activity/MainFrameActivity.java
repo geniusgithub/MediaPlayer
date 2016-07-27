@@ -161,14 +161,14 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
 
-                        switch (menuItem.getItemId()) {
+     /*                   switch (menuItem.getItemId()) {
                             case R.id.nav_start:
                                 break;
                             case R.id.nav_restart:
                                 break;
                             case R.id.nav_stop:
                                 break;
-                        }
+                        }*/
                         return true;
                     }
                 });

@@ -4,11 +4,11 @@
     >
 
     <!-- group:android.permission-group.PHONE -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!--
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ADD_VOICEMAIL"/>
     <uses-permission android:name="android.permission.USE_SIP"/>
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>

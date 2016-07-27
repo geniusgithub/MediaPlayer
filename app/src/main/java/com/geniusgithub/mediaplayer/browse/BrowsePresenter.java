@@ -3,6 +3,7 @@ package com.geniusgithub.mediaplayer.browse;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerActivityEx;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerFragment;
 import com.geniusgithub.mediaplayer.player.picture.PicturePlayerActivity;
-import com.geniusgithub.mediaplayer.player.video.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import org.cybergarage.upnp.Device;
@@ -283,10 +283,18 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
 
         MediaManager.getInstance().setVideoList(mCurItems);
 
-        Intent intent = new Intent();
+/*        Intent intent = new Intent();
         intent.setClass(mContext, VideoPlayerActivity.class);
         intent.putExtra(VideoPlayerActivity.PLAY_INDEX, position);
         MediaItemFactory.putItemToIntent(item, intent);
+        mContext.startActivity(intent);*/
+
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        String type = "video/* ";
+
+        Uri uri = Uri.parse(item.getRes());
+        intent.setDataAndType(uri, type);
         mContext.startActivity(intent);
     }
 

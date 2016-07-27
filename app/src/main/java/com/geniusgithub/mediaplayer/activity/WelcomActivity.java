@@ -84,6 +84,7 @@ public class WelcomActivity extends Activity {
 
 	private final int REQUEST_STORAGE_PERMISSION =  0X0001;
 	private final int REQUEST_AUDIORECORD_PERMISSION =  0X0002;
+	private final int REQUEST_PHONE_PERMISSION =  0X0003;
 	private void requestNecessaryRequiredPermissions(){
 		requestSpecialPermissions(PermissionsUtil.STORAGE, REQUEST_STORAGE_PERMISSION);
 	}
@@ -104,6 +105,9 @@ public class WelcomActivity extends Activity {
 				break;
 			case REQUEST_AUDIORECORD_PERMISSION:
 				doAudioRecordPermission(grantResults);
+				break;
+			case REQUEST_PHONE_PERMISSION:
+				doPhonePermission(grantResults);
 				break;
 			default:
 				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -132,6 +136,18 @@ public class WelcomActivity extends Activity {
 			dialog.show();
 		}else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
 			log.i("doAudioRecordPermission, is granted!!!" );
+			requestSpecialPermissions(PermissionsUtil.PHONE, REQUEST_PHONE_PERMISSION);
+		}
+
+	}
+
+	private void doPhonePermission(int[] grantResults){
+		if (grantResults[0] == PackageManager.PERMISSION_DENIED){
+			log.e("doPhonePermission is denied!!!" );
+			Dialog dialog = PermissionsUtil.createPermissionSettingDialog(this, "读电话权限");
+			dialog.show();
+		}else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+			log.i("doPhonePermission, is granted!!!" );
 			goMainActivity();
 		}
 
