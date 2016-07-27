@@ -49,7 +49,7 @@
                 android:id="@+id/ll_search"
                 style="@style/leba_bg_base_layout" >
                 <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon_search" />
-                <TextView android:textSize="16.0dip" android:textColor="@color/colorPrimary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="SEARCH" android:layout_weight="1.0" />
+                <TextView android:textSize="16.0dip" android:textColor="#3e3a39" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="SEARCH" android:layout_weight="1.0" />
 
             </LinearLayout>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/ll_restart"
                 style="@style/leba_bg_base_layout" >
                 <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon_reset" />
-                <TextView android:textSize="16.0dip" android:textColor="@color/colorPrimary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="RESET" android:layout_weight="1.0" />
+                <TextView android:textSize="16.0dip" android:textColor="#3e3a39" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="RESET" android:layout_weight="1.0" />
 
             </LinearLayout>
 
@@ -65,7 +65,7 @@
                 android:id="@+id/ll_stop"
                 style="@style/leba_bg_base_layout" >
                 <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon_stop" />
-                <TextView android:textSize="16.0dip" android:textColor="@color/colorPrimary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="STOP" android:layout_weight="1.0" />
+                <TextView android:textSize="16.0dip" android:textColor="#3e3a39" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="STOP" android:layout_weight="1.0" />
 
             </LinearLayout>
 
