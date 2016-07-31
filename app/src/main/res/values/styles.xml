@@ -24,9 +24,11 @@
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
-    <style name="Theme.AppStartLoad" parent="android:Theme.Black.NoTitleBar.Fullscreen">
+<!--    <style name="Theme.AppStartLoad" parent="android:Theme.Black.NoTitleBar.Fullscreen">-->
+    <style name="Theme.AppStartLoad" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/welcome</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">

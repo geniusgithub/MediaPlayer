@@ -3,7 +3,6 @@ package com.geniusgithub.mediaplayer.browse.ui;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,13 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.geniusgithub.mediaplayer.activity.BaseFragment;
 import com.geniusgithub.mediaplayer.activity.IToolBar;
 import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
 import com.geniusgithub.mediaplayer.browse.IBaseFragmentPresent;
 
 
 
-public class BrowserMediaFragment extends Fragment {
+public class BrowserMediaFragment extends BaseFragment {
 
     private static final String TAG = BrowserMediaFragment.class.getSimpleName();
 

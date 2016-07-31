@@ -23,10 +23,10 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
-import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerActivity;
+import com.geniusgithub.mediaplayer.activity.MusicPlayerActivity;
 import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerFragment;
-import com.geniusgithub.mediaplayer.player.picture.PicturePlayerActivity;
-import com.geniusgithub.mediaplayer.player.video.VideoPlayerActivity;
+import com.geniusgithub.mediaplayer.activity.PicturePlayerActivity;
+import com.geniusgithub.mediaplayer.activity.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import org.cybergarage.upnp.Device;

@@ -81,6 +81,15 @@
             android:value="91.com"
             />
 
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="579df54a67e58e15e10028a0" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
+
         <activity
             android:name=".activity.WelcomActivity"
             android:theme="@style/Theme.AppStartLoad"
@@ -111,7 +120,7 @@
         </activity>-->
 
         <activity
-            android:name=".player.music.ui.MusicPlayerActivity"
+            android:name=".activity.MusicPlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityBaseTheme">
@@ -124,7 +133,7 @@
         </activity>
 
         <activity
-            android:name=".player.video.VideoPlayerActivity"
+            android:name=".activity.VideoPlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -136,7 +145,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".player.picture.PicturePlayerActivity"
+            android:name=".activity.PicturePlayerActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             >

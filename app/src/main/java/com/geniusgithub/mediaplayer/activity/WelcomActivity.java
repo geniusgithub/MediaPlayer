@@ -1,19 +1,29 @@
 package com.geniusgithub.mediaplayer.activity;
-import android.app.Activity;
+
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.util.PermissionsUtil;
-
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
+import com.geniusgithub.mediaplayer.util.PermissionsUtil;
 
-public class WelcomActivity extends Activity {
+import org.cybergarage.util.AlwaysLog;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+public class WelcomActivity extends BaseActivity {
 
 	private static final CommonLog log = LogFactory.createLog();
 
@@ -69,11 +79,15 @@ public class WelcomActivity extends Activity {
 
 	private void goMainActivity(){
 
+
+
 		if (PermissionsUtil.hasNecessaryRequiredPermissions(this)){
 			Intent intent = new Intent();
 			intent.setClass(this, MainFrameActivity.class);
 			startActivity(intent);
 			finish();
+		/*	String deviceInfo = getDeviceInfo(this);
+			AlwaysLog.i(WelcomActivity.class.getSimpleName(), "deviceInfo = " + deviceInfo);*/
 		}else{
 			requestNecessaryRequiredPermissions();
 		}
@@ -149,8 +163,67 @@ public class WelcomActivity extends Activity {
 		}else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
 			log.i("doPhonePermission, is granted!!!" );
 			goMainActivity();
+
 		}
 
 	}
+
+
+/*
+	public static String getDeviceInfo(Context context) {
+		try {
+			org.json.JSONObject json = new org.json.JSONObject();
+			android.telephony.TelephonyManager tm = (android.telephony.TelephonyManager) context
+					.getSystemService(Context.TELEPHONY_SERVICE);
+			String device_id = null;
+			device_id = tm.getDeviceId();
+
+			String mac = null;
+			FileReader fstream = null;
+			try {
+				fstream = new FileReader("/sys/class/net/wlan0/address");
+			} catch (FileNotFoundException e) {
+				fstream = new FileReader("/sys/class/net/eth0/address");
+			}
+			BufferedReader in = null;
+			if (fstream != null) {
+				try {
+					in = new BufferedReader(fstream, 1024);
+					mac = in.readLine();
+				} catch (IOException e) {
+				} finally {
+					if (fstream != null) {
+						try {
+							fstream.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			json.put("mac", mac);
+			if (TextUtils.isEmpty(device_id)) {
+				device_id = mac;
+			}
+			if (TextUtils.isEmpty(device_id)) {
+				device_id = android.provider.Settings.Secure.getString(context.getContentResolver(),
+						android.provider.Settings.Secure.ANDROID_ID);
+			}
+			json.put("device_id", device_id);
+			return json.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+*/
+
 
 }

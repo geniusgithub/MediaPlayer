@@ -1,15 +1,4 @@
-package com.geniusgithub.mediaplayer.player.picture;
-
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
-
-import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.activity.BaseActivity;
-import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
-import com.geniusgithub.mediaplayer.util.CommonUtil;
-import com.geniusgithub.mediaplayer.util.FileHelper;
+package com.geniusgithub.mediaplayer.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,8 +9,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
+import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
+import com.geniusgithub.mediaplayer.player.picture.DownLoadHelper;
+import com.geniusgithub.mediaplayer.player.picture.FileManager;
+import com.geniusgithub.mediaplayer.player.picture.PictureControlCenter;
+import com.geniusgithub.mediaplayer.player.picture.PictureUtil;
+import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.CommonUtil;
+import com.geniusgithub.mediaplayer.util.FileHelper;
+import com.geniusgithub.mediaplayer.util.LogFactory;
+
 public class PicturePlayerActivity extends BaseActivity implements DownLoadHelper.IDownLoadCallback,
-																		PictureUtil.IScalCallback{
+		PictureUtil.IScalCallback {
 	private static final CommonLog log = LogFactory.createLog();
 	
 	public static final String PLAY_INDEX = "player_index";

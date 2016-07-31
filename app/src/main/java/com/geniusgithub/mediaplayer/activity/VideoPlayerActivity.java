@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.video;
+package com.geniusgithub.mediaplayer.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import com.geniusgithub.mediaplayer.player.VideoPlayEngineImpl;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
+import com.geniusgithub.mediaplayer.player.video.VideoControlCenter;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.dlna.DlnaUtils;

@@ -2,7 +2,6 @@ package com.geniusgithub.mediaplayer.player.music.ui;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -11,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.geniusgithub.mediaplayer.activity.BaseFragment;
 import com.geniusgithub.mediaplayer.browse.IBaseFragmentPresent;
 import com.geniusgithub.mediaplayer.player.music.presenter.MusicPlayerPresenter;
 
-public class MusicPlayerFragment extends Fragment {
+public class MusicPlayerFragment extends BaseFragment {
 
 
     public static final String PLAY_INDEX = "player_index";

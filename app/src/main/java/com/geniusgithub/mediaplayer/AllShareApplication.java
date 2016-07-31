@@ -10,6 +10,7 @@ import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.tendcloud.tenddata.TCAgent;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 
@@ -42,7 +43,11 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		
 		mAllShareProxy = AllShareProxy.getInstance(this);
 		mAllShareApplication = this;
-		
+
+
+		MobclickAgent.setDebugMode(true);
+
+
 		  TCAgent.init(this);
 		  TCAgent.setReportUncaughtExceptions(true);
 
@@ -88,14 +93,17 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 	}
 	
 	public static void onPause(Activity context){
+		MobclickAgent.onPause(context);
 		TCAgent.onPause(context);
 	}
 	
 	public static void onResume(Activity context){
+		MobclickAgent.onResume(context);
 		TCAgent.onResume(context);
 	}
 	
 	public static void onCatchError(Context context){
+
 		TCAgent.setReportUncaughtExceptions(true);
 	}
 	

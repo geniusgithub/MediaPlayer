@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music.ui;
+package com.geniusgithub.mediaplayer.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.activity.BaseActivity;
+import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerFragment;
 
 public class MusicPlayerActivity extends BaseActivity {
 
