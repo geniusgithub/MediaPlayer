@@ -19,15 +19,15 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.music.ImageUtils;
 import com.geniusgithub.mediaplayer.player.music.VisualizerView;
 import com.geniusgithub.mediaplayer.player.music.lrc.LyricView;
-import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
 import com.geniusgithub.mediaplayer.player.music.presenter.IMusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.presenter.MusicPlayerPresenter;
 
-import java.io.File;
+import org.cybergarage.util.AlwaysLog;
 
-public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, View.OnClickListener,
-                                         SeekBar.OnSeekBarChangeListener,Visualizer.OnDataCaptureListener {
-
+public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView,
+                                        View.OnClickListener,
+                                        SeekBar.OnSeekBarChangeListener {
+    private final static String TAG = MusicPlayerView.class.getSimpleName();
     private Context mContext;
     private IMusicPlayerPresenter mMsuciPlayerPresenter;
 
@@ -93,11 +93,13 @@ public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, V
         mBtnNext.setOnClickListener(this);
 
         mSeekBar = (SeekBar) rootView.findViewById(R.id.playback_seeker);
+        mSeekBar.setOnSeekBarChangeListener(this);
+
         mTVCurTime = (TextView) rootView.findViewById(R.id.tv_curTime);
         mTVTotalTime = (TextView) rootView.findViewById(R.id.tv_totalTime);
         mVisualizerView = (VisualizerView) rootView.findViewById(R.id.mp_freq_view);
         mIVAlbum = (ImageView) rootView.findViewById(R.id.iv_album);
-        setSeekbarListener(this);
+
 
 
         mHideDownTransformation = new TranslateAnimation(0.0f, 0.0f, 0.0f, 200.0f);
@@ -114,15 +116,21 @@ public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, V
 
 
     }
+
     @Override
     public void bindPresent(IMusicPlayerPresenter presenter) {
         mMsuciPlayerPresenter = presenter;
     }
 
-
     @Override
     public void showPlay(boolean bShow) {
-
+        if (bShow) {
+            mBtnPlay.setVisibility(View.VISIBLE);
+            mBtnPause.setVisibility(View.INVISIBLE);
+        } else {
+            mBtnPlay.setVisibility(View.INVISIBLE);
+            mBtnPause.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -146,12 +154,7 @@ public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, V
 
     @Override
     public void updateLyricView(MediaItem mMediaInfo) {
-        //     log.e("updateLyricView song:" + mMediaInfo.title + ", artist:" + mMediaInfo.artist);
-
         mLyricView.read(mMediaInfo.title, mMediaInfo.artist);
-        int pos = 0;
-        //      pos = mPlayerEngineImpl.getCurPosition();
-        //      refreshLyrc(pos);
     }
 
     @Override
@@ -179,6 +182,18 @@ public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, V
     }
 
     @Override
+    public void showLRCView(boolean bshow) {
+        lrcShow = bshow;
+        if (bshow) {
+            mLyricView.setVisibility(View.VISIBLE);
+            mSongInfoView.setVisibility(View.GONE);
+        } else {
+            mLyricView.setVisibility(View.GONE);
+            mSongInfoView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public void showPlayErrorTip() {
         Toast.makeText(mContext, R.string.toast_musicplay_fail, Toast.LENGTH_SHORT).show();
     }
@@ -188,6 +203,10 @@ public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, V
         mSeekBar.setMax(max);
     }
 
+    @Override
+    public void setSeekbarSecondProgress(int time) {
+        mSeekBar.setSecondaryProgress(time);
+    }
 
     @Override
     public void setTotalTime(int totalTime) {
@@ -195,41 +214,65 @@ public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, V
         mTVTotalTime.setText(timeString);
     }
 
+    @Override
+    public void refreshLyrc(int pos) {
+        if (pos > 0) {
+            mLyricView.setOffsetY(DRAW_OFFSET_Y - mLyricView.selectIndex(pos)
+                    * (mLyricView.getSIZEWORD() + LyricView.INTERVAL - 1));
+        } else {
+            mLyricView.setOffsetY(DRAW_OFFSET_Y);
+        }
+        mLyricView.invalidate();
+    }
+
+
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_play:
-                mMsuciPlayerPresenter.onPlay();
-                break;
-            case R.id.btn_pause:
-                mMsuciPlayerPresenter.onPause();
-                break;
-            case R.id.btn_playpre:
-                mMsuciPlayerPresenter.onPlayPre();
-                break;
-            case R.id.btn_playnext:
-                mMsuciPlayerPresenter.onPlayPre();
-                break;
+    public boolean isLRCViewShow() {
+        return lrcShow;
+    }
+
+    @Override
+    public void setSeekbarProgress(int time) {
+        if (!isSeekbarTouch) {
+            mSeekBar.setProgress(time);
+        }else{
+            AlwaysLog.e(TAG, "isSeekbarTouch = true, so ignore seek operator");
         }
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        setcurTime(progress);
+    public boolean isLoadViewShow() {
+        if (mLoadView.getVisibility() == View.VISIBLE ||
+                mPrepareView.getVisibility() == View.VISIBLE) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        isSeekbarTouch = true;
+    public void setSpeed(float speed) {
+        String showString = (int) speed + "KB/" + mContext.getResources().getString(R.string.second);
+        mTVPrepareSpeed.setText(showString);
+        mTVLoadSpeed.setText(showString);
     }
 
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        isSeekbarTouch = false;
-        seek(seekBar.getProgress());
+    public void updateAlbumPIC(Drawable drawable) {
+        Bitmap bitmap = ImageUtils.createRotateReflectedMap(mContext, drawable);
+        if (bitmap != null) {
+            mIVAlbum.setImageBitmap(bitmap);
+        }
     }
 
+
+
+    @Override
+    public void setcurTime(int curTime) {
+        String timeString = DlnaUtils.formateTime(curTime);
+        mTVCurTime.setText(timeString);
+    }
 
     @Override
     public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
@@ -242,125 +285,42 @@ public class MusicPlayerView implements MusicPlayerPresenter.IMusicPlayerView, V
     }
 
 
-    public void showLRCView(boolean bshow) {
-        lrcShow = bshow;
-        if (bshow) {
-            mLyricView.setVisibility(View.VISIBLE);
-            mSongInfoView.setVisibility(View.GONE);
-        } else {
-            mLyricView.setVisibility(View.GONE);
-            mSongInfoView.setVisibility(View.VISIBLE);
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_play:
+                mMsuciPlayerPresenter.onMusicPlay();
+                break;
+            case R.id.btn_pause:
+                mMsuciPlayerPresenter.onMusicPause();
+                break;
+            case R.id.btn_playpre:
+                mMsuciPlayerPresenter.onPlayPre();
+                break;
+            case R.id.btn_playnext:
+                mMsuciPlayerPresenter.onPlayNext();
+                break;
         }
     }
-
-    public boolean isLRCViewShow() {
-        return lrcShow;
-    }
-
-
-
-
-
 
     private boolean isSeekbarTouch = false;
-
-
-
-    public void setSeekbarProgress(int time) {
-        if (!isSeekbarTouch) {
-            mSeekBar.setProgress(time);
-        }
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        mMsuciPlayerPresenter.onSeekProgressChanged(seekBar, progress, fromUser);
     }
 
-
-    public void setSeekbarSecondProgress(int time) {
-        mSeekBar.setSecondaryProgress(time);
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        isSeekbarTouch = true;
+        mMsuciPlayerPresenter.onSeekStartTrackingTouch(seekBar);
     }
 
-
-
-    public void setcurTime(int curTime) {
-        String timeString = DlnaUtils.formateTime(curTime);
-        mTVCurTime.setText(timeString);
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        isSeekbarTouch = false;
+        mMsuciPlayerPresenter.onSeekStopTrackingTouch(seekBar);
     }
-
-
-
-
-    public void setSpeed(float speed) {
-        String showString = (int) speed + "KB/" + mContext.getResources().getString(R.string.second);
-        mTVPrepareSpeed.setText(showString);
-        mTVLoadSpeed.setText(showString);
-    }
-
-    public boolean isControlViewShow() {
-        return mControlView.getVisibility() == View.VISIBLE ? true : false;
-    }
-
-    public boolean isLoadViewShow() {
-        if (mLoadView.getVisibility() == View.VISIBLE ||
-                mPrepareView.getVisibility() == View.VISIBLE) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-
-
-
-    public void refreshLyrc(int pos) {
-        if (pos > 0) {
-            mLyricView.setOffsetY(DRAW_OFFSET_Y - mLyricView.selectIndex(pos)
-                    * (mLyricView.getSIZEWORD() + LyricView.INTERVAL - 1));
-        } else {
-            mLyricView.setOffsetY(DRAW_OFFSET_Y);
-        }
-        mLyricView.invalidate();
-    }
-
-    public void onLoadDrawableComplete(Drawable drawable) {
-        if (drawable == null) {
-            return;
-        }
-
-       updateAlbumPIC(drawable);
-
-    }
-
-    public void seek(int pos) {
-/*        mMusicControlCenter.skipTo(pos);*/
-        setSeekbarProgress(pos);
-
-    }
-
-    private boolean checkNeedDownLyric(MediaItem mediaInfo) {
-        String lyricPath = MusicUtils.getLyricFile(mediaInfo.title, mediaInfo.artist);
-        if (lyricPath != null) {
-            File f = new File(lyricPath);
-            if (f.exists()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-
-
-
-    private void setSeekbarListener(SeekBar.OnSeekBarChangeListener listener) {
-        mSeekBar.setOnSeekBarChangeListener(listener);
-    }
-
-    private void updateAlbumPIC(Drawable drawable) {
-        Bitmap bitmap = ImageUtils.createRotateReflectedMap(mContext, drawable);
-        if (bitmap != null) {
-            mIVAlbum.setImageBitmap(bitmap);
-        }
-    }
-
 
 }

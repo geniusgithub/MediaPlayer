@@ -14,8 +14,8 @@ import com.geniusgithub.mediaplayer.DialogFactory;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.browse.model.ContentManager;
 import com.geniusgithub.mediaplayer.browse.proxy.BrowseDMSProxy;
-import com.geniusgithub.mediaplayer.browse.ui.BroswerView;
-import com.geniusgithub.mediaplayer.browse.ui.MediaServiceFragment;
+import com.geniusgithub.mediaplayer.browse.ui.BrowserView;
+import com.geniusgithub.mediaplayer.browse.ui.BrowserMediaFragment;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -23,8 +23,8 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
-import com.geniusgithub.mediaplayer.player.music.MusicPlayerActivityEx;
-import com.geniusgithub.mediaplayer.player.music.MusicPlayerFragment;
+import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerActivity;
+import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerFragment;
 import com.geniusgithub.mediaplayer.player.picture.PicturePlayerActivity;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
@@ -56,7 +56,7 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
 
     private IBrowseView mIBrowseView;
     private IBrowseView createBrosweView(){
-        return new BroswerView();
+        return new BrowserView();
     }
     /////////////////////////////////////////////////
 
@@ -78,6 +78,11 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
     @Override
     public void bindFragment(Fragment fragment) {
         mFragmentInstance = fragment;
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+
     }
 
     @Override
@@ -250,8 +255,8 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
         }
 
         if (mFragmentInstance != null){
-            if (mFragmentInstance instanceof MediaServiceFragment){
-                ((MediaServiceFragment) mFragmentInstance).onViewSwitch(title);
+            if (mFragmentInstance instanceof BrowserMediaFragment){
+                ((BrowserMediaFragment) mFragmentInstance).onViewSwitch(title);
             }
         }
     }
@@ -274,7 +279,7 @@ public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
         MediaManager.getInstance().setMusicList(mCurItems);
 
         Intent intent = new Intent();
-        intent.setClass(mContext, MusicPlayerActivityEx.class);
+        intent.setClass(mContext, MusicPlayerActivity.class);
         intent.putExtra(MusicPlayerFragment.PLAY_INDEX, index);
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);

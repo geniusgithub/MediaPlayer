@@ -1,4 +1,5 @@
-package com.geniusgithub.mediaplayer.player.music.ui;
+package com.geniusgithub.mediaplayer.browse.ui;
+
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -10,24 +11,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.geniusgithub.mediaplayer.activity.IToolBar;
+import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
 import com.geniusgithub.mediaplayer.browse.IBaseFragmentPresent;
-import com.geniusgithub.mediaplayer.player.music.presenter.MusicPlayerPresenter;
 
-public class MusicPlayerFragmentEx extends Fragment {
 
+
+public class BrowserMediaFragment extends Fragment {
+
+    private static final String TAG = BrowserMediaFragment.class.getSimpleName();
 
     private Context mContext;
-    private IBaseFragmentPresent mMusicPlayerPresenter;
+    private IToolBar mExternToolbar;
 
-    public MusicPlayerFragmentEx() {
-        mMusicPlayerPresenter = createPresenter();
-        mMusicPlayerPresenter.bindFragment(this);
+    private IBaseFragmentPresent mBrwsePresenter;
+
+    public void bindToolbar(IToolBar toolbar){
+        mExternToolbar = toolbar;
     }
+
 
     public IBaseFragmentPresent createPresenter(){
-        return new MusicPlayerPresenter();
+        return new BrowsePresenter();
     }
-
 
     @TargetApi(23)
     @Override
@@ -47,35 +53,36 @@ public class MusicPlayerFragmentEx extends Fragment {
 
     protected void onAttachToContext(Context context) {
         mContext = context;
-
-        mMusicPlayerPresenter.onAttach(mContext);
+        mBrwsePresenter = createPresenter();
+        mBrwsePresenter.bindFragment(this);
+        mBrwsePresenter.onAttach(mContext);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mMusicPlayerPresenter.onCreate(savedInstanceState);
+        mBrwsePresenter.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return mMusicPlayerPresenter.onCreateView(inflater, container, savedInstanceState);
+        return mBrwsePresenter.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMusicPlayerPresenter.onViewCreated(view, savedInstanceState);
+        mBrwsePresenter.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        mMusicPlayerPresenter.onResume();
+        mBrwsePresenter.onResume();
     }
 
 
@@ -83,15 +90,28 @@ public class MusicPlayerFragmentEx extends Fragment {
     public void onPause() {
         super.onPause();
 
-        mMusicPlayerPresenter.onPause();
+        mBrwsePresenter.onPause();
     }
 
     @Override
     public void onDestroy() {
 
-        mMusicPlayerPresenter.onDestroy();
+        mBrwsePresenter.onDestroy();
 
         super.onDestroy();
+    }
+
+
+    public boolean back(){
+        return mBrwsePresenter.onBackPressed();
+    }
+
+
+
+    public void onViewSwitch(String title){
+        if (mExternToolbar != null){
+            mExternToolbar.updateToolTitle(title);
+        }
     }
 
 }

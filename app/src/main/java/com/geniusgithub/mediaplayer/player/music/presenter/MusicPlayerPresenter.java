@@ -2,33 +2,46 @@ package com.geniusgithub.mediaplayer.player.music.presenter;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.browse.IBaseFragmentPresent;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
+import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.MusicPlayEngineImpl;
 import com.geniusgithub.mediaplayer.player.PlayerEngineListener;
+import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.music.LoaderHelper;
 import com.geniusgithub.mediaplayer.player.music.MusicControlCenter;
 import com.geniusgithub.mediaplayer.player.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
 import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerView;
 import com.geniusgithub.mediaplayer.util.CommonLog;
+import com.geniusgithub.mediaplayer.util.CommonUtil;
+import com.geniusgithub.mediaplayer.util.FileHelper;
 import com.geniusgithub.mediaplayer.util.LogFactory;
+
+import org.cybergarage.util.AlwaysLog;
 
 import java.io.File;
 
-public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerPresenter,  LrcDownLoadHelper.ILRCDownLoadCallback{
+public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerPresenter, LrcDownLoadHelper.ILRCDownLoadCallback{
 
 
-
+    private final static String TAG = MusicPlayerPresenter.class.getSimpleName();
 
     /////////////////////////////////////////////////
     public static interface IMusicPlayerView{
@@ -40,9 +53,20 @@ public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerP
         public void updateLyricView(MediaItem itemInfo);
         public void updateMediaInfoView(MediaItem itemInfo);
         public void showLoadView(boolean bShow);
+        public void showLRCView(boolean bShow);
         public void showPlayErrorTip();
         public void setSeekbarMax(int max);
+        public void setSeekbarSecondProgress(int max);
         public void setTotalTime(int totalTime);
+        public void refreshLyrc(int pos);
+        public boolean isLRCViewShow();
+        public void setSeekbarProgress(int pos);
+        public boolean isLoadViewShow();
+        public void setSpeed(float speed);
+        public void updateAlbumPIC(Drawable drawable);
+        public void setcurTime(int curTime);
+        public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate);
+        public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate);
     }
 
 
@@ -70,6 +94,8 @@ public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerP
     private MusicPlayEngineListener mPlayEngineListener;
     private MusicControlCenter mMusicControlCenter;
 
+    private MediaPlayerListener mMediaPlayerListener;
+
     private MediaItem mMediaInfo = new MediaItem();
     private Handler mHandler;
 
@@ -86,6 +112,14 @@ public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerP
     @Override
     public void bindFragment(Fragment fragment) {
         mFragmentInstance = fragment;
+    }
+
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        log.e("onNewIntent");
+        refreshIntent(intent);
+
     }
 
     @Override
@@ -108,28 +142,13 @@ public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerP
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mIMusicPlayerView.bindView(mContext, view);
+
+        initData();
+        refreshIntent(mFragmentInstance.getActivity().getIntent());
     }
 
     @Override
     public void onResume() {
-
-    }
-
-
-
-    @Override
-    public void onDestroy() {
-
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        return false;
-    }
-
-
-    @Override
-    public void onPlay() {
 
     }
 
@@ -138,22 +157,170 @@ public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerP
 
     }
 
+
+    @Override
+    public void onDestroy() {
+        isDestroy = true;
+        mLrcDownLoadHelper.unInit();
+        mCheckDelayTimer.stopTimer();
+        mNetWorkTimer.stopTimer();
+        mPlayPosTimer.stopTimer();
+        mMusicControlCenter.exit();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+
+    ///////////////////////////////////////////////// presenter callback begin
+    @Override
+    public void onMusicPlay() {
+        AlwaysLog.i(TAG, "onMusicPlay");
+        mMusicControlCenter.replay();
+    }
+
+    @Override
+    public void onMusicPause() {
+        AlwaysLog.i(TAG, "onMusicPause");
+        mMusicControlCenter.pause();
+    }
+
     @Override
     public void onPlayPre() {
-
+        AlwaysLog.i(TAG, "onPlayPre");
+        mMusicControlCenter.prev();
     }
 
     @Override
     public void onPlayNext() {
-
+        AlwaysLog.i(TAG, "onPlayNext");
+        mMusicControlCenter.next();
     }
+
+    @Override
+    public void onSeekProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    //    AlwaysLog.i(TAG, "onSeekProgressChanged progress = " + progress);
+        mIMusicPlayerView.setcurTime(progress);
+    }
+
+    @Override
+    public void onSeekStartTrackingTouch(SeekBar seekBar) {
+        AlwaysLog.i(TAG, "onSeekStartTrackingTouch ");
+    }
+
+    @Override
+    public void onSeekStopTrackingTouch(SeekBar seekBar) {
+        AlwaysLog.i(TAG, "onSeekStopTrackingTouch ");
+        seek(seekBar.getProgress());
+    }
+    ///////////////////////////////////////////////// presenter callback end
 
 
     @Override
     public void lrcDownLoadComplete(boolean isSuccess, String song, String artist) {
+        if (isSuccess && song.equals(mMediaInfo.title) && artist.equals(mMediaInfo.artist)){
+            Message msg = mHandler.obtainMessage(UPDATE_LRC_VIEW);
+            msg.sendToTarget();
+        }
+    }
+
+
+    public void initData(){
+        mPlayPosTimer = new SingleSecondTimer(mContext);
+        mHandler = new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                switch(msg.what)
+                {
+                    case REFRESH_CURPOS:
+                        refreshCurPos();
+                        mIMusicPlayerView.refreshLyrc(mPlayerEngineImpl.getCurPosition());
+                        break;
+                    case REFRESH_SPEED:
+                        refreshSpeed();
+                        break;
+                    case CHECK_DELAY:
+                        checkDelay();
+                        break;
+                    case LOAD_DRAWABLE_COMPLETE:
+                        Object object = msg.obj;
+                        Drawable drawable = null;
+                        if (object != null){
+                            drawable = (Drawable) object;
+                        }
+                        onLoadDrawableComplete(drawable);
+                        break;
+                    case UPDATE_LRC_VIEW:
+                        updateLyricView(mMediaInfo);
+                        break;
+                }
+            }
+
+        };
+
+        mPlayPosTimer.setHandler(mHandler, REFRESH_CURPOS);
+
+        mNetWorkTimer = new SingleSecondTimer(mContext);
+        mNetWorkTimer.setHandler(mHandler, REFRESH_SPEED);
+        mCheckDelayTimer = new CheckDelayTimer(mContext);
+        mCheckDelayTimer.setHandler(mHandler, CHECK_DELAY);
+
+        mMediaPlayerListener = new MediaPlayerListener();
+
+        mPlayerEngineImpl = new MusicPlayEngineImpl(mContext);
+        mPlayerEngineImpl.setOnBuffUpdateListener(mMediaPlayerListener);
+        mPlayerEngineImpl.setOnSeekCompleteListener(mMediaPlayerListener);
+        mPlayerEngineImpl.setDataCaptureListener(mMediaPlayerListener);
+        mPlayEngineListener = new MusicPlayEngineListener();
+        mPlayerEngineImpl.setPlayerListener(mPlayEngineListener);
+
+        mMusicControlCenter = new MusicControlCenter(mContext);
+        mMusicControlCenter.bindMusicPlayEngine(mPlayerEngineImpl);
+
+
+        mNetWorkTimer.startTimer();
+        mCheckDelayTimer.startTimer();
+
+        mLrcDownLoadHelper = new LrcDownLoadHelper();
+        mLrcDownLoadHelper.init();
+
+        mIMusicPlayerView.showLRCView(false);
+
+        boolean ret = FileHelper.createDirectory(MusicUtils.getLyricDir());
+        log.i(" FileHelper.createDirectory:" + MusicUtils.getLyricDir() + ", ret = " + ret);
+    }
+
+
+    public void refreshIntent(Intent intent){
+
+        int curIndex = 0;
+        if (intent != null){
+            curIndex = intent.getIntExtra(PLAY_INDEX, 0);
+            mMediaInfo = MediaItemFactory.getItemFromIntent(intent);
+        }
+
+        AlwaysLog.i(TAG, "refreshIntent curIndex = " + curIndex);
+
+        mMusicControlCenter.updateMediaInfo(curIndex, MediaManager.getInstance().getMusicList());
+
+        mIMusicPlayerView.updateMediaInfoView(mMediaInfo);
+        mPlayerEngineImpl.playMedia(mMediaInfo);
+
+        mIMusicPlayerView.showPrepareLoadView(true);
+        mIMusicPlayerView.showLoadView(false);
+        mIMusicPlayerView.showControlView(false);
 
     }
 
+    private void seek(int pos) {
+        AlwaysLog.i(TAG, "seek pos =  " + pos);
+        mMusicControlCenter.skipTo(pos);
+        mIMusicPlayerView.setSeekbarProgress(pos);
+
+    }
 
     private boolean checkNeedDownLyric(MediaItem mediaInfo) {
         String lyricPath = MusicUtils.getLyricFile(mediaInfo.title, mediaInfo.artist);
@@ -167,6 +334,117 @@ public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerP
         return true;
     }
 
+/*    public void toggleLRCView() {
+        if (mIMusicPlayerView.isLRCViewShow()){
+            mIMusicPlayerView.showLRCView(false);
+        }else{
+            mIMusicPlayerView.showLRCView(true);
+        }
+
+    }*/
+
+    private void refreshCurPos(){
+        int pos = mPlayerEngineImpl.getCurPosition();
+
+        mIMusicPlayerView.setSeekbarProgress(pos);
+
+    }
+
+
+
+    private void refreshSpeed(){
+      //  if (mIMusicPlayerView.isLoadViewShow()){
+            float speed = CommonUtil.getSysNetworkDownloadSpeed();
+            mIMusicPlayerView.setSpeed(speed);
+     //   }
+    }
+
+    private void checkDelay(){
+        int pos = mPlayerEngineImpl.getCurPosition();
+
+        boolean ret = mCheckDelayTimer.isDelay(pos);
+        if (ret){
+            mIMusicPlayerView.showLoadView(true);
+        }else{
+            mIMusicPlayerView.showLoadView(false);
+        }
+
+        mCheckDelayTimer.setPos(pos);
+
+    }
+
+    public void onLoadDrawableComplete(Drawable drawable) {
+        if (isDestroy || drawable == null) {
+            return;
+        }
+
+        mIMusicPlayerView.updateAlbumPIC(drawable);
+
+    }
+
+    private void updateLyricView(MediaItem mMediaInfo) {
+        //     log.e("updateLyricView song:" + mMediaInfo.title + ", artist:" + mMediaInfo.artist);
+
+        mIMusicPlayerView.updateLyricView(mMediaInfo);
+        int pos = 0;
+        pos = mPlayerEngineImpl.getCurPosition();
+        mIMusicPlayerView.refreshLyrc(pos);
+    }
+
+
+    private class MediaPlayerListener implements  MediaPlayer.OnBufferingUpdateListener,
+                                                  MediaPlayer.OnErrorListener,
+                                                  SeekBar.OnSeekBarChangeListener,
+                                                    MediaPlayer.OnSeekCompleteListener,
+                                                   Visualizer.OnDataCaptureListener{
+
+        @Override
+        public void onBufferingUpdate(MediaPlayer mp, int percent) {
+            int duration = mPlayerEngineImpl.getDuration();
+            int time = duration * percent / 100;
+
+            mIMusicPlayerView.setSeekbarSecondProgress(time);
+        }
+
+        @Override
+        public boolean onError(MediaPlayer mp, int what, int extra) {
+            mIMusicPlayerView.showPlayErrorTip();
+            log.e("onError what = " + what + ", extra = " + extra);
+            return false;
+        }
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            mIMusicPlayerView.setcurTime(progress);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            seek(seekBar.getProgress());
+        }
+
+        @Override
+        public void onSeekComplete(MediaPlayer mp) {
+            log.i("onSeekComplete ...");
+        }
+
+        @Override
+        public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
+             mIMusicPlayerView.onWaveFormDataCapture(visualizer, waveform, samplingRate);
+        }
+
+        @Override
+        public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
+            mIMusicPlayerView.onFftDataCapture(visualizer, fft, samplingRate);
+        }
+
+
+    }
 
     private class MusicPlayEngineListener implements PlayerEngineListener {
 
@@ -206,12 +484,12 @@ public class MusicPlayerPresenter implements IBaseFragmentPresent, IMusicPlayerP
             mIMusicPlayerView.showControlView(false);
 
             mMediaInfo = itemInfo;
-            boolean need = checkNeedDownLyric(itemInfo);
-            log.e("checkNeedDownLyric need = " + need);
+         /*   boolean need = checkNeedDownLyric(itemInfo);
+            log.i("checkNeedDownLyric need = " + need);
             if (need) {
                 mLrcDownLoadHelper.syncDownLoadLRC(itemInfo.title, itemInfo.artist, MusicPlayerPresenter.this);
-            }
-            mIMusicPlayerView.updateLyricView(itemInfo);
+            }*/
+            updateLyricView(itemInfo);
         }
 
         @Override

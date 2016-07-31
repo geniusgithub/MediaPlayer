@@ -14,7 +14,7 @@ import com.geniusgithub.mediaplayer.util.LogFactory;
 
 public abstract class AbstractMediaPlayEngine implements IBasePlayEngine, OnCompletionListener,
 												OnPreparedListener, OnErrorListener{
-	
+	private final static String TAG = AbstractMediaPlayEngine.class.getSimpleName();
 	private static final CommonLog log = LogFactory.createLog();
 	
 	protected MediaPlayer   mMediaPlayer;					
@@ -99,6 +99,7 @@ public abstract class AbstractMediaPlayEngine implements IBasePlayEngine, OnComp
 			case PlayState.MPS_PLAYING:
 			case PlayState.MPS_PAUSE:				
 				int time2 = reviceSeekValue(time);
+			//	AlwaysLog.i(TAG, "mMediaPlayer.seekTo:" + time2);
 				mMediaPlayer.seekTo(time2);
 				break;
 			default:

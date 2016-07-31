@@ -21,7 +21,7 @@ import android.view.View;
 import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.browse.ui.MediaServiceFragment;
+import com.geniusgithub.mediaplayer.browse.ui.BrowserMediaFragment;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
 
    // private TextView mTVLocalAddress;
 
-    private MediaServiceFragment mMediaServiceFragment;
+    private BrowserMediaFragment mMediaServiceFragment;
 
     private AllShareProxy mAllShareProxy;
 
@@ -190,20 +190,18 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
 
     private void setupViewPager() {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-     //   mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
 
         List<String> titles = new ArrayList<String>();
         titles.add("LIBRARY");
-      //  titles.add("EMPTY");
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
-      //  mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
 
-        mMediaServiceFragment = new MediaServiceFragment(this);
+        mMediaServiceFragment = new BrowserMediaFragment();
+        mMediaServiceFragment.bindToolbar(this);
         List<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(mMediaServiceFragment);
-     //   fragments.add(new MediaServiceFragment());
+
         MainFragmentAdapter adapter = new MainFragmentAdapter(getFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
 

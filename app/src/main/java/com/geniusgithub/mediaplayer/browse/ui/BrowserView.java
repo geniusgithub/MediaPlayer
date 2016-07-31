@@ -21,7 +21,7 @@ import org.cybergarage.upnp.Device;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BroswerView implements BrowsePresenter.IBrowseView{
+public class BrowserView implements BrowsePresenter.IBrowseView{
 
     private Context mContext;
 

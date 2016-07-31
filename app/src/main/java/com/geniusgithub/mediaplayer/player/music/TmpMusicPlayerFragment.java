@@ -1,3 +1,4 @@
+/*
 package com.geniusgithub.mediaplayer.player.music;
 
 import android.annotation.TargetApi;
@@ -327,7 +328,8 @@ public class MusicPlayerFragment extends Fragment implements MediaPlayer.OnBuffe
 
     }
 
-    /*---------------------------------------------------------------------------*/
+---------------------------------------------------------------------------
+
     class UIManager implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, Visualizer.OnDataCaptureListener {
 
         public View mPrepareView;
@@ -725,3 +727,4 @@ public class MusicPlayerFragment extends Fragment implements MediaPlayer.OnBuffe
             }
         }
 }
+*/

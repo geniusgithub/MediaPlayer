@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music;
+package com.geniusgithub.mediaplayer.player.music.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.activity.BaseActivity;
 
-public class MusicPlayerActivityEx extends BaseActivity {
+public class MusicPlayerActivity extends BaseActivity {
 
     public static final String TAG_MUSIC_FRAGMENT = "tag_music_fragment";
     private Toolbar mToolbar;
@@ -23,7 +23,7 @@ public class MusicPlayerActivityEx extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        mMusicPlayerFragment.refreshIntent(intent);
+        mMusicPlayerFragment.onNewIntent(intent);
     }
 
     @Override
@@ -36,11 +36,6 @@ public class MusicPlayerActivityEx extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-
-
-
-
-
        return  super.onPrepareOptionsMenu(menu);
 
     }
@@ -52,10 +47,10 @@ public class MusicPlayerActivityEx extends BaseActivity {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.switch_lrc:
+/*              case R.id.switch_lrc:
                 mMusicPlayerFragment.toggleLRCView();
                 break;
-/*            case R.id.me_album:
+          case R.id.me_album:
                 mMusicPlayerFragment.switchLRCView(false);
                 break;
             case R.id.me_lrc:
