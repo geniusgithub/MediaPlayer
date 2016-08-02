@@ -1,7 +1,6 @@
 a MediaPlay  run in Android Platform 
 ===========
-MediaPlayer is a DLNA device(DMP) that can find DMS in Local Area Networkand ant play it native<br /> 
-It uses the library of dlna_framework
+MediaPlayer is the DLNA device(DMP), which can be in the search for DMS devices, browse resources and play locally
 
 Example screenshot below:
 
@@ -23,7 +22,7 @@ Code fragment
 
 
     public class DlnaService extends Service implements IBaseEngine,
-  												DeviceChangeListener,
+													DeviceChangeListener,
 													ControlCenterWorkThread.ISearchDeviceListener{
 	
 	private static final CommonLog log = LogFactory.createLog();
@@ -36,7 +35,7 @@ Code fragment
 	private  NetworkStatusChangeBR mNetworkStatusChangeBR;
 	
 	
-	private  ControlPoint mControlPoint;
+	private ControlPointImpl mControlPoint;
 	private  ControlCenterWorkThread mCenterWorkThread;
 	private  AllShareProxy mAllShareProxy;
 	private  Handler mHandler;
@@ -84,7 +83,7 @@ Code fragment
 	private void init(){
 		mAllShareProxy = AllShareProxy.getInstance(this);
 		
-		mControlPoint = new ControlPoint();
+		mControlPoint = new ControlPointImpl();
 		AllShareApplication.getInstance().setControlPoint(mControlPoint);
 		mControlPoint.addDeviceChangeListener(this);
 		mControlPoint.addSearchResponseListener(new SearchResponseListener() {		
@@ -109,6 +108,9 @@ Code fragment
 		};
 		
 		registerNetworkStatusBR();
+		
+		boolean ret = CommonUtil.openWifiBrocast(this);
+		log.e("openWifiBrocast = " + ret);
 	}
 	
 	private void unInit(){
@@ -150,6 +152,7 @@ Code fragment
 
 	@Override
 	public void deviceRemoved(Device dev) {
+		log.e("deviceRemoved dev = " + dev.getUDN());
 		mAllShareProxy.removeDevice(dev);
 	}
 	
@@ -184,15 +187,29 @@ Code fragment
 	@Override
 	public void onSearchComplete(boolean searchSuccess) {
 
-		if (!searchSuccess){
+/*		if (!searchSuccess){
 			sendSearchDeviceFailBrocast(this);
-		}
+		}*/
 	}
-	
-	public static final String SEARCH_DEVICES_FAIL = "com.geniusgithub.allshare.search_devices_fail";
+
+	@Override
+	public void onStartComplete(boolean startSuccess) {
+
+		mControlPoint.flushLocalAddress();
+		sendStartDeviceEventBrocast(this, startSuccess);
+	}
+
+/*	public static final String SEARCH_DEVICES_FAIL = "com.geniusgithub.allshare.search_devices_fail";
 	public static void sendSearchDeviceFailBrocast(Context context){
 		log.e("sendSearchDeviceFailBrocast");
 		Intent intent = new Intent(SEARCH_DEVICES_FAIL);
+		context.sendBroadcast(intent);
+	}*/
+
+	public static final String START_DEVICES_EVENT = "com.geniusgithub.allshare.start_devices_event";
+	public static void sendStartDeviceEventBrocast(Context context, boolean startSuccess){
+		log.e("sendStartDeviceEventBrocast startSuccess = " + startSuccess);
+		Intent intent = new Intent(START_DEVICES_EVENT);
 		context.sendBroadcast(intent);
 	}
 	
@@ -238,27 +255,26 @@ Code fragment
 		mHandler.sendEmptyMessageDelayed(NETWORK_CHANGE, 500);
 	}
 
-}
 
 
+   public class ControlCenterWorkThread extends Thread{
 
-    public class ControlCenterWorkThread extends Thread{
+	private final static String TAG = ControlCenterWorkThread.class.getSimpleName();
 
-	private static final CommonLog log = LogFactory.createLog();
-  
 	private static final int REFRESH_DEVICES_INTERVAL = 30 * 1000; 
 	
 	public static interface ISearchDeviceListener{
 		public void onSearchComplete(boolean searchSuccess);
+		public void onStartComplete(boolean startSuccess);
 	}
 	
-	private ControlPoint mCP = null;
+	private ControlPointImpl mCP = null;
 	private Context mContext = null;
 	private boolean mStartComplete = false;
 	private boolean mIsExit = false;
 	private ISearchDeviceListener mSearchDeviceListener;
 	
-	public ControlCenterWorkThread(Context context, ControlPoint controlPoint){
+	public ControlCenterWorkThread(Context context, ControlPointImpl controlPoint){
 		mContext = context;
 		mCP = controlPoint; 
 	}
@@ -291,7 +307,7 @@ Code fragment
 	
 	@Override
 	public void run() {
-		log.e("ControlCenterWorkThread run...");		
+		AlwaysLog.i(TAG, "ControlCenterWorkThread run...");
 		
 		while(true)
 		{
@@ -314,28 +330,31 @@ Code fragment
 				}				
 			}
 		}
-		
-		log.e("ControlCenterWorkThread over...");		
+
+		AlwaysLog.i(TAG, "ControlCenterWorkThread over...");
 	}
 	
 	private void refreshDevices(){
-		log.e("refreshDevices...");
+		AlwaysLog.d(TAG, "refreshDevices...");
 		if (!CommonUtil.checkNetworkState(mContext)){
 			return ;
 		}
 
 		try {
 			if (mStartComplete){
-				boolean searchRet = mCP.search();	
-				log.e("mCP.search() ret = "  + searchRet);
+				boolean searchRet = mCP.search();
+				AlwaysLog.i(TAG, "mCP.search() ret = "  + searchRet);
 				if (mSearchDeviceListener != null){
 					mSearchDeviceListener.onSearchComplete(searchRet);
 				}
 			}else{
 				boolean startRet = mCP.start();
-				log.e("mCP.start() ret = "  + startRet);
+				AlwaysLog.i(TAG, "mCP.start() ret = "  + startRet);
 				if (startRet){
 					mStartComplete = true;
+				}
+				if (mSearchDeviceListener != null){
+					mSearchDeviceListener.onStartComplete(startRet);
 				}
 			}
 		} catch (Exception e) {
@@ -347,11 +366,12 @@ Code fragment
 
 
 
-    }
+}
+
 
 Run requirements
 ------------------------------
-Android OS 4.4x and up<br />
+Android OS 5.0 and up<br />
 
 ## Acknowledgements
 The upnp framework is CyberGarage,fork from [CyberLink4Java](https://github.com/cybergarage/CyberLink4Java)!
