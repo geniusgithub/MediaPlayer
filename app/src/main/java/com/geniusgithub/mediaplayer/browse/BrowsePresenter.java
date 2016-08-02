@@ -12,10 +12,9 @@ import android.view.ViewGroup;
 
 import com.geniusgithub.mediaplayer.DialogFactory;
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.base.IBaseFragmentPresent;
 import com.geniusgithub.mediaplayer.browse.model.ContentManager;
 import com.geniusgithub.mediaplayer.browse.proxy.BrowseDMSProxy;
-import com.geniusgithub.mediaplayer.browse.ui.BrowserView;
-import com.geniusgithub.mediaplayer.browse.ui.BrowserMediaFragment;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -24,7 +23,7 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.activity.MusicPlayerActivity;
-import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerFragment;
+import com.geniusgithub.mediaplayer.player.music.MusicPlayerFragment;
 import com.geniusgithub.mediaplayer.activity.PicturePlayerActivity;
 import com.geniusgithub.mediaplayer.activity.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
@@ -35,7 +34,7 @@ import org.cybergarage.util.AlwaysLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrowsePresenter implements  IBaseFragmentPresent, IBrowsePresenter,
+public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
                                                 IDeviceChangeListener,
                                                 BrowseDMSProxy.BrowseRequestCallback{
 

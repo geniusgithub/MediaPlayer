@@ -1,9 +1,10 @@
 package com.geniusgithub.mediaplayer.player;
 
 import android.content.Context;
-import android.util.Log;
 
-public class CheckDelayTimer extends AbstractTimer{
+import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
+
+public class CheckDelayTimer extends AbstractTimer {
 
 	private int lastPos = 0;
 	

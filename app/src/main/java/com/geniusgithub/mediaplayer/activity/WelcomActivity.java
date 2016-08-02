@@ -1,27 +1,17 @@
 package com.geniusgithub.mediaplayer.activity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.base.BaseActivity;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.geniusgithub.mediaplayer.util.PermissionsUtil;
-
-import org.cybergarage.util.AlwaysLog;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Method;
 
 public class WelcomActivity extends BaseActivity {
 

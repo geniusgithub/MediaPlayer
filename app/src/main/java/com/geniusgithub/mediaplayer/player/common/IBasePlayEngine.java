@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player;
+package com.geniusgithub.mediaplayer.player.common;
 
 
 public interface IBasePlayEngine {

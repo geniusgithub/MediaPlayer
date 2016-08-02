@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.browse.ui;
+package com.geniusgithub.mediaplayer.browse;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,11 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
-import com.geniusgithub.mediaplayer.browse.IBrowsePresenter;
+import com.geniusgithub.mediaplayer.browse.adapter.ContentAdapter;
 import com.geniusgithub.mediaplayer.browse.adapter.DeviceAdapter;
 import com.geniusgithub.mediaplayer.browse.adapter.DeviceItemViewHolder;
-import com.geniusgithub.mediaplayer.browse.adapter.ContentAdapter;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
 import org.cybergarage.upnp.Device;

@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.browse;
+package com.geniusgithub.mediaplayer.base;
 
 import android.app.Fragment;
 import android.content.Context;

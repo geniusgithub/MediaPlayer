@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-import com.geniusgithub.mediaplayer.player.AbstractTimer;
-import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
+import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 

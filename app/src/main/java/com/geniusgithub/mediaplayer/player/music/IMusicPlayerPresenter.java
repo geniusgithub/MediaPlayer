@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music.presenter;
+package com.geniusgithub.mediaplayer.player.music;
 
 import android.widget.SeekBar;
 

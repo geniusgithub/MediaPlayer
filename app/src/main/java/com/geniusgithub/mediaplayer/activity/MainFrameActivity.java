@@ -21,8 +21,10 @@ import android.view.View;
 import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.browse.ui.BrowserMediaFragment;
+import com.geniusgithub.mediaplayer.IToolBar;
+import com.geniusgithub.mediaplayer.browse.BrowserMediaFragment;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -255,7 +257,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
 
     @Override
     public void onBackPressed() {
-        boolean back = mMediaServiceFragment.back();
+        boolean back = mMediaServiceFragment.onBackPressed();
         if (!back){
             super.onBackPressed();
         }

@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music.ui;
+package com.geniusgithub.mediaplayer.player.music;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,11 +16,8 @@ import android.widget.Toast;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.player.music.ImageUtils;
-import com.geniusgithub.mediaplayer.player.music.VisualizerView;
 import com.geniusgithub.mediaplayer.player.music.lrc.LyricView;
-import com.geniusgithub.mediaplayer.player.music.presenter.IMusicPlayerPresenter;
-import com.geniusgithub.mediaplayer.player.music.presenter.MusicPlayerPresenter;
+import com.geniusgithub.mediaplayer.player.music.util.ImageUtils;
 
 import org.cybergarage.util.AlwaysLog;
 

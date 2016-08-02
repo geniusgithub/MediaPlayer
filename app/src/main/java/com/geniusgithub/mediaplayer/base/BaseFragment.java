@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.activity;
+package com.geniusgithub.mediaplayer.base;
 
 import android.app.Fragment;
 

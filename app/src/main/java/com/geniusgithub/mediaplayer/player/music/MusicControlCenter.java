@@ -1,14 +1,13 @@
 package com.geniusgithub.mediaplayer.player.music;
 
-import java.util.List;
-
 import android.content.Context;
 
-import com.geniusgithub.mediaplayer.player.IMediaOperator;
-import com.geniusgithub.mediaplayer.player.MusicPlayEngineImpl;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.player.common.IMediaOperator;
 
-public class MusicControlCenter implements IMediaOperator{
+import java.util.List;
+
+public class MusicControlCenter implements IMediaOperator {
 
 	private Context mContext;
 	private int mCurPlayIndex = 0;

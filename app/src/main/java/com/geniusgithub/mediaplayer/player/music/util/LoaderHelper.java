@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music;
+package com.geniusgithub.mediaplayer.player.music.util;
 
 import android.graphics.drawable.Drawable;
 import android.os.Handler;

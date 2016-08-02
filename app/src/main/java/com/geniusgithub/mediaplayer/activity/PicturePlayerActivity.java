@@ -17,6 +17,7 @@ import com.geniusgithub.mediaplayer.player.picture.DownLoadHelper;
 import com.geniusgithub.mediaplayer.player.picture.FileManager;
 import com.geniusgithub.mediaplayer.player.picture.PictureControlCenter;
 import com.geniusgithub.mediaplayer.player.picture.PictureUtil;
+import com.geniusgithub.mediaplayer.base.BaseActivity;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.FileHelper;

@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music;
+package com.geniusgithub.mediaplayer.player.music.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;

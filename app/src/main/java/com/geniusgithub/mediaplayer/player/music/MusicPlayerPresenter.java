@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music.presenter;
+package com.geniusgithub.mediaplayer.player.music;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -15,20 +15,17 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.browse.IBaseFragmentPresent;
+import com.geniusgithub.mediaplayer.base.IBaseFragmentPresent;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
-import com.geniusgithub.mediaplayer.player.AbstractTimer;
+import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
-import com.geniusgithub.mediaplayer.player.MusicPlayEngineImpl;
 import com.geniusgithub.mediaplayer.player.PlayerEngineListener;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
-import com.geniusgithub.mediaplayer.player.music.LoaderHelper;
-import com.geniusgithub.mediaplayer.player.music.MusicControlCenter;
 import com.geniusgithub.mediaplayer.player.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
-import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerView;
+import com.geniusgithub.mediaplayer.player.music.util.LoaderHelper;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.FileHelper;

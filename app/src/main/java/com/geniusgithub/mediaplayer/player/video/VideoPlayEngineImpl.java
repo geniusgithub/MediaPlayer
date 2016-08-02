@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player;
+package com.geniusgithub.mediaplayer.player.video;
 
 
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.media.MediaPlayer.OnInfoListener;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.view.SurfaceHolder;
 
+import com.geniusgithub.mediaplayer.player.PlayState;
+import com.geniusgithub.mediaplayer.player.common.AbstractMediaPlayEngine;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;

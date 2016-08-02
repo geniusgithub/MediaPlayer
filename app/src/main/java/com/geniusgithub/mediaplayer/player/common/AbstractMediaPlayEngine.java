@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player;
+package com.geniusgithub.mediaplayer.player.common;
 
 
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
 
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.player.PlayState;
+import com.geniusgithub.mediaplayer.player.PlayerEngineListener;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 

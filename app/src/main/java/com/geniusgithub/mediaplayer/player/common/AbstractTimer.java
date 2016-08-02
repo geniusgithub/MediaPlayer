@@ -1,11 +1,11 @@
-package com.geniusgithub.mediaplayer.player;
-
-import java.util.Timer;
-import java.util.TimerTask;
+package com.geniusgithub.mediaplayer.player.common;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class AbstractTimer {
 

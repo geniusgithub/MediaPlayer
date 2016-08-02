@@ -2,13 +2,12 @@ package com.geniusgithub.mediaplayer.player.video;
 
 import android.content.Context;
 
-import com.geniusgithub.mediaplayer.player.IMediaOperator;
-import com.geniusgithub.mediaplayer.player.VideoPlayEngineImpl;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.player.common.IMediaOperator;
 
 import java.util.List;
 
-public class VideoControlCenter implements IMediaOperator{
+public class VideoControlCenter implements IMediaOperator {
 
 	private Context mContext;
 	private int mCurPlayIndex = 0;

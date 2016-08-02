@@ -23,13 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.activity.BaseActivity;
-import com.geniusgithub.mediaplayer.player.music.LoaderHelper;
-import com.geniusgithub.mediaplayer.player.AbstractTimer;
+import com.geniusgithub.mediaplayer.base.BaseActivity;
+import com.geniusgithub.mediaplayer.player.music.util.LoaderHelper;
+import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.PlayerEngineListener;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
-import com.geniusgithub.mediaplayer.player.VideoPlayEngineImpl;
+import com.geniusgithub.mediaplayer.player.video.VideoPlayEngineImpl;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;

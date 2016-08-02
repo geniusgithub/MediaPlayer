@@ -9,7 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.player.music.ui.MusicPlayerFragment;
+import com.geniusgithub.mediaplayer.player.music.MusicPlayerFragment;
+import com.geniusgithub.mediaplayer.base.BaseActivity;
 
 public class MusicPlayerActivity extends BaseActivity {
 
