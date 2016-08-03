@@ -109,4 +109,12 @@ public class MusicPlayerActivity extends BaseActivity {
 
         super.onDestroy();
     }
+
+    @Override
+    public void onBackPressed() {
+        boolean back = mMusicPlayerFragment.onBackPressed();
+        if (!back){
+            super.onBackPressed();
+        }
+    }
 }

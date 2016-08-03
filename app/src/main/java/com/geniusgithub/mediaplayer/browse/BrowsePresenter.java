@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 
 import com.geniusgithub.mediaplayer.DialogFactory;
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.activity.MusicPlayerActivity;
+import com.geniusgithub.mediaplayer.activity.PicturePlayerActivity;
+import com.geniusgithub.mediaplayer.activity.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.base.IBaseFragmentPresent;
 import com.geniusgithub.mediaplayer.browse.model.ContentManager;
 import com.geniusgithub.mediaplayer.browse.proxy.BrowseDMSProxy;
@@ -22,10 +25,8 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
-import com.geniusgithub.mediaplayer.activity.MusicPlayerActivity;
-import com.geniusgithub.mediaplayer.player.music.MusicPlayerFragment;
-import com.geniusgithub.mediaplayer.activity.PicturePlayerActivity;
-import com.geniusgithub.mediaplayer.activity.VideoPlayerActivity;
+import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
+import com.geniusgithub.mediaplayer.player.picture.PicturePlayPresenter;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import org.cybergarage.upnp.Device;
@@ -279,7 +280,7 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
 
         Intent intent = new Intent();
         intent.setClass(mContext, MusicPlayerActivity.class);
-        intent.putExtra(MusicPlayerFragment.PLAY_INDEX, index);
+        intent.putExtra(MusicPlayerPresenter.PLAY_INDEX, index);
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);
     }
@@ -313,7 +314,7 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
 
         Intent intent = new Intent();
         intent.setClass(mContext, PicturePlayerActivity.class);
-        intent.putExtra(PicturePlayerActivity.PLAY_INDEX, position);
+        intent.putExtra(PicturePlayPresenter.PLAY_INDEX, position);
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);
     }
