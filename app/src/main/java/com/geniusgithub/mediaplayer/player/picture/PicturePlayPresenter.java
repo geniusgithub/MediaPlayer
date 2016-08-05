@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -116,6 +117,10 @@ public class PicturePlayPresenter implements IBaseFragmentPresent, IPicturePlayP
         return false;
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return false;
+    }
 
 
     @Override

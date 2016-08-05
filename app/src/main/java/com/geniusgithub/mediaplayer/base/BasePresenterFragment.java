@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -80,15 +81,13 @@ public abstract  class BasePresenterFragment<T extends IBaseFragmentPresent> ext
         return mPresenter.onBackPressed();
     }
 
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return mPresenter.dispatchTouchEvent(ev);
+    }
+
     public void onNewIntent(Intent intent){
         mPresenter.onNewIntent(intent);
     }
-
-
-
-
-
-
 
 
 

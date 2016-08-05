@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.geniusgithub.common.util.AlwaysLog;
@@ -261,5 +262,10 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
         if (!back){
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
     }
 }

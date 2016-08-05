@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerFragment;
@@ -112,9 +113,11 @@ public class MusicPlayerActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        boolean back = mMusicPlayerFragment.onBackPressed();
-        if (!back){
-            super.onBackPressed();
-        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
     }
 }

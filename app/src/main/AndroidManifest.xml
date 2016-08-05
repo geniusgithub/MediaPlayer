@@ -133,22 +133,17 @@
         </activity>
 
         <activity
-            android:name=".activity.VideoPlayerActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            >
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
             android:name=".activity.PicturePlayerActivity"
             android:launchMode="singleTask"
             android:theme="@style/ActivityBaseTheme"
             >
+        </activity>
+
+        <activity
+            android:name=".activity.VideoPlayerActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="landscape" >
         </activity>
 
         <service

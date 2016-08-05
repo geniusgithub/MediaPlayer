@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,6 +28,7 @@ import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.picture.PicturePlayPresenter;
+import com.geniusgithub.mediaplayer.player.video.VideoPlayerPresenter;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import org.cybergarage.upnp.Device;
@@ -153,6 +155,11 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
             return true;
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         return false;
     }
 
@@ -300,7 +307,7 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
         }catch (Exception exception){
             Intent intent2 = new Intent();
             intent2.setClass(mContext, VideoPlayerActivity.class);
-            intent2.putExtra(VideoPlayerActivity.PLAY_INDEX, position);
+            intent2.putExtra(VideoPlayerPresenter.PLAY_INDEX, position);
             MediaItemFactory.putItemToIntent(item, intent2);
             mContext.startActivity(intent2);
         }
