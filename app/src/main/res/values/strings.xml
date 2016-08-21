@@ -7,6 +7,10 @@
     <string name="open" >打开</string>
     <string name="close" >关闭</string>
 
+    <string name="status_started" >已开启</string>
+    <string name="status_starting" >正在启动</string>
+    <string name="status_stop" >已关闭</string>
+
     <string name="tab_library">LIBRARY</string>
 
     <string name="second">S</string>

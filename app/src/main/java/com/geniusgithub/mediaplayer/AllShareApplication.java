@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
+import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
@@ -14,10 +15,31 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 
-
+/*
+                   _ooOoo_
+                  o8888888o
+                  88" . "88
+                  (| -_- |)
+                  O\  =  /O
+               ____/`---'\____
+             .'  \\|     |//  `.
+            /  \\|||  :  |||//  \
+           /  _||||| -:- |||||-  \
+           |   | \\\  -  /// |   |
+           | \_|  ''\---/''  |   |
+           \  .-\__  `-`  ___/-. /
+         ___`. .'  /--.--\  `. . __
+      ."" '<  `.___\_<|>_/___.'  >'"".
+     | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+     \  \ `-.   \_ __\ /__ _/   .-` /  /
+======`-.____`-.___\_____/___.-`____.-'======
+                   `=---='
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         佛祖保佑       永无BUG
+*/
 /**
  * @author lance
- * @csdn  http://blog.csdn.net/geniuseoe2012
+ * @cnblog http://www.cnblogs.com/lance2016/
  * @github https://github.com/geniusgithub
  */
 public class AllShareApplication extends Application implements ItatisticsEvent{
@@ -30,7 +52,10 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 	
 	private static AllShareApplication mAllShareApplication;
 
+	private int mContropPointStatus = IControlPointStatu.STATUS_SOTP;
+
 	private boolean mEnterMain = false;
+
 	
 	public static AllShareApplication getInstance(){
 		return mAllShareApplication;
@@ -56,6 +81,19 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		boolean ret = CommonUtil.openWifiBrocast(this);
 
 	}
+
+	public synchronized void updateControlStauts(int stauts){
+		if (mContropPointStatus != stauts){
+			mContropPointStatus = stauts;
+			ControlStatusChangeBrocastFactory.sendControlStatusChangeBrocast(this, mContropPointStatus);
+		}
+
+	}
+
+	public synchronized int getControlStatus(){
+		return mContropPointStatus;
+	}
+
 
 	public void setStatus(boolean flag){
 		mEnterMain = flag;

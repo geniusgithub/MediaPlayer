@@ -12,6 +12,7 @@ import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import org.cybergarage.upnp.Device;
+import org.cybergarage.util.AlwaysLog;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class AllShareProxy implements IDeviceOperator,
 										IDeviceOperator.IDMSDeviceOperator{
 
 	private static final CommonLog log = LogFactory.createLog();
-
+	private final static String TAG = AllShareProxy.class.getSimpleName();
 	
 	private static  AllShareProxy instance;
 	private Context mContext;
@@ -62,6 +63,7 @@ public class AllShareProxy implements IDeviceOperator,
 	@Override
 	public void addDevice(Device d) {
 	    if (UpnpUtil.isMediaServerDevice(d)){
+			AlwaysLog.i(TAG, "addDevice dev = " + d.getUDN());
 			dmsMediaMng.addDevice(d);
 		}
 	}
@@ -69,12 +71,14 @@ public class AllShareProxy implements IDeviceOperator,
 	@Override
 	public void removeDevice(Device d) {
 		if (UpnpUtil.isMediaServerDevice(d)){
+			AlwaysLog.i(TAG, "removeDevice dev = " + d.getUDN());
 			dmsMediaMng.removeDevice(d);
 		}
 	}
 
 	@Override
 	public void clearDevice() {
+		AlwaysLog.i(TAG, "clearDevice dev ");
 		dmsMediaMng.clear();
 	}
 

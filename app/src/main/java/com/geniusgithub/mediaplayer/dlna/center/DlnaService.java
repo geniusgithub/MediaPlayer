@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.os.Message;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
+import com.geniusgithub.mediaplayer.IControlPointStatu;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonLog;
@@ -21,13 +22,15 @@ import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.device.DeviceChangeListener;
 import org.cybergarage.upnp.device.SearchResponseListener;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
+import org.cybergarage.util.AlwaysLog;
 
 public class DlnaService extends Service implements IBaseEngine,
 													DeviceChangeListener,
 													ControlCenterWorkThread.ISearchDeviceListener{
 	
 	private static final CommonLog log = LogFactory.createLog();
-	
+	private static final String TAG = DlnaService.class.getSimpleName();
+
 	public static final String SEARCH_DEVICES = "com.geniusgithub.allshare.search_device";
 	public static final String RESET_SEARCH_DEVICES = "com.geniusgithub.allshare.reset_search_device";
 	
@@ -51,7 +54,7 @@ public class DlnaService extends Service implements IBaseEngine,
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		log.e("DlnaService onCreate");
+		AlwaysLog.i(TAG, "DlnaService onCreate");
 		init();
 	}
 	
@@ -111,19 +114,22 @@ public class DlnaService extends Service implements IBaseEngine,
 		registerNetworkStatusBR();
 		
 		boolean ret = CommonUtil.openWifiBrocast(this);
-		log.e("openWifiBrocast = " + ret);
+		AlwaysLog.i(TAG, "openWifiBrocast = " + ret);
 	}
 	
 	private void unInit(){
 		unRegisterNetworkStatusBR();
+		stopEngine();
 		AllShareApplication.getInstance().setControlPoint(null);
-		mCenterWorkThread.setSearchListener(null);
-		mCenterWorkThread.exit();
 	}
 
 	
 	@Override
 	public boolean startEngine() {
+		AlwaysLog.i(TAG, "startEngine");
+		if (AllShareApplication.getInstance().getControlStatus() != IControlPointStatu.STATUS_STARTED){
+			AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_STARTING);
+		}
 		awakeWorkThread();
 		return true;
 	}
@@ -131,6 +137,7 @@ public class DlnaService extends Service implements IBaseEngine,
 
 	@Override
 	public boolean stopEngine() {
+		AlwaysLog.i(TAG, "stopEngine");
 		exitWorkThread();
 		return true;
 	}
@@ -138,7 +145,12 @@ public class DlnaService extends Service implements IBaseEngine,
 
 	@Override
 	public boolean restartEngine() {
-		mCenterWorkThread.reset();
+		AlwaysLog.i(TAG, "restartEngine");
+		AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_STARTING);
+
+		mCenterWorkThread.setCompleteFlag(false);
+		awakeWorkThread();
+
 		return true;
 	}
 
@@ -153,7 +165,6 @@ public class DlnaService extends Service implements IBaseEngine,
 
 	@Override
 	public void deviceRemoved(Device dev) {
-		log.e("deviceRemoved dev = " + dev.getUDN());
 		mAllShareProxy.removeDevice(dev);
 	}
 	
@@ -197,7 +208,20 @@ public class DlnaService extends Service implements IBaseEngine,
 	public void onStartComplete(boolean startSuccess) {
 
 		mControlPoint.flushLocalAddress();
-		sendStartDeviceEventBrocast(this, startSuccess);
+	//	sendStartDeviceEventBrocast(this, startSuccess);
+		AlwaysLog.i(TAG, "onStartComplete startSuccess = " + startSuccess);
+		if (startSuccess){
+			AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_STARTED);
+		}else{
+
+		}
+
+	}
+
+	@Override
+	public void onStopComplete() {
+		AlwaysLog.i(TAG, "onStopComplete");
+		AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_SOTP);
 	}
 
 /*	public static final String SEARCH_DEVICES_FAIL = "com.geniusgithub.allshare.search_devices_fail";
@@ -207,12 +231,12 @@ public class DlnaService extends Service implements IBaseEngine,
 		context.sendBroadcast(intent);
 	}*/
 
-	public static final String START_DEVICES_EVENT = "com.geniusgithub.allshare.start_devices_event";
+/*	public static final String START_DEVICES_EVENT = "com.geniusgithub.allshare.start_devices_event";
 	public static void sendStartDeviceEventBrocast(Context context, boolean startSuccess){
 		log.e("sendStartDeviceEventBrocast startSuccess = " + startSuccess);
 		Intent intent = new Intent(START_DEVICES_EVENT);
 		context.sendBroadcast(intent);
-	}
+	}*/
 	
 	private class NetworkStatusChangeBR extends BroadcastReceiver{
 

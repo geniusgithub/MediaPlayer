@@ -16,6 +16,7 @@ public class ControlCenterWorkThread extends Thread{
 	public static interface ISearchDeviceListener{
 		public void onSearchComplete(boolean searchSuccess);
 		public void onStartComplete(boolean startSuccess);
+		public void onStopComplete();
 	}
 	
 	private ControlPointImpl mCP = null;
@@ -63,6 +64,9 @@ public class ControlCenterWorkThread extends Thread{
 		{
 			if (mIsExit){
 				mCP.stop();
+				if (mSearchDeviceListener != null){
+					mSearchDeviceListener.onStopComplete();
+				}
 				break;
 			}
 			

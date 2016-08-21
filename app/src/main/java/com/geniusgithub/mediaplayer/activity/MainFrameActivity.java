@@ -15,24 +15,30 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
-import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.IControlPointStatu;
 import com.geniusgithub.mediaplayer.IToolBar;
-import com.geniusgithub.mediaplayer.browse.BrowserMediaFragment;
-import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
+import com.geniusgithub.mediaplayer.browse.BrowserMediaFragment;
+import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
+import com.geniusgithub.mediaplayer.dlna.model.IStatusChangeListener;
+import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFrameActivity extends BaseActivity implements IToolBar, View.OnClickListener{
+public class MainFrameActivity extends BaseActivity implements IToolBar, View.OnClickListener, IStatusChangeListener {
 
-    public static final String TAG = "MainFrameActivity";
+    public static final String TAG = MainFrameActivity.class.getSimpleName();
     public static final String TAG_DMS_FRAGMENT = "tag_dms_fragment";
 
     private Context mContext;
@@ -52,12 +58,13 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
     private View mRest;
     private View mStop;
 
-   // private TextView mTVLocalAddress;
+    private TextView mTVLocalAddress;
 
     private BrowserMediaFragment mMediaServiceFragment;
 
     private AllShareProxy mAllShareProxy;
 
+    private ControlStatusChangeBrocastFactory mBrocastFactory;
 
     @Override
     public void updateToolTitle(String title) {
@@ -72,6 +79,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
         mResource = mContext.getResources();
         initView();
         initData();
+
     }
 
 
@@ -83,10 +91,11 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
         AllShareApplication.getInstance().setStatus(true);
     }
 
-    private void initData(){
+    private void initData() {
         mAllShareProxy = AllShareProxy.getInstance(this);
-        String address = AllShareApplication.getInstance().getLocalAddress();
-        updateLocalAddress(address);
+        mBrocastFactory = new ControlStatusChangeBrocastFactory(this);
+        mBrocastFactory.registerListener(this);
+        updateLocalAddress();
     }
 
     private void initToolBar() {
@@ -104,7 +113,9 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
     }
 
     private void initDrawLayout() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close) {
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -120,9 +131,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
                 AlwaysLog.i(TAG, "onDrawerClosed");
             }
         };
-
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer);
+        mDrawerToggle.syncState();
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 
@@ -134,23 +143,37 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
 
     }
 
+
+/*
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.findItem(R.id.item_setting);
+        menuItem.setIcon(R.drawable.device_details);
+        return true;
+    }
+*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == android.R.id.home) {
-            toggleDrawLayout();
-
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                toggleDrawLayout();
+                return true;
+            case R.id.item_setting:
+                Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void toggleDrawLayout(){
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+    private void toggleDrawLayout() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawers();
-        }else{
+        } else {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
 
@@ -177,7 +200,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
                 });
 
         View headView = navigationView.getHeaderView(0);
-
+        mTVLocalAddress = (TextView) headView.findViewById(R.id.tv_localAddress);
         mSearch = headView.findViewById(R.id.ll_search);
         mRest = headView.findViewById(R.id.ll_restart);
         mStop = headView.findViewById(R.id.ll_stop);
@@ -187,8 +210,26 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
         mStop.setOnClickListener(this);
     }
 
-    public void updateLocalAddress(String address){
-    //    mTVLocalAddress.setText(address);
+    public void updateLocalAddress() {
+        updateLocalAddress(AllShareApplication.getInstance().getControlStatus());
+    }
+
+    public void updateLocalAddress(int status) {
+        String value = mContext.getResources().getString(R.string.status_stop);
+        switch(status){
+            case IControlPointStatu.STATUS_SOTP:
+                value = mContext.getResources().getString(R.string.status_stop);
+                break;
+            case IControlPointStatu.STATUS_STARTED:
+                value = mContext.getResources().getString(R.string.status_started);
+                value += "(" + AllShareApplication.getInstance().getLocalAddress() + ")";
+                break;
+            case IControlPointStatu.STATUS_STARTING:
+                value = mContext.getResources().getString(R.string.status_starting);
+                break;
+        }
+
+        mTVLocalAddress.setText(value);
     }
 
     private void setupViewPager() {
@@ -215,7 +256,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.ll_search:
                 mAllShareProxy.startSearch();
                 break;
@@ -226,6 +267,24 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
                 mAllShareProxy.exitSearch();
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+
+    }
+
+    @Override
+    public void onStatusChange(int status) {
+        updateLocalAddress(status);
     }
 
     private class MainFragmentAdapter extends FragmentPagerAdapter {
@@ -259,7 +318,7 @@ public class MainFrameActivity extends BaseActivity implements IToolBar, View.On
     @Override
     public void onBackPressed() {
         boolean back = mMediaServiceFragment.onBackPressed();
-        if (!back){
+        if (!back) {
             super.onBackPressed();
         }
     }
