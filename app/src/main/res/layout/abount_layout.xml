@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" 
+    android:background="@color/window_background"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+
+   <LinearLayout 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:gravity="center">
+       
+          <ImageView
+          android:layout_width="120dp"
+          android:layout_height="120dp"
+          android:src="@drawable/logo">
+          </ImageView>
+                   
+          <TextView
+          android:id="@+id/tv_version"
+	      android:layout_width="wrap_content"
+	      android:layout_height="wrap_content"
+	      android:layout_marginTop="10dp"
+	      android:text="@string/app_name"
+	      android:textColor="#888888"
+	      android:textSize="20sp" />
+   </LinearLayout>
+        
+   
+    <RelativeLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="10dp">
+
+		<TextView
+			android:id="@+id/tv_bottom"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_marginTop="5dp"
+			android:gravity="center"
+			android:textColor="@color/blue"
+			android:text="@string/about_bottom">
+
+		</TextView>
+
+		<TextView
+			android:id="@+id/tv_address"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_above="@id/tv_bottom"
+			android:gravity="center"
+			android:textColor="@color/colorPrimaryDark"
+			android:text="@string/about_adress"
+			android:autoLink="all">
+
+		</TextView>
+        
+        <TextView
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_above="@id/tv_address"
+    	android:gravity="center"
+    	android:ellipsize="marquee" 
+		android:singleLine="true"
+		android:focusable="true"
+		android:focusableInTouchMode="true"
+		android:scrollHorizontally="true"
+		android:marqueeRepeatLimit="marquee_forever"
+		android:textColor="#666666"
+    	android:text="@string/about_content">
+        </TextView>
+    </RelativeLayout>
+    
+</LinearLayout>
+

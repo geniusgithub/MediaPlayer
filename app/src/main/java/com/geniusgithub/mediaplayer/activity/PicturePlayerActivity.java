@@ -74,7 +74,6 @@ public class PicturePlayerActivity extends BaseActivity {
 
 
 		final ActionBar ab = getSupportActionBar();
-		ab.setHomeAsUpIndicator(R.drawable.ic_menu);
 		ab.setDisplayHomeAsUpEnabled(true);
 
 

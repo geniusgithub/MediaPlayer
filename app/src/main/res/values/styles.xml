@@ -21,11 +21,13 @@
            <item name="colorPrimary">@color/colorPrimary</item>
            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
            <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/window_background</item>
+            <item name="android:windowBackground">@color/window_background</item>
+            <item name="android:windowIsTranslucent">true</item>
     </style>
 
 <!--    <style name="Theme.AppStartLoad" parent="android:Theme.Black.NoTitleBar.Fullscreen">-->
     <style name="Theme.AppStartLoad" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/welcome</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>

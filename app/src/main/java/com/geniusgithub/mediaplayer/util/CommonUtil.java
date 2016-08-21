@@ -1,10 +1,9 @@
 package com.geniusgithub.mediaplayer.util;
 
 
-
-import java.io.InputStream;
-
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -18,6 +17,8 @@ import android.os.Environment;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import java.io.InputStream;
 
 public class CommonUtil {
 
@@ -220,6 +221,23 @@ public class CommonUtil {
 
 			return m_fSysNetowrkLastSpeed;
 		}
+
+
+	public static String getSoftVersion(Context context){
+
+		PackageManager manager = context.getPackageManager();
+		PackageInfo info;
+		String version = "00.00.01";
+		try {
+			info = manager.getPackageInfo(context.getPackageName(), 0);
+			version  = info.versionName;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return version;
+
+	}
 }
 
 

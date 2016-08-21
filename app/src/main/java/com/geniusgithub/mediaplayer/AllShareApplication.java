@@ -3,6 +3,7 @@ package com.geniusgithub.mediaplayer;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
 
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
@@ -56,6 +57,7 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 
 	private boolean mEnterMain = false;
 
+	private Handler mHandle;
 	
 	public static AllShareApplication getInstance(){
 		return mAllShareApplication;
@@ -69,6 +71,8 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		mAllShareProxy = AllShareProxy.getInstance(this);
 		mAllShareApplication = this;
 
+		mHandle = new Handler() {
+		};
 
 		MobclickAgent.setDebugMode(true);
 
@@ -95,7 +99,7 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 	}
 
 
-	public void setStatus(boolean flag){
+	public void setEnterFlag(boolean flag){
 		mEnterMain = flag;
 	}
 
@@ -118,6 +122,15 @@ public class AllShareApplication extends Application implements ItatisticsEvent{
 		return mControlPoint;
 	}
 
+	public void delayToExit(){
+		mHandle.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				log.e("Exit Application...");
+				System.exit(0);
+			}
+		}, 500);
+	}
 	@Override
 	public void onEvent(String eventID) {
 		log.e("eventID = " + eventID);	

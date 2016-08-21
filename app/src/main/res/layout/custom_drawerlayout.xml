@@ -9,12 +9,18 @@
     <!-- 你的内容布局-->
     <include layout="@layout/navigation_content"/>
 
-    <android.support.design.widget.NavigationView
+    <com.geniusgithub.mediaplayer.NavigationViewEx
         android:id="@+id/nv_main_navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_header"/>
-       <!-- app:menu="@menu/drawer_view"/>-->
+        android:background="@color/window_background">
+    </com.geniusgithub.mediaplayer.NavigationViewEx>
+<!--    <android.support.design.widget.NavigationView
+        android:id="@+id/nv_main_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"/>-->
 
 </android.support.v4.widget.DrawerLayout>

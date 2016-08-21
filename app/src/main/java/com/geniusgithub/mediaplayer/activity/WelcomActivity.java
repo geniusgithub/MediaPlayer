@@ -13,16 +13,17 @@ import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.geniusgithub.mediaplayer.util.PermissionsUtil;
 
+import org.cybergarage.util.AlwaysLog;
+
 public class WelcomActivity extends BaseActivity {
 
 	private static final CommonLog log = LogFactory.createLog();
-
+	private static final  String TAG = WelcomActivity.class.getSimpleName();
 	private Handler mHandle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setupViews();	
+		setContentView(R.layout.welcome_layout);
 		initData();
 	}
 	
@@ -32,18 +33,18 @@ public class WelcomActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-	 
-	
-	private void setupViews(){
-		setContentView(R.layout.welcome_layout);
-	}
+
 	
 	private void initData(){
 		mHandle = new Handler();
 		boolean flag = AllShareApplication.getInstance().getEnterFlag();
 		if (flag){
+			AlwaysLog.i(TAG, "Enter Main Directry");
 			goMainActivity();
 		}else{
+			AlwaysLog.i(TAG, "Enter Main delay");
+
+
 			mHandle.postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -68,16 +69,11 @@ public class WelcomActivity extends BaseActivity {
 	}
 
 	private void goMainActivity(){
-
-
-
 		if (PermissionsUtil.hasNecessaryRequiredPermissions(this)){
 			Intent intent = new Intent();
 			intent.setClass(this, MainFrameActivity.class);
 			startActivity(intent);
 			finish();
-		/*	String deviceInfo = getDeviceInfo(this);
-			AlwaysLog.i(WelcomActivity.class.getSimpleName(), "deviceInfo = " + deviceInfo);*/
 		}else{
 			requestNecessaryRequiredPermissions();
 		}
@@ -157,63 +153,6 @@ public class WelcomActivity extends BaseActivity {
 		}
 
 	}
-
-
-/*
-	public static String getDeviceInfo(Context context) {
-		try {
-			org.json.JSONObject json = new org.json.JSONObject();
-			android.telephony.TelephonyManager tm = (android.telephony.TelephonyManager) context
-					.getSystemService(Context.TELEPHONY_SERVICE);
-			String device_id = null;
-			device_id = tm.getDeviceId();
-
-			String mac = null;
-			FileReader fstream = null;
-			try {
-				fstream = new FileReader("/sys/class/net/wlan0/address");
-			} catch (FileNotFoundException e) {
-				fstream = new FileReader("/sys/class/net/eth0/address");
-			}
-			BufferedReader in = null;
-			if (fstream != null) {
-				try {
-					in = new BufferedReader(fstream, 1024);
-					mac = in.readLine();
-				} catch (IOException e) {
-				} finally {
-					if (fstream != null) {
-						try {
-							fstream.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					if (in != null) {
-						try {
-							in.close();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-			json.put("mac", mac);
-			if (TextUtils.isEmpty(device_id)) {
-				device_id = mac;
-			}
-			if (TextUtils.isEmpty(device_id)) {
-				device_id = android.provider.Settings.Secure.getString(context.getContentResolver(),
-						android.provider.Settings.Secure.ANDROID_ID);
-			}
-			json.put("device_id", device_id);
-			return json.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-*/
 
 
 }
