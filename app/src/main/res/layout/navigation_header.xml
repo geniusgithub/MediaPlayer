@@ -38,20 +38,28 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/ll_exit"
-            style="@style/leba_bg_base_layout"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white">
-            <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon_exit" />
-            <TextView android:textSize="16.0dip" android:textColor="@color/red" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="EXIT" android:layout_weight="1.0" />
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:id="@+id/ll_exit"
+                style="@style/leba_bg_base_layout"
+                android:background="?android:attr/selectableItemBackground">
+                <ImageView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="15.0dip" android:src="@drawable/icon_exit" />
+                <TextView android:textSize="16.0dip" android:textColor="@color/red" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:text="EXIT" android:layout_weight="1.0" />
+            </LinearLayout>
+
         </LinearLayout>
+
 
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@id/ll_exit">
+            android:layout_above="@id/ll_bottom">
 
             <LinearLayout
                 android:id="@+id/ll_search"

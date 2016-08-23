@@ -87,7 +87,7 @@
            <SeekBar 
 	        android:id="@+id/playback_seeker"
 	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"	  
+	        android:layout_height="20dp"
 	        android:layout_centerVertical="true"
 	        android:layout_toLeftOf="@id/tv_totalTime"
 			android:layout_toRightOf="@id/tv_curTime"
