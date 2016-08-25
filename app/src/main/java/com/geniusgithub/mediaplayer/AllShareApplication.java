@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
+import com.geniusgithub.mediaplayer.base.ItatisticsEvent;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
@@ -43,7 +45,7 @@ import java.util.HashMap;
  * @cnblog http://www.cnblogs.com/lance2016/
  * @github https://github.com/geniusgithub
  */
-public class AllShareApplication extends Application implements ItatisticsEvent{
+public class AllShareApplication extends Application implements ItatisticsEvent {
 
 	private static final CommonLog log = LogFactory.createLog();
 	

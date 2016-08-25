@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer;
+package com.geniusgithub.mediaplayer.dlna;
 
 public interface IControlPointStatu {
     int STATUS_SOTP = 0;

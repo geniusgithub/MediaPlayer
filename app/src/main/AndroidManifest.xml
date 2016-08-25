@@ -101,7 +101,7 @@
 
         </activity>
         <activity
-            android:name=".activity.MainFrameActivity"
+            android:name=".main.MainFrameActivity"
             android:theme="@style/ActivityBaseTheme"
             android:screenOrientation="portrait" >
 <!--            <intent-filter>

@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:background="@drawable/nav_head"/>
+            android:background="@drawable/logo_big"/>
 
         <TextView
             android:id="@+id/tv_localAddress"

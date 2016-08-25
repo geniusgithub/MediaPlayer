@@ -1,24 +1,15 @@
 package com.geniusgithub.mediaplayer.browse;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.DialogFactory;
-import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.activity.MusicPlayerActivity;
 import com.geniusgithub.mediaplayer.activity.PicturePlayerActivity;
 import com.geniusgithub.mediaplayer.activity.VideoPlayerActivity;
-import com.geniusgithub.mediaplayer.base.IBaseFragmentPresent;
-import com.geniusgithub.mediaplayer.browse.model.ContentManager;
-import com.geniusgithub.mediaplayer.browse.proxy.BrowseDMSProxy;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -37,34 +28,15 @@ import org.cybergarage.util.AlwaysLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
-                                                IDeviceChangeListener,
-                                                BrowseDMSProxy.BrowseRequestCallback{
+public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChangeListener,
+                                        BrowseDMSProxy.BrowseRequestCallback{
 
 
     private static final String TAG = BrowsePresenter.class.getSimpleName();
 
-    /////////////////////////////////////////////////
-    public static interface IBrowseView{
-        public void bindView(Context context, View container);
-        public void bindPresent(IBrowsePresenter presenter);
-        public void showProgress(boolean bShow);
-        public void updateDeviceList(List<Device> devices);
-        public void updateItemList(List<MediaItem>  contentItem);
-        public void showDeviceList(boolean bShow);
-        public void showDeviceDetail(Device device);
-        public void showItemList(boolean bShow);
-    }
-
-    private IBrowseView mIBrowseView;
-    private IBrowseView createBrosweView(){
-        return new BrowserView();
-    }
-    /////////////////////////////////////////////////
-
-
-
     private Context mContext;
+    private BrowseContract.IView mIBrowseView;
+
     private AllShareProxy mAllShareProxy;
     private DMSDeviceBrocastFactory mBrocastFactory;
     private ContentManager mContentManager;
@@ -75,93 +47,51 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
     private int mViewType = VIEW_DMS;
 
     private Handler mHandler;
-    private Fragment mFragmentInstance;
 
+    public BrowsePresenter(){
+        mContext = AllShareApplication.getInstance();
+    }
+
+
+
+    ///////////////////////////////////////     presenter callback begin
     @Override
-    public void bindFragment(Fragment fragment) {
-        mFragmentInstance = fragment;
+    public void bindView(BrowseContract.IView view) {
+        mIBrowseView = view;
+        mIBrowseView.bindPresenter(this);
     }
 
     @Override
-    public void onNewIntent(Intent intent) {
+    public void unBindView() {
 
     }
 
+
+
     @Override
-    public void onAttach(Context context) {
-        mContext = context;
+    public void enterDevice(Device device) {
+        mAllShareProxy.setDMSSelectedDevice(device);
+        requestDirectory();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        mIBrowseView = createBrosweView();
-        mIBrowseView.bindPresent(this);
-        mAllShareProxy = AllShareProxy.getInstance(mContext);
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.dms_layout, container, false);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        mIBrowseView.bindView(mContext, view);
-        updateDeviceList();
-        switchView(VIEW_DMS);
-
-        mBrocastFactory = new DMSDeviceBrocastFactory(mContext);
-        mBrocastFactory.registerListener(this);
-
-        mContentManager = ContentManager.getInstance();
-        mCurItems = new ArrayList<MediaItem>();
-        mHandler = new Handler();
-    }
-
-    @Override
-    public void onResume() {
-
-    }
-
-    @Override
-    public void onPause() {
-        DialogFactory.closeAllDialog();
-    }
-
-    @Override
-    public void onDestroy() {
-        mBrocastFactory.unRegisterListener();
-        mContentManager.clear();
-        DialogFactory.releaseDialogResource();
-    }
-
-    @Override
-    public boolean onBackPressed(){
-        switch (mViewType){
-            case VIEW_DMS:
-                break;
-            case VIEW_CONTENT:{
-                mContentManager.popListItem();
-                List<MediaItem> list = mContentManager.peekListItem();
-                if (list == null){
-                    switchView(VIEW_DMS);
-                }else{
-                    updateItemList(list);
-                }
-            }
-            return true;
+    public void browseItem(int index, MediaItem item) {
+        if (UpnpUtil.isAudioItem(item)) {
+            goMusicPlayerActivity(index, item);
+        }else if (UpnpUtil.isVideoItem(item)){
+            goVideoPlayerActivity(index, item);
+        }else if (UpnpUtil.isPictureItem(item)){
+            goPicturePlayerActivity(index, item);
+        }else{
+            BrowseDMSProxy.syncGetItems(mContext, item.getStringid(), this);
+            mIBrowseView.showProgress(true);
         }
-
-        return false;
     }
+    ///////////////////////////////////////     presenter callback end
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return false;
-    }
+
+
 
     @Override
     public void onDeviceChange(boolean isSelDeviceChange) {
@@ -195,33 +125,55 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
         });
     }
 
-    ///////////////////////////////////////////////// presenter callback begin
-    @Override
-    public void enterDevice(Device device) {
-        mAllShareProxy.setDMSSelectedDevice(device);
-        requestDirectory();
+
+    ///////////////////////////////////////     lifecycle or ui operator begin
+    public void onUiCreate(Context context) {
+        mContext = context;
+        mAllShareProxy = AllShareProxy.getInstance(mContext);
+
+        mContentManager = ContentManager.getInstance();
+        mCurItems = new ArrayList<MediaItem>();
+        mHandler = new Handler();
+
+        mBrocastFactory = new DMSDeviceBrocastFactory(mContext);
+        mBrocastFactory.registerListener(this);
+
+        updateDeviceList();
+        switchView(VIEW_DMS);
     }
 
-    @Override
-    public void showDeviceDetail(Device device) {
-        DialogFactory.popupDeviceDetailDialog(mFragmentInstance.getActivity(),  device);
-    //    mIBrowseView.showDeviceDetail(device);
+
+
+
+    public void onUiDestroy() {
+        mBrocastFactory.unRegisterListener();
+        mContentManager.clear();
+        DialogFactory.releaseDialogResource();
     }
 
-    @Override
-    public void browseItem(int index, MediaItem item) {
-        if (UpnpUtil.isAudioItem(item)) {
-            goMusicPlayerActivity(index, item);
-        }else if (UpnpUtil.isVideoItem(item)){
-            goVideoPlayerActivity(index, item);
-        }else if (UpnpUtil.isPictureItem(item)){
-            goPicturePlayerActivity(index, item);
-        }else{
-            BrowseDMSProxy.syncGetItems(mContext, item.getStringid(), this);
-            mIBrowseView.showProgress(true);
+    public boolean onBackPressed(){
+        switch (mViewType){
+            case VIEW_DMS:
+                break;
+            case VIEW_CONTENT:{
+                mContentManager.popListItem();
+                List<MediaItem> list = mContentManager.peekListItem();
+                if (list == null){
+                    switchView(VIEW_DMS);
+                }else{
+                    updateItemList(list);
+                }
+            }
+            return true;
         }
+
+        return false;
     }
-    ///////////////////////////////////////////////// presenter callback end
+    ///////////////////////////////////////     lifecycle or ui operator end
+
+
+
+
 
     private void updateDeviceList(){
         List<Device> list = mAllShareProxy.getDMSDeviceList();
@@ -248,11 +200,11 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
                 break;
         }
         mViewType = viewType;
-        onViewSwitch(mViewType);
+        updateToolTitle(mViewType);
     }
 
 
-    private void onViewSwitch(int viewType){
+    private void updateToolTitle(int viewType){
         String title = "DLNA";
         if (viewType == VIEW_CONTENT){
             Device device = mAllShareProxy.getDMSSelectedDevice();
@@ -261,13 +213,8 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
             }
         }
 
-        if (mFragmentInstance != null){
-            if (mFragmentInstance instanceof BrowserMediaFragment){
-                ((BrowserMediaFragment) mFragmentInstance).onViewSwitch(title);
-            }
-        }
+        mIBrowseView.updateToolTitle(title);
     }
-
 
     private void requestDirectory()
     {
@@ -325,4 +272,6 @@ public class BrowsePresenter implements IBaseFragmentPresent, IBrowsePresenter,
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);
     }
+
+
 }

@@ -9,13 +9,13 @@
     <!-- 你的内容布局-->
     <include layout="@layout/navigation_content"/>
 
-    <com.geniusgithub.mediaplayer.NavigationViewEx
+    <com.geniusgithub.mediaplayer.main.NavigationViewEx
         android:id="@+id/nv_main_navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/window_background">
-    </com.geniusgithub.mediaplayer.NavigationViewEx>
+    </com.geniusgithub.mediaplayer.main.NavigationViewEx>
 <!--    <android.support.design.widget.NavigationView
         android:id="@+id/nv_main_navigation"
         android:layout_width="wrap_content"

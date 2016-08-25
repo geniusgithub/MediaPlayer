@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.browse.proxy;
+package com.geniusgithub.mediaplayer.browse;
 
 import android.content.Context;
 

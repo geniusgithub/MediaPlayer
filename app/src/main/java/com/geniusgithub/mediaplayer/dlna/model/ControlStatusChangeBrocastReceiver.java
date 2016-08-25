@@ -6,7 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.geniusgithub.mediaplayer.IControlPointStatu;
+import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 

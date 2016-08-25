@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.activity;
+package com.geniusgithub.mediaplayer.main;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -19,13 +19,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.geniusgithub.common.util.AlwaysLog;
-import com.geniusgithub.mediaplayer.IToolBar;
-import com.geniusgithub.mediaplayer.NavigationViewEx;
+import com.geniusgithub.mediaplayer.base.IToolBar;
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.activity.AboutActivity;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
-import com.geniusgithub.mediaplayer.browse.BrowserMediaFragment;
-import com.geniusgithub.mediaplayer.main.MainContract;
-import com.geniusgithub.mediaplayer.main.MainPresenter;
+import com.geniusgithub.mediaplayer.browse.view.BrowserMediaFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -235,7 +233,7 @@ public class MainFrameActivity extends BaseActivity{
 
 
             final ActionBar ab = getSupportActionBar();
-            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+           // ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
 
 

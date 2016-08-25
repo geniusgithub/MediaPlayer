@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.os.Message;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
-import com.geniusgithub.mediaplayer.IControlPointStatu;
+import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonLog;

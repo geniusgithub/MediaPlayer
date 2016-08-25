@@ -9,6 +9,7 @@ import android.os.Handler;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
+import com.geniusgithub.mediaplayer.main.MainFrameActivity;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.geniusgithub.mediaplayer.util.PermissionsUtil;

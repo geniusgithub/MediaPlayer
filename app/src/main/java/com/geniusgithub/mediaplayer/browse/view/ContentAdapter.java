@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.browse.adapter;
+package com.geniusgithub.mediaplayer.browse.view;
 
 import android.content.Context;
 import android.content.res.Resources;

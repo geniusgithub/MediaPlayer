@@ -1,7 +1,6 @@
-package com.geniusgithub.mediaplayer;
+package com.geniusgithub.mediaplayer.base;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public interface ItatisticsEvent {
 

@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.browse.model;
+package com.geniusgithub.mediaplayer.browse;
 
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.util.CommonLog;

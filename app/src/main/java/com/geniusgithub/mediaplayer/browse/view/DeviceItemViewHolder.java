@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.browse.adapter;
+package com.geniusgithub.mediaplayer.browse.view;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;

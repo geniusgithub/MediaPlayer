@@ -3,7 +3,7 @@ package com.geniusgithub.mediaplayer.main;
 import android.content.Context;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
-import com.geniusgithub.mediaplayer.IControlPointStatu;
+import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.IStatusChangeListener;
@@ -22,6 +22,8 @@ public class MainPresenter implements  MainContract.IPresenter, IStatusChangeLis
 
     }
 
+
+    ///////////////////////////////////////     presenter callback begin
     @Override
     public void bindView(MainContract.IView view) {
         mView = view;
@@ -32,7 +34,6 @@ public class MainPresenter implements  MainContract.IPresenter, IStatusChangeLis
     public void unBindView() {
 
     }
-
 
     @Override
     public void onStart() {
@@ -54,6 +55,8 @@ public class MainPresenter implements  MainContract.IPresenter, IStatusChangeLis
         onStop();
         AllShareApplication.getInstance().delayToExit();
     }
+    ///////////////////////////////////////     presenter callback end
+
 
 
     @Override
@@ -61,6 +64,9 @@ public class MainPresenter implements  MainContract.IPresenter, IStatusChangeLis
         updateLocalAddress(status);
     }
 
+
+
+    ///////////////////////////////////////     lifecycle or ui operator begin
     public void onCreate(Context context){
         mContext = context;
         mAllShareProxy = AllShareProxy.getInstance(mContext.getApplicationContext());
@@ -74,6 +80,9 @@ public class MainPresenter implements  MainContract.IPresenter, IStatusChangeLis
         mBrocastFactory.unRegisterListener();
         mBrocastFactory = null;
     }
+    ///////////////////////////////////////     lifecycle or ui operator end
+
+
 
     public void updateLocalAddress() {
         updateLocalAddress(AllShareApplication.getInstance().getControlStatus());

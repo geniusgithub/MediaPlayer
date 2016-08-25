@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer;
+package com.geniusgithub.mediaplayer.main;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.geniusgithub.mediaplayer.R;
 
 public class NavigationViewEx extends LinearLayout implements View.OnClickListener{
 
