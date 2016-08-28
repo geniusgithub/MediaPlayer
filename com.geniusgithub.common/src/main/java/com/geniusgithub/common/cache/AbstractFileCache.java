@@ -10,13 +10,14 @@ import java.io.File;
 
 public abstract class AbstractFileCache {
 
+	private static final String TAG = AbstractFileCache.class.getSimpleName();
 	private String dirString;
 	
 	public AbstractFileCache(Context context) {
 		
 		dirString = getCacheDir();
 		boolean ret = FileHelper.createDirectory(dirString);
-		Log.e("", "FileHelper.createDirectory:" + dirString + ", ret = " + ret);
+		Log.i(TAG, "FileHelper.createDirectory:" + dirString + ", ret = " + ret);
 	}
 	
 	public File getFile(String url) {

@@ -54,7 +54,7 @@ public class ImageLoaderEx {
 	
 	public void setScaleParam(int request_size){
 		requestSize = request_size;
-		AlwaysLog.e(TAG, "setScaleParam requestSize = " + requestSize);
+		AlwaysLog.d(TAG, "setScaleParam requestSize = " + requestSize);
 	}
 	
 	public void setLoadLocalBitmapQuick(boolean flag){
@@ -68,12 +68,20 @@ public class ImageLoaderEx {
 		}
 	}
 
+	public boolean DisplayImage(String url, ImageView imageView) {
+		return DisplayImage(url, imageView, false, null);
+	}
+
+	public boolean DisplayImage(String url, ImageView imageView,  Drawable defaultDrawablw) {
+		return DisplayImage(url, imageView, false, defaultDrawablw);
+	}
+
 	// 最主要的方法
-	public boolean DisplayImage(String url, ImageView imageView, boolean isLoadOnlyFromCache) {
+	public boolean DisplayImage(String url, ImageView imageView, boolean isLoadOnlyFromCache, Drawable defaultDrawablw) {
 		if (url == null || url.length() < 1 || imageView == null){
 			return false;
 		}
-
+	//	AlwaysLog.d(TAG, "DisplayImage url = " + url);
 		
 		imageViews.put(imageView, url);
 		// 先从内存缓存中查找
@@ -98,10 +106,13 @@ public class ImageLoaderEx {
 				return true;
 			}
 		}
-		if (mDefaultBitmap != null){
-			
+
+		if (defaultDrawablw != null){
+			imageView.setImageDrawable(defaultDrawablw);
+		}else if (mDefaultBitmap != null){
 			imageView.setImageBitmap(mDefaultBitmap);
 		}
+
 		if (!isLoadOnlyFromCache){			
 			// 若没有的话则开启新线程加载图片
 			queuePhoto(url, imageView);
@@ -152,7 +163,7 @@ public class ImageLoaderEx {
 			bitmap = decodeFile(f);
 			return bitmap;
 		} catch (Exception ex) {
-			Log.e("", "getBitmap catch Exception...\nmessage = " + ex.getMessage());
+			Log.e(TAG, "getBitmap catch Exception...\nmessage = " + ex.getMessage());
 			return null;
 		}
 	}
@@ -186,6 +197,7 @@ public class ImageLoaderEx {
 			o2.inSampleSize = scale;
 			return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
 		} catch (FileNotFoundException e) {
+			AlwaysLog.e(TAG, "decodeFile fail...");
 		}
 		return null;
 	}
@@ -252,10 +264,17 @@ public class ImageLoaderEx {
 		}
 
 		public void run() {
+	//		AlwaysLog.d(TAG, "BitmapDisplayer run...");
+
 			if (imageViewReused(photoToLoad))
 				return;
-			if (bitmap != null)
+
+			if (bitmap != null){
 				photoToLoad.imageView.setImageBitmap(bitmap);
+			}else{
+				AlwaysLog.e(TAG, "BitmapDisplayer bitmap = null");
+			}
+
 	
 		}
 	}
