@@ -7,7 +7,6 @@ import android.os.Handler;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.DialogFactory;
-import com.geniusgithub.mediaplayer.activity.MusicPlayerActivity;
 import com.geniusgithub.mediaplayer.activity.PicturePlayerActivity;
 import com.geniusgithub.mediaplayer.activity.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
@@ -17,6 +16,7 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
+import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.picture.PicturePlayPresenter;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayerPresenter;

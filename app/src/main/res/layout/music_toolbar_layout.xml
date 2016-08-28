@@ -100,7 +100,7 @@
 
 
 	
-		<com.geniusgithub.mediaplayer.player.music.VisualizerView
+		<com.geniusgithub.mediaplayer.player.music.view.VisualizerView
 			android:id="@+id/mp_freq_view"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"

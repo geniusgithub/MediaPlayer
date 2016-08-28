@@ -1,6 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music;
-
-import com.geniusgithub.mediaplayer.R;
+package com.geniusgithub.mediaplayer.player.music.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.geniusgithub.mediaplayer.R;
 
 
 

@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.music;
+package com.geniusgithub.mediaplayer.player.music.model;
 
 import android.content.Context;
 
