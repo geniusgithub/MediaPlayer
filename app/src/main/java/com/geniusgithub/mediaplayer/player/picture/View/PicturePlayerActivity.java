@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.activity;
+package com.geniusgithub.mediaplayer.player.picture.View;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,17 +7,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
-import com.geniusgithub.mediaplayer.player.picture.PictureFragment;
+import com.geniusgithub.mediaplayer.base.IToolBar;
 
-public class PicturePlayerActivity extends BaseActivity {
+public class PicturePlayerActivity extends BaseActivity implements IToolBar {
 
+	public static final String TAG = PicturePlayerActivity.class.getSimpleName();
 	public static final String TAG_PICTURE_FRAGMENT = "tag_picture_fragment";
 	private Toolbar mToolbar;
-	private PictureFragment mPicturePlayerFragment;
+	private PicturePlayerFragment mPicturePlayerFragment;
 	private MenuItem mOptionItem;
 
 
@@ -57,13 +57,19 @@ public class PicturePlayerActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+
 		setContentView(R.layout.picture_activity_layout);
-		mPicturePlayerFragment = new PictureFragment();
+		mPicturePlayerFragment = new PicturePlayerFragment();
 		getFragmentManager().beginTransaction().add(R.id.content_container, mPicturePlayerFragment, TAG_PICTURE_FRAGMENT).commit();
+		mPicturePlayerFragment.bindToolbar(this);
 
 		initToolBar();
 
+	}
 
+	@Override
+	public void updateToolTitle(String title) {
+		mToolbar.setTitle(title);
 	}
 
 	private void initToolBar() {
@@ -80,33 +86,5 @@ public class PicturePlayerActivity extends BaseActivity {
 	}
 
 
-	@Override
-	public void onResume() {
-		super.onResume();
 
-	}
-
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-	}
-
-	@Override
-	public void onDestroy() {
-
-
-		super.onDestroy();
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-	}
-
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		return super.dispatchTouchEvent(ev);
-	}
 }

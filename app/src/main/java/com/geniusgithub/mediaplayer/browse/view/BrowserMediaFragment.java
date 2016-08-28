@@ -10,13 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.geniusgithub.mediaplayer.DialogFactory;
-import com.geniusgithub.mediaplayer.base.IToolBar;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
+import com.geniusgithub.mediaplayer.base.IToolBar;
 import com.geniusgithub.mediaplayer.browse.BrowseContract;
 import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -105,9 +103,8 @@ public class BrowserMediaFragment extends BaseFragment{
         private RecyclerView mDevListView;
         private DeviceAdapter mDevAdapter;
         private  OnDeviceItemClick mOnDeviceItemClick;
-        private LinearLayoutManager mLayoutManager;
 
-        private ListView mContentListView;
+        private RecyclerView mContentListView;
         private ContentAdapter mContentAdapter;
         private OnContentItemClick mOnContentItemClick;
 
@@ -188,32 +185,38 @@ public class BrowserMediaFragment extends BaseFragment{
         }
 
 
-        private class OnContentItemClick implements AdapterView.OnItemClickListener{
+        private class OnContentItemClick implements ContentItemViewHolder.onItemClickListener{
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MediaItem item = (MediaItem) parent.getItemAtPosition(position);
-                mIBrowsePresenter.browseItem(position, item);
+            public void onItemClick(int pos, MediaItem item){
+                mIBrowsePresenter.browseItem(pos, item);
 
             }
         }
 
         private void initView(View view){
 
+
+
             mDevListView = (RecyclerView) view.findViewById(R.id.device_list);
             mDevListView.setHasFixedSize(true);
             mDevListView.setNestedScrollingEnabled(false);
-            mLayoutManager = new LinearLayoutManager(mContext);
-            mDevListView.setLayoutManager(mLayoutManager);
+            LinearLayoutManager mLayoutManager1 = new LinearLayoutManager(mContext);
+            mDevListView.setLayoutManager(mLayoutManager1);
 
             mDevAdapter = new DeviceAdapter(mContext, new ArrayList<Device>());
             mOnDeviceItemClick = new OnDeviceItemClick();
             mDevAdapter.setOnItemClickListener(mOnDeviceItemClick);
             mDevListView.setAdapter(mDevAdapter);
 
-            mContentListView = (ListView) view.findViewById(R.id.content_list);
+            mContentListView = (RecyclerView) view.findViewById(R.id.content_list);
+            mContentListView.setHasFixedSize(true);
+            mContentListView.setNestedScrollingEnabled(false);
+            LinearLayoutManager  mLayoutManager2 = new LinearLayoutManager(mContext);
+            mContentListView.setLayoutManager(mLayoutManager2);
             mOnContentItemClick = new OnContentItemClick();
-            mContentListView.setOnItemClickListener(mOnContentItemClick);
             mContentAdapter = new ContentAdapter(mContext,  new ArrayList<MediaItem>());
+            mContentAdapter.setOnItemClickListener(mOnContentItemClick);
             mContentListView.setAdapter(mContentAdapter);
 
 

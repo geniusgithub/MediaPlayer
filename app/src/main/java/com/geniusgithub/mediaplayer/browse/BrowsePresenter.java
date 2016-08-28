@@ -7,8 +7,6 @@ import android.os.Handler;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.DialogFactory;
-import com.geniusgithub.mediaplayer.activity.PicturePlayerActivity;
-import com.geniusgithub.mediaplayer.activity.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -16,10 +14,12 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
-import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
-import com.geniusgithub.mediaplayer.player.picture.PicturePlayPresenter;
-import com.geniusgithub.mediaplayer.player.video.VideoPlayerPresenter;
+import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
+import com.geniusgithub.mediaplayer.player.picture.PicturePlayerPresenter;
+import com.geniusgithub.mediaplayer.player.picture.View.PicturePlayerActivity;
+import com.geniusgithub.mediaplayer.player.video.VideoPlayePresenter;
+import com.geniusgithub.mediaplayer.player.video.view.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import org.cybergarage.upnp.Device;
@@ -254,10 +254,12 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
         }catch (Exception exception){
             Intent intent2 = new Intent();
             intent2.setClass(mContext, VideoPlayerActivity.class);
-            intent2.putExtra(VideoPlayerPresenter.PLAY_INDEX, position);
+            intent2.putExtra(VideoPlayePresenter.PLAY_INDEX, position);
             MediaItemFactory.putItemToIntent(item, intent2);
             mContext.startActivity(intent2);
         }
+
+
 
     }
 
@@ -268,7 +270,7 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
 
         Intent intent = new Intent();
         intent.setClass(mContext, PicturePlayerActivity.class);
-        intent.putExtra(PicturePlayPresenter.PLAY_INDEX, position);
+        intent.putExtra(PicturePlayerPresenter.PLAY_INDEX, position);
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);
     }

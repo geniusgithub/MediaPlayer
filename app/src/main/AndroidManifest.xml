@@ -91,7 +91,7 @@
         </meta-data>
 
         <activity
-            android:name=".activity.WelcomActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/Theme.AppStartLoad"
             android:screenOrientation="portrait">
           <intent-filter>
@@ -153,14 +153,14 @@
         </activity>
 
         <activity
-            android:name=".activity.PicturePlayerActivity"
+            android:name=".player.picture.View.PicturePlayerActivity"
             android:launchMode="singleTask"
             android:theme="@style/ActivityBaseTheme"
             >
         </activity>
 
         <activity
-            android:name=".activity.VideoPlayerActivity"
+            android:name=".player.video.view.VideoPlayerActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="landscape" >

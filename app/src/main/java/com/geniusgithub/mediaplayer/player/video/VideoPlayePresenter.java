@@ -1,21 +1,13 @@
 package com.geniusgithub.mediaplayer.player.video;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SeekBar;
 
-import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.base.IBaseFragmentPresent;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
@@ -28,48 +20,14 @@ import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
-public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayerPresenter,
-                                                   MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnSeekCompleteListener, MediaPlayer.OnErrorListener {
-
-
-
-
-    /////////////////////////////////////////////////
-    public static interface IVideoPlayerView{
-        public void bindView(Context context, View container);
-        public void bindPresent(IVideoPlayerPresenter presenter);
-        public void showPlay(boolean bShow);
-        public void showPrepareLoadView(boolean bShow);
-        public void showControlView(boolean bShow);
-        public void showLoadView(boolean bShow);
-        public void updateMediaInfoView(MediaItem mediaInfo);
-        public void showPlayErrorTip();
-        public void setSeekbarMax(int max);
-        public void setSeekbarSecondProgress(int max);
-        public void setTotalTime(int totalTime);
-        public void setSeekbarProgress(int pos);
-        public boolean isLoadViewShow();
-        public boolean isControlViewShow();
-        public void setSpeed(float speed);
-        public void setcurTime(int curTime);
-        public SurfaceHolder getSurfaceHolder();
-        public boolean isSurfaceCreate();
-    }
-
-
-    private IVideoPlayerView mIVideoPlayerView;
-    private IVideoPlayerView createVideoPlayerView(){
-        return new VideoPlayerView();
-    }
-    /////////////////////////////////////////////////
-
-    private Context mContext;
-    private Fragment mFragmentInstance;
-
-    public static final String PLAY_INDEX = "player_index";
-
+public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  MediaPlayer.OnBufferingUpdateListener,MediaPlayer.OnErrorListener {
 
     private static final CommonLog log = LogFactory.createLog();
+
+    private Context mContext;
+    private VideoPlayerContact.IView mIVideoPlayerView;
+
+    public static final String PLAY_INDEX = "player_index";
 
     private final static int REFRESH_CURPOS = 0x0001;
     private final static int REFRESH_SPEED = 0x0002;
@@ -95,85 +53,23 @@ public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayer
     private boolean isDestroy = false;
 
 
+    public VideoPlayePresenter(Context context){
+        mContext = context;
+    }
 
+    ///////////////////////////////////////     presenter callback begin
     @Override
-    public void bindFragment(Fragment fragment) {
-        mFragmentInstance = fragment;
+    public void bindView(VideoPlayerContact.IView view) {
+        mIVideoPlayerView = view;
+        mIVideoPlayerView.bindPresenter(this);
     }
 
     @Override
-    public void onNewIntent(Intent intent) {
-        refreshIntent(intent);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-            mContext = context;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        mIVideoPlayerView = createVideoPlayerView();
-        mIVideoPlayerView.bindPresent(this);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.video_player_layout, container, false);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        mIVideoPlayerView.bindView(mContext, view);
-
-        initData();
-        refreshIntent(mFragmentInstance.getActivity().getIntent());
-    }
-
-    @Override
-    public void onResume() {
+    public void unBindView() {
 
     }
 
-    @Override
-    public void onPause() {
 
-    }
-
-    @Override
-    public void onDestroy() {
-        log.e("onDestroy");
-        isDestroy = true;
-        mCheckDelayTimer.stopTimer();
-        mNetWorkTimer.stopTimer();
-        mPlayPosTimer.stopTimer();
-        mVideoControlCenter.exit();
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        return false;
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-
-        int action = ev.getAction();
-        int actionIdx = ev.getActionIndex();
-        int actionMask = ev.getActionMasked();
-
-        if(actionIdx == 0 && action == MotionEvent.ACTION_UP) {
-            if(!mIVideoPlayerView.isControlViewShow()) {
-                showControlView(true);
-                return true;
-            }else{
-                delayToHideControlPanel();
-            }
-        }
-
-        return false;
-    }
 
     @Override
     public void onVideoPlay() {
@@ -195,20 +91,14 @@ public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayer
         mVideoControlCenter.next();
     }
 
-    @Override
-    public void onSeekProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        mIVideoPlayerView.setcurTime(progress);
-    }
-
-    @Override
-    public void onSeekStartTrackingTouch(SeekBar seekBar) {
-
-    }
 
     @Override
     public void onSeekStopTrackingTouch(SeekBar seekBar) {
         seek(seekBar.getProgress());
     }
+    ///////////////////////////////////////     presenter callback end
+
+
 
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -218,16 +108,52 @@ public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayer
     }
 
     @Override
-    public void onSeekComplete(MediaPlayer mp) {
-        log.e("onSeekComplete ...");
-    }
-
-    @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         mIVideoPlayerView.showPlayErrorTip();
         log.e("onError what = " + what + ", extra = " + extra);
         return false;
     }
+
+
+
+    ///////////////////////////////////////     lifecycle or ui operator begin
+    public void onUiCreate(Context context){
+        initData();
+
+    }
+
+    public void onNewIntent(Intent intent) {
+        refreshIntent(intent);
+    }
+
+    public void onUiDestroy(){
+        isDestroy = true;
+        mCheckDelayTimer.stopTimer();
+        mNetWorkTimer.stopTimer();
+        mPlayPosTimer.stopTimer();
+        mVideoControlCenter.exit();
+    }
+
+
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        int action = ev.getAction();
+        int actionIdx = ev.getActionIndex();
+        int actionMask = ev.getActionMasked();
+
+        if(actionIdx == 0 && action == MotionEvent.ACTION_UP) {
+            if(!mIVideoPlayerView.isControlViewShow()) {
+                showControlView(true);
+                return true;
+            }else{
+                delayToHideControlPanel();
+            }
+        }
+
+        return false;
+    }
+    ///////////////////////////////////////     lifecycle or ui operator end
+
 
     public void initData(){
         mPlayPosTimer = new SingleSecondTimer(mContext);
@@ -265,7 +191,6 @@ public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayer
 
         mPlayerEngineImpl = new VideoPlayEngineImpl(mContext, mIVideoPlayerView.getSurfaceHolder());
         mPlayerEngineImpl.setOnBuffUpdateListener(this);
-        mPlayerEngineImpl.setOnSeekCompleteListener(this);
 
         mPlayEngineListener = new VideoPlayEngineListener();
         mPlayerEngineImpl.setPlayerListener(mPlayEngineListener);
@@ -299,6 +224,7 @@ public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayer
         mIVideoPlayerView.showLoadView(false);
         showControlView(false);
     }
+
     private void removeHideMessage(){
         mHandler.removeMessages(HIDE_TOOL);
     }
@@ -363,6 +289,7 @@ public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayer
         mIVideoPlayerView.setSeekbarProgress(pos);
 
     }
+
 
     private class VideoPlayEngineListener implements PlayerEngineListener {
 
@@ -433,4 +360,5 @@ public class VideoPlayerPresenter  implements IBaseFragmentPresent, IVideoPlayer
             }
         }
     }
+
 }

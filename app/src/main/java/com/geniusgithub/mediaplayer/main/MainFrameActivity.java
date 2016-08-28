@@ -24,6 +24,7 @@ import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.activity.AboutActivity;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
 import com.geniusgithub.mediaplayer.browse.view.BrowserMediaFragment;
+import com.geniusgithub.mediaplayer.player.picture.DelCacheFileManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,6 @@ public class MainFrameActivity extends BaseActivity{
     private View mRootView;
     private MainPresenter mMainPresenter;
     private MainContract.IView mMainView;
-
 
 
     @Override
@@ -64,9 +64,8 @@ public class MainFrameActivity extends BaseActivity{
         mMainView = new MainView();
         mMainView.setupView(mRootView);
         mMainPresenter.bindView(mMainView);
-
-
         mMainPresenter.onCreate(this);
+
 
 
     }

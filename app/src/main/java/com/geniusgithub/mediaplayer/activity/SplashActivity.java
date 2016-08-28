@@ -16,10 +16,10 @@ import com.geniusgithub.mediaplayer.util.PermissionsUtil;
 
 import org.cybergarage.util.AlwaysLog;
 
-public class WelcomActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity {
 
 	private static final CommonLog log = LogFactory.createLog();
-	private static final  String TAG = WelcomActivity.class.getSimpleName();
+	private static final  String TAG = SplashActivity.class.getSimpleName();
 	private Handler mHandle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

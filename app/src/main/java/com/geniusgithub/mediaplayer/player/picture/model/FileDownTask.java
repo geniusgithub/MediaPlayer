@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.picture;
+package com.geniusgithub.mediaplayer.player.picture.model;
 
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.FileHelper;

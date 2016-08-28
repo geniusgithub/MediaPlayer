@@ -1,5 +1,10 @@
 package com.geniusgithub.mediaplayer.util;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -17,11 +22,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
-import android.content.ContentResolver;
-import android.content.Context;
-import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 
 public class FileHelper {
 	private static final CommonLog log = LogFactory.createLog();
@@ -76,8 +76,12 @@ public class FileHelper {
 		
 		return file.mkdirs();
 	}
-	
+
 	public static boolean deleteDirectory(String filePath) {
+		return deleteDirectory(filePath, false);
+	}
+
+	public static boolean deleteDirectory(String filePath, boolean onlyContent) {
 		if (null == filePath) {
 			log.e("Invalid param. filePath: " + filePath);
 			return false;
@@ -100,10 +104,16 @@ public class FileHelper {
 					list[i].delete();
 				}
 			}
+
+			if (!onlyContent){
+				file.delete();
+			}
+		}else{
+			file.delete();
 		}
 
 		log.d("delete filePath: " + file.getAbsolutePath());
-		file.delete();
+
 		return true;
 	}
 	

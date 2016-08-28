@@ -11,9 +11,10 @@ import android.os.IBinder;
 import android.os.Message;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
-import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
+import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.player.picture.DelCacheFileManager;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
@@ -43,7 +44,6 @@ public class DlnaService extends Service implements IBaseEngine,
 	private  ControlCenterWorkThread mCenterWorkThread;
 	private  AllShareProxy mAllShareProxy;
 	private  Handler mHandler;
-	
 
 
 	@Override
@@ -112,7 +112,12 @@ public class DlnaService extends Service implements IBaseEngine,
 		};
 		
 		registerNetworkStatusBR();
-		
+
+
+		DelCacheFileManager mDelthumbnailManager = new DelCacheFileManager();
+		mDelthumbnailManager.clearThumbnailCache();
+
+
 		boolean ret = CommonUtil.openWifiBrocast(this);
 		AlwaysLog.i(TAG, "openWifiBrocast = " + ret);
 	}
@@ -121,6 +126,10 @@ public class DlnaService extends Service implements IBaseEngine,
 		unRegisterNetworkStatusBR();
 		stopEngine();
 		AllShareApplication.getInstance().setControlPoint(null);
+
+		DelCacheFileManager mDelthumbnailManager = new DelCacheFileManager();
+		mDelthumbnailManager.clearThumbnailCache();
+
 	}
 
 	

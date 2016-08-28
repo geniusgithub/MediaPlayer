@@ -16,15 +16,9 @@
 		    android:layout_height="fill_parent"/>
 
 
-			<ListView android:id="@+id/content_list"
+			<android.support.v7.widget.RecyclerView android:id="@+id/content_list"
 			  android:layout_width="fill_parent"
-			  android:layout_height="wrap_content"
-			  android:layout_marginLeft="5dp"
-			  android:layout_marginRight="5dp"
-			  android:layout_marginTop="20dp"
-			  android:fastScrollEnabled="true"
-			  android:cacheColorHint="#00000000"
-			  android:clickable="true"/>
+			  android:layout_height="fill_parent"/>
 
 	</FrameLayout>
 

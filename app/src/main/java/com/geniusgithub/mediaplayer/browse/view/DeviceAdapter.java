@@ -109,8 +109,8 @@ public class DeviceAdapter extends RecyclerView.Adapter<ViewHolder> implements D
             return;
         }
 
-        DeviceItemViewHolder callLogListItemViewHolder = (DeviceItemViewHolder) viewHolder;
-        callLogListItemViewHolder.bindInfo(device);
+        DeviceItemViewHolder deviceViewHolder = (DeviceItemViewHolder) viewHolder;
+        deviceViewHolder.bindInfo(device);
     }
 
 

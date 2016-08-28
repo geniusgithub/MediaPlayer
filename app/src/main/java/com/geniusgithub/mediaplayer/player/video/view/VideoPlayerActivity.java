@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.activity;
+package com.geniusgithub.mediaplayer.player.video.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.player.video.VideoPlayerFragment;
 
 public class VideoPlayerActivity extends Activity {
 
@@ -31,30 +30,6 @@ public class VideoPlayerActivity extends Activity {
 		getFragmentManager().beginTransaction().add(R.id.content_container, mVideoPlayerFragment, TAG_VIDEO_FRAGMENT).commit();
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-
-	}
-
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-	}
-
-	@Override
-	public void onDestroy() {
-
-
-		super.onDestroy();
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-	}
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {

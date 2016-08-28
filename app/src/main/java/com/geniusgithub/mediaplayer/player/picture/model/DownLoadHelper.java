@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.picture;
+package com.geniusgithub.mediaplayer.player.picture.model;
 
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
@@ -37,7 +37,7 @@ public class DownLoadHelper {
 	
 	
 	public static interface IDownLoadCallback{
-		public void startDownLoad();
+		public void startDownLoad(String title);
 		public void downLoadComplete(final boolean isSuccess,final String savePath);
 	}
 	

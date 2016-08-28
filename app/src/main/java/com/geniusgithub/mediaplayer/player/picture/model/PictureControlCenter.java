@@ -1,9 +1,12 @@
-package com.geniusgithub.mediaplayer.player.picture;
+package com.geniusgithub.mediaplayer.player.picture.model;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.geniusgithub.common.util.AlwaysLog;
+import com.geniusgithub.common.util.FileHelper;
+import com.geniusgithub.common.util.FileManager;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
@@ -12,9 +15,9 @@ import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import java.util.List;
 
-public class PictureControlCenter implements  DownLoadHelper.IDownLoadCallback{
+public class PictureControlCenter implements DownLoadHelper.IDownLoadCallback {
 	private static final CommonLog log = LogFactory.createLog();
-	
+	private static final String TAG = PictureControlCenter.class.getSimpleName();
 	private final static int PLAY_NEXT = 0x0001;
 	private final static int AUTO_PLAY_INTERVAL = 3000;
 	
@@ -124,8 +127,21 @@ public class PictureControlCenter implements  DownLoadHelper.IDownLoadCallback{
 	
 	private void downLoad(int index){
 		String requestUrl = mPictureList.get(mCurIndex).getRes();
-		mDownLoadHelper.syncDownLoadFile(requestUrl, FileManager.getSaveFullPath(requestUrl), this);
-		startDownLoad();
+		String saveUri = FileManager.getBrowseCacheFullPath(requestUrl);
+		if (isFileCacheExist(saveUri)){
+			AlwaysLog.i(TAG, "isFileCacheExist saveUri = " + saveUri + ", do return it now...");
+			if (mCallback != null){
+				mCallback.downLoadComplete(true, saveUri);
+			}
+		}else{
+			mDownLoadHelper.syncDownLoadFile(requestUrl, saveUri, this);
+			startDownLoad(mPictureList.get(mCurIndex).getTitle());
+		}
+
+	}
+
+	private boolean isFileCacheExist(String saveUri){
+		return FileHelper.fileIsExist(saveUri);
 	}
 	
 	
@@ -170,10 +186,10 @@ public class PictureControlCenter implements  DownLoadHelper.IDownLoadCallback{
 	}
 
 	@Override
-	public void startDownLoad() {
+	public void startDownLoad(String title) {
 		addTaskCount();
 		if (mCallback != null){
-			mCallback.startDownLoad();
+			mCallback.startDownLoad(title);
 		}
 	}
 
