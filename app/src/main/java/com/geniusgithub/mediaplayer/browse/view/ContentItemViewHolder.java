@@ -48,7 +48,7 @@ public class ContentItemViewHolder extends RecyclerView.ViewHolder implements Vi
 		mRootView.setOnClickListener(this);
 	}
 
-	public void bindInfo(int pos, MediaItem dataItem, ImageLoaderEx imageLoaderEx){
+	public void bindInfo(int pos, MediaItem dataItem, ImageLoaderEx imageLoaderEx, boolean isbusy){
 		mMediaItem = dataItem;
 		mPos = pos;
 		mTVName.setText(dataItem.getTitle());
@@ -57,7 +57,7 @@ public class ContentItemViewHolder extends RecyclerView.ViewHolder implements Vi
 		}else if (UpnpUtil.isVideoItem(dataItem)){
 			mImageView.setImageDrawable(videoIcon);
 		}else if (UpnpUtil.isPictureItem(dataItem)){
-			imageLoaderEx.DisplayImage(dataItem.getRes(), mImageView, picIcon);
+			imageLoaderEx.DisplayImage(dataItem.getRes(), mImageView, isbusy, picIcon);
 		}else{
 			mImageView.setImageDrawable(foldIcon);
 		}

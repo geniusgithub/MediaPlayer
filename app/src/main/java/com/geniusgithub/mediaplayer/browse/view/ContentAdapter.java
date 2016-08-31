@@ -38,6 +38,12 @@ public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements 
         mImageLoader = new ImageLoaderEx(context);
 	}
 
+
+    public void setFlagBusy(boolean busy) {
+        this.mBusy = busy;
+    }
+
+
     public void refreshData(List<MediaItem>  contentItem)
     {
         this.contentItem = contentItem;
@@ -127,7 +133,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements 
         }
 
         ContentItemViewHolder contentViewHolder = (ContentItemViewHolder) viewHolder;
-        contentViewHolder.bindInfo(position, item, mImageLoader);
+        contentViewHolder.bindInfo(position, item,  mImageLoader, mBusy);
     }
 
 

@@ -11,6 +11,7 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 public class MusicPlayerContact {
 
     public interface IView extends BaseView<IPresenter> {
+        public void updateToolTitle(String title);
         public void showPrepareLoadView(boolean bShow);
         public void showControlView(boolean bShow);
         public void showLoadView(boolean bShow);

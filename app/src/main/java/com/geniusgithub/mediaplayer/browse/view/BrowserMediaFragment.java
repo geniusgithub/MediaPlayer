@@ -218,7 +218,7 @@ public class BrowserMediaFragment extends BaseFragment{
             mContentAdapter = new ContentAdapter(mContext,  new ArrayList<MediaItem>());
             mContentAdapter.setOnItemClickListener(mOnContentItemClick);
             mContentListView.setAdapter(mContentAdapter);
-
+            mContentListView.addOnScrollListener(mScrollListener);
 
             mProgressDialog = new ProgressDialog(mContext);
             mProgressDialog.setMessage("Loading...");
@@ -226,6 +226,31 @@ public class BrowserMediaFragment extends BaseFragment{
 
         }
 
+        private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    switch (newState) {
+                        case RecyclerView.SCROLL_STATE_SETTLING:
+                        //    AlwaysLog.d(TAG, "newState = SCROLL_STATE_SETTLING");
+                            mContentAdapter.setFlagBusy(true);
+                            break;
+                        case RecyclerView.SCROLL_STATE_IDLE:
+                        //    AlwaysLog.d(TAG, "newState = SCROLL_STATE_IDLE");
+                            mContentAdapter.setFlagBusy(false);
+                            mContentAdapter.notifyDataSetChanged();
+                            break;
+
+                        case RecyclerView.SCROLL_STATE_DRAGGING:
+                        //    AlwaysLog.d(TAG, "newState = SCROLL_STATE_DRAGGING");
+                            mContentAdapter.setFlagBusy(false);
+                            break;
+                        default:
+                            break;
+                    }
+            }
+        };
+
     }
 
 }
+

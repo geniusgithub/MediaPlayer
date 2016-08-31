@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
+import com.geniusgithub.mediaplayer.base.IToolBar;
 import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerContact;
@@ -40,10 +41,10 @@ public class MusicPlayerFragment extends BaseFragment{
     private MusicPlayerContact.IView mMusicPlayerView;
 
 
-  /*  private IToolBar mExternToolbar;
+    private IToolBar mExternToolbar;
     public void bindToolbar(IToolBar toolbar){
         mExternToolbar = toolbar;
-    }*/
+    }
 
 
 
@@ -87,18 +88,18 @@ public class MusicPlayerFragment extends BaseFragment{
     }
 
 
- /*   public void updateToolTitle(String title){
+   public void updateToolTitle(String title){
         if (mExternToolbar != null){
             mExternToolbar.updateToolTitle(title);
         }
     }
-*/
 
 
 
 
 
-    public class MusicPlayerView implements MusicPlayerContact.IView,    View.OnClickListener,
+
+    public class MusicPlayerView implements MusicPlayerContact.IView, View.OnClickListener,
                                                                      SeekBar.OnSeekBarChangeListener {
 
         private Context mContext;
@@ -282,6 +283,7 @@ public class MusicPlayerFragment extends BaseFragment{
             setSeekbarProgress(0);
 
             mTVSongName.setText(itemInfo.getTitle());
+            updateToolTitle(itemInfo.getTitle());
             mTVArtist.setText(itemInfo.getArtist());
             mTVAlbum.setText(itemInfo.getAlbum());
         }
@@ -390,6 +392,10 @@ public class MusicPlayerFragment extends BaseFragment{
 
         }
 
+        @Override
+        public void updateToolTitle(String title) {
+            MusicPlayerFragment.this.updateToolTitle(title);
+        }
     }
 
 

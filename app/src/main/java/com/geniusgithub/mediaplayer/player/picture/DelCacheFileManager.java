@@ -21,7 +21,7 @@ public class DelCacheFileManager implements Runnable
     }
 
     public void clearBrowseCache(){
-        start(FileManager.getBrowseCacheRootDir(), false);
+        start(FileManager.getBrowseCacheRootDir(), true);
     }
 
     @Override

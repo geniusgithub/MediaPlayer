@@ -8,6 +8,7 @@
 		android:layout_width="70dp"
 		android:layout_height="70dp"
 		android:layout_marginTop="5dp"
+		 android:layout_marginLeft="10dp"
 		 android:layout_marginBottom="5dp"
 		android:scaleType="fitCenter"/>
 	<TextView 

@@ -10,8 +10,9 @@ import android.view.MenuItem;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
+import com.geniusgithub.mediaplayer.base.IToolBar;
 
-public class MusicPlayerActivity extends BaseActivity {
+public class MusicPlayerActivity extends BaseActivity implements IToolBar{
 
     public static final String TAG_MUSIC_FRAGMENT = "tag_music_fragment";
     private Toolbar mToolbar;
@@ -67,6 +68,7 @@ public class MusicPlayerActivity extends BaseActivity {
 
         setContentView(R.layout.music_activity_layout);
         mMusicPlayerFragment = new MusicPlayerFragment();
+        mMusicPlayerFragment.bindToolbar(this);
         getFragmentManager().beginTransaction().add(R.id.content_container, mMusicPlayerFragment, TAG_MUSIC_FRAGMENT).commit();
 
         initToolBar();
@@ -78,6 +80,7 @@ public class MusicPlayerActivity extends BaseActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("MUSIC");
         mToolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        mToolbar.setBackgroundColor(Color.parseColor("#1effffff"));
         setSupportActionBar(mToolbar);
 
 
@@ -88,4 +91,8 @@ public class MusicPlayerActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void updateToolTitle(String title) {
+        mToolbar.setTitle(title);
+    }
 }
