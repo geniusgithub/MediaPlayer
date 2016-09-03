@@ -6,27 +6,20 @@ Example screenshot below:
 
 ![github](https://github.com/geniusgithub/MediaPlayer/blob/master/storage/main.jpg?raw=true "github")  
 
-![github](https://github.com/geniusgithub/MediaPlayer/blob/master/storage/broswer.jpg?raw=true "github")  
+![github](https://github.com/geniusgithub/MediaPlayer/blob/master/storage/browse.jpg?raw=true "github")  
 
-![github](http://img.my.csdn.net/uploads/201312/19/1387463576_5028.png "github")  
-
-![github](http://img.my.csdn.net/uploads/201307/17/1374056183_8947.png "github")  
-
-![github](http://img.my.csdn.net/uploads/201307/17/1374056184_3780.png "github")  
-
-![github](http://img.my.csdn.net/uploads/201307/17/1374056184_5031.png "github")  
+![github](https://github.com/geniusgithub/MediaPlayer/blob/master/storage/media.jpg?raw=true "github")  
 
 
 Code fragment
 --------------------
 
 
-    public class DlnaService extends Service implements IBaseEngine,
-													DeviceChangeListener,
-													ControlCenterWorkThread.ISearchDeviceListener{
+public class DlnaService extends Service implements IBaseEngine,DeviceChangeListener,ControlCenterWorkThread.ISearchDeviceListener{
 	
 	private static final CommonLog log = LogFactory.createLog();
-	
+	private static final String TAG = DlnaService.class.getSimpleName();
+
 	public static final String SEARCH_DEVICES = "com.geniusgithub.allshare.search_device";
 	public static final String RESET_SEARCH_DEVICES = "com.geniusgithub.allshare.reset_search_device";
 	
@@ -39,7 +32,6 @@ Code fragment
 	private  ControlCenterWorkThread mCenterWorkThread;
 	private  AllShareProxy mAllShareProxy;
 	private  Handler mHandler;
-	
 
 
 	@Override
@@ -50,7 +42,7 @@ Code fragment
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		log.e("DlnaService onCreate");
+		AlwaysLog.i(TAG, "DlnaService onCreate");
 		init();
 	}
 	
@@ -108,21 +100,33 @@ Code fragment
 		};
 		
 		registerNetworkStatusBR();
-		
+
+
+		DelCacheFileManager mDelthumbnailManager = new DelCacheFileManager();
+		mDelthumbnailManager.clearThumbnailCache();
+
+
 		boolean ret = CommonUtil.openWifiBrocast(this);
-		log.e("openWifiBrocast = " + ret);
+		AlwaysLog.i(TAG, "openWifiBrocast = " + ret);
 	}
 	
 	private void unInit(){
 		unRegisterNetworkStatusBR();
+		stopEngine();
 		AllShareApplication.getInstance().setControlPoint(null);
-		mCenterWorkThread.setSearchListener(null);
-		mCenterWorkThread.exit();
+
+		DelCacheFileManager mDelthumbnailManager = new DelCacheFileManager();
+		mDelthumbnailManager.clearThumbnailCache();
+
 	}
 
 	
 	@Override
 	public boolean startEngine() {
+		AlwaysLog.i(TAG, "startEngine");
+		if (AllShareApplication.getInstance().getControlStatus() != IControlPointStatu.STATUS_STARTED){
+			AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_STARTING);
+		}
 		awakeWorkThread();
 		return true;
 	}
@@ -130,6 +134,7 @@ Code fragment
 
 	@Override
 	public boolean stopEngine() {
+		AlwaysLog.i(TAG, "stopEngine");
 		exitWorkThread();
 		return true;
 	}
@@ -137,7 +142,12 @@ Code fragment
 
 	@Override
 	public boolean restartEngine() {
-		mCenterWorkThread.reset();
+		AlwaysLog.i(TAG, "restartEngine");
+		AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_STARTING);
+
+		mCenterWorkThread.setCompleteFlag(false);
+		awakeWorkThread();
+
 		return true;
 	}
 
@@ -152,7 +162,6 @@ Code fragment
 
 	@Override
 	public void deviceRemoved(Device dev) {
-		log.e("deviceRemoved dev = " + dev.getUDN());
 		mAllShareProxy.removeDevice(dev);
 	}
 	
@@ -196,7 +205,20 @@ Code fragment
 	public void onStartComplete(boolean startSuccess) {
 
 		mControlPoint.flushLocalAddress();
-		sendStartDeviceEventBrocast(this, startSuccess);
+	//	sendStartDeviceEventBrocast(this, startSuccess);
+		AlwaysLog.i(TAG, "onStartComplete startSuccess = " + startSuccess);
+		if (startSuccess){
+			AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_STARTED);
+		}else{
+
+		}
+
+	}
+
+	@Override
+	public void onStopComplete() {
+		AlwaysLog.i(TAG, "onStopComplete");
+		AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_SOTP);
 	}
 
 /*	public static final String SEARCH_DEVICES_FAIL = "com.geniusgithub.allshare.search_devices_fail";
@@ -206,12 +228,12 @@ Code fragment
 		context.sendBroadcast(intent);
 	}*/
 
-	public static final String START_DEVICES_EVENT = "com.geniusgithub.allshare.start_devices_event";
+/*	public static final String START_DEVICES_EVENT = "com.geniusgithub.allshare.start_devices_event";
 	public static void sendStartDeviceEventBrocast(Context context, boolean startSuccess){
 		log.e("sendStartDeviceEventBrocast startSuccess = " + startSuccess);
 		Intent intent = new Intent(START_DEVICES_EVENT);
 		context.sendBroadcast(intent);
-	}
+	}*/
 	
 	private class NetworkStatusChangeBR extends BroadcastReceiver{
 
@@ -255,9 +277,10 @@ Code fragment
 		mHandler.sendEmptyMessageDelayed(NETWORK_CHANGE, 500);
 	}
 
+}
 
 
-   public class ControlCenterWorkThread extends Thread{
+public class ControlCenterWorkThread extends Thread{
 
 	private final static String TAG = ControlCenterWorkThread.class.getSimpleName();
 
@@ -266,6 +289,7 @@ Code fragment
 	public static interface ISearchDeviceListener{
 		public void onSearchComplete(boolean searchSuccess);
 		public void onStartComplete(boolean startSuccess);
+		public void onStopComplete();
 	}
 	
 	private ControlPointImpl mCP = null;
@@ -313,6 +337,9 @@ Code fragment
 		{
 			if (mIsExit){
 				mCP.stop();
+				if (mSearchDeviceListener != null){
+					mSearchDeviceListener.onStopComplete();
+				}
 				break;
 			}
 			
