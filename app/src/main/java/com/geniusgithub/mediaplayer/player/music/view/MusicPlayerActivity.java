@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
 import com.geniusgithub.mediaplayer.base.IToolBar;
+import com.geniusgithub.mediaplayer.base.ToolEntry;
 
 public class MusicPlayerActivity extends BaseActivity implements IToolBar{
 
@@ -87,12 +88,11 @@ public class MusicPlayerActivity extends BaseActivity implements IToolBar{
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-
     }
 
-
     @Override
-    public void updateToolTitle(String title) {
-        mToolbar.setTitle(title);
+    public void updateToolTitle(ToolEntry entry) {
+        mToolbar.setTitle(entry.title);
+        mToolbar.setSubtitle(entry.subTitle);
     }
 }

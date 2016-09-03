@@ -288,7 +288,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
 
     public void onLoadDrawableComplete(Drawable drawable) {
-        if (isDestroy || drawable == null) {
+        if (isDestroy) {
             return;
         }
 

@@ -15,6 +15,7 @@ import com.geniusgithub.mediaplayer.DialogFactory;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
 import com.geniusgithub.mediaplayer.base.IToolBar;
+import com.geniusgithub.mediaplayer.base.ToolEntry;
 import com.geniusgithub.mediaplayer.browse.BrowseContract;
 import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -84,7 +85,9 @@ public class BrowserMediaFragment extends BaseFragment{
 
     public void updateToolTitle(String title){
         if (mExternToolbar != null){
-            mExternToolbar.updateToolTitle(title);
+            ToolEntry entry = new ToolEntry();
+            entry.title = title;
+            mExternToolbar.updateToolTitle(entry);
         }
     }
 

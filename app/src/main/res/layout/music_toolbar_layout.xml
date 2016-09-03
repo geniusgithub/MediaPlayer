@@ -138,13 +138,13 @@
 					android:layout_marginLeft="20dp">
 
 
-					<TextView
+	<!--				<TextView
 						android:id="@+id/tv_title"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:textColor="@android:color/white"
 						android:textSize="30sp">
-					</TextView>
+					</TextView>-->
 
 					<TextView
 						android:id="@+id/tv_album"
@@ -154,13 +154,13 @@
 						android:textSize="18sp">
 					</TextView>
 
-					<TextView
-						android:id="@+id/tv_artist"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@android:color/white"
-						android:textSize="18sp">
-					</TextView>
+					<!--			<TextView
+                                    android:id="@+id/tv_artist"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp">
+                                </TextView>-->
 
 				</LinearLayout>
 			</LinearLayout>

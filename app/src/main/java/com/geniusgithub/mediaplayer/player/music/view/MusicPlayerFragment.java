@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
 import com.geniusgithub.mediaplayer.base.IToolBar;
+import com.geniusgithub.mediaplayer.base.ToolEntry;
 import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerContact;
@@ -88,9 +89,12 @@ public class MusicPlayerFragment extends BaseFragment{
     }
 
 
-   public void updateToolTitle(String title){
+   public void updateToolTitle(String title,String author){
         if (mExternToolbar != null){
-            mExternToolbar.updateToolTitle(title);
+            ToolEntry entry = new ToolEntry();
+            entry.title = title;
+            entry.subTitle = author;
+            mExternToolbar.updateToolTitle(entry);
         }
     }
 
@@ -113,8 +117,6 @@ public class MusicPlayerFragment extends BaseFragment{
         public TextView mTVLoadSpeed;
 
         public View mControlView;
-        public TextView mTVSongName;
-        public TextView mTVArtist;
         public TextView mTVAlbum;
 
         public ImageButton mBtnPlay;
@@ -135,6 +137,7 @@ public class MusicPlayerFragment extends BaseFragment{
         public boolean lrcShow = false;
 
 
+        public Drawable mDefaultDrawable;
 
         private final static int DRAW_OFFSET_Y = 200;
 
@@ -282,19 +285,22 @@ public class MusicPlayerFragment extends BaseFragment{
             setSeekbarMax(100);
             setSeekbarProgress(0);
 
-            mTVSongName.setText(itemInfo.getTitle());
-            updateToolTitle(itemInfo.getTitle());
-            mTVArtist.setText(itemInfo.getArtist());
+            updateToolTitle(itemInfo.getTitle(), itemInfo.getArtist());
             mTVAlbum.setText(itemInfo.getAlbum());
         }
 
 
         @Override
         public void updateAlbumPIC(Drawable drawable) {
+            if (drawable == null){
+                drawable = mDefaultDrawable;
+            }
+
             Bitmap bitmap = ImageUtils.createRotateReflectedMap(mContext, drawable);
             if (bitmap != null) {
                 mIVAlbum.setImageBitmap(bitmap);
             }
+
         }
 
 
@@ -354,8 +360,6 @@ public class MusicPlayerFragment extends BaseFragment{
             mTVLoadSpeed = (TextView) rootView.findViewById(R.id.tv_speed);
 
             mControlView = rootView.findViewById(R.id.control_panel);
-            mTVSongName = (TextView) rootView.findViewById(R.id.tv_title);
-            mTVArtist = (TextView) rootView.findViewById(R.id.tv_artist);
             mTVAlbum = (TextView) rootView.findViewById(R.id.tv_album);
 
             mBtnPlay = (ImageButton) rootView.findViewById(R.id.btn_play);
@@ -383,18 +387,19 @@ public class MusicPlayerFragment extends BaseFragment{
             mAlphaHideTransformation = new AlphaAnimation(1, 0);
             mAlphaHideTransformation.setDuration(1000);
 
-            updateAlbumPIC(mContext.getResources().getDrawable(R.drawable.mp_music_default));
+
 
             mSongInfoView = rootView.findViewById(R.id.song_info_view);
 
             mLyricView = (LyricView) rootView.findViewById(R.id.lrc_view);
 
-
+            mDefaultDrawable = mContext.getResources().getDrawable(R.drawable.mp_music_default);
+            updateAlbumPIC(mDefaultDrawable);
         }
 
         @Override
-        public void updateToolTitle(String title) {
-            MusicPlayerFragment.this.updateToolTitle(title);
+        public void updateToolTitle(String title,String author) {
+            MusicPlayerFragment.this.updateToolTitle(title, author);
         }
     }
 

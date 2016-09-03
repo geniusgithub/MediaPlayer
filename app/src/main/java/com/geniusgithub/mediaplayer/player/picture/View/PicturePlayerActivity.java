@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
 import com.geniusgithub.mediaplayer.base.IToolBar;
+import com.geniusgithub.mediaplayer.base.ToolEntry;
 
 public class PicturePlayerActivity extends BaseActivity implements IToolBar {
 
@@ -68,14 +69,17 @@ public class PicturePlayerActivity extends BaseActivity implements IToolBar {
 	}
 
 	@Override
-	public void updateToolTitle(String title) {
-		mToolbar.setTitle(title);
+	public void updateToolTitle(ToolEntry entry) {
+		if (mToolbar != null){
+			mToolbar.setTitle(entry.title);
+			mToolbar.setSubtitle(entry.subTitle);
+		}
 	}
-
 	private void initToolBar() {
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
 		mToolbar.setTitle("PICTURE");
 		mToolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+		mToolbar.setBackgroundColor(Color.parseColor("#00ffffff"));
 		setSupportActionBar(mToolbar);
 
 

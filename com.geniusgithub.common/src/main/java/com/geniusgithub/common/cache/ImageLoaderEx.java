@@ -81,7 +81,7 @@ public class ImageLoaderEx {
 		if (url == null || url.length() < 1 || imageView == null){
 			return false;
 		}
-		//AlwaysLog.d(TAG, "DisplayImage url = " + url + ", isLoadOnlyFromCache = " + isLoadOnlyFromCache);
+		AlwaysLog.d(TAG, "DisplayImage url = " + url + ", isLoadOnlyFromCache = " + isLoadOnlyFromCache);
 		
 		imageViews.put(imageView, url);
 		// 先从内存缓存中查找
@@ -224,7 +224,7 @@ public class ImageLoaderEx {
 
 		@Override
 		public void run() {
-		//	AlwaysLog.d(TAG, "PhotosLoader run...");
+			AlwaysLog.d(TAG, "PhotosLoader run...");
 			if (imageViewReused(photoToLoad)){
 				return;
 			}
@@ -235,7 +235,7 @@ public class ImageLoaderEx {
 
 				return;
 			}
-		//	AlwaysLog.d(TAG, "BitmapDisplayer post...");
+			AlwaysLog.d(TAG, "BitmapDisplayer post...");
 			BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
 			// 更新的操作放在UI线程中
 			mHandler.post(bd);

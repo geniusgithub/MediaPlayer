@@ -19,12 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.geniusgithub.common.util.AlwaysLog;
-import com.geniusgithub.mediaplayer.base.IToolBar;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.activity.AboutActivity;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
+import com.geniusgithub.mediaplayer.base.IToolBar;
+import com.geniusgithub.mediaplayer.base.ToolEntry;
 import com.geniusgithub.mediaplayer.browse.view.BrowserMediaFragment;
-import com.geniusgithub.mediaplayer.player.picture.DelCacheFileManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,10 +176,11 @@ public class MainFrameActivity extends BaseActivity{
             setupViewPager();
         }
 
-         @Override
-         public void updateToolTitle(String title) {
-             mToolbar.setTitle(title);
-         }
+        @Override
+        public void updateToolTitle(ToolEntry entry) {
+            mToolbar.setTitle(entry.title);
+            mToolbar.setSubtitle(entry.subTitle);
+        }
 
          @Override
          public void updateLocalAddress(String value) {

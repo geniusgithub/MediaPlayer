@@ -53,7 +53,7 @@ public class ContentItemViewHolder extends RecyclerView.ViewHolder implements Vi
 		mPos = pos;
 		mTVName.setText(dataItem.getTitle());
 		if (UpnpUtil.isAudioItem(dataItem)){
-			mImageView.setImageDrawable(musicIcon);
+			imageLoaderEx.DisplayImage(dataItem.getAlbumUri(), mImageView, isbusy, musicIcon);
 		}else if (UpnpUtil.isVideoItem(dataItem)){
 			mImageView.setImageDrawable(videoIcon);
 		}else if (UpnpUtil.isPictureItem(dataItem)){
