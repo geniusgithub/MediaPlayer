@@ -7,6 +7,8 @@ import android.os.Handler;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.DialogFactory;
+import com.geniusgithub.mediaplayer.component.CacheManager;
+import com.geniusgithub.mediaplayer.component.ImageLoader;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -98,6 +100,7 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
         updateDeviceList();
         if (mViewType != VIEW_DMS && isSelDeviceChange){
             mContentManager.clear();
+            ImageLoader.clearTask(mContext);
             switchView(VIEW_DMS);
         }
     }
@@ -115,6 +118,7 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
                 }
 
                 AlwaysLog.i(TAG, "onGetItems list.size = " + list.size());
+                ImageLoader.clearTask(mContext);
                 mContentManager.pushListItem(list);
                 updateItemList(list);
 
@@ -148,6 +152,7 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
     public void onUiDestroy() {
         mBrocastFactory.unRegisterListener();
         mContentManager.clear();
+        CacheManager.getInstance().clearMemoryCache();
         DialogFactory.releaseDialogResource();
     }
 
@@ -158,6 +163,7 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
             case VIEW_CONTENT:{
                 mContentManager.popListItem();
                 List<MediaItem> list = mContentManager.peekListItem();
+                ImageLoader.clearTask(mContext);
                 if (list == null){
                     switchView(VIEW_DMS);
                 }else{

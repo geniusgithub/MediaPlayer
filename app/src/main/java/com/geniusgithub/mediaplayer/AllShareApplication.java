@@ -1,3 +1,19 @@
+/*
+ * Copyright  2016 geniusgithub
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.geniusgithub.mediaplayer;
 
 import android.app.Activity;
@@ -5,6 +21,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.geniusgithub.mediaplayer.component.CacheManager;
 import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.base.ItatisticsEvent;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
@@ -13,7 +30,6 @@ import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
-import com.tendcloud.tenddata.TCAgent;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -48,12 +64,14 @@ import java.util.HashMap;
 public class AllShareApplication extends Application implements ItatisticsEvent {
 
 	private static final CommonLog log = LogFactory.createLog();
-	
+
+	private static AllShareApplication mAllShareApplication;
+
 	private AllShareProxy mAllShareProxy;
 
 	private ControlPointImpl mControlPoint;
 	
-	private static AllShareApplication mAllShareApplication;
+	private CacheManager mCacheManager;
 
 	private int mContropPointStatus = IControlPointStatu.STATUS_SOTP;
 
@@ -73,16 +91,13 @@ public class AllShareApplication extends Application implements ItatisticsEvent 
 		mAllShareProxy = AllShareProxy.getInstance(this);
 		mAllShareApplication = this;
 
+		mCacheManager = CacheManager.newInstance(this);
+
+
 		mHandle = new Handler() {
 		};
 
 		MobclickAgent.setDebugMode(true);
-
-
-		  TCAgent.init(this);
-		  TCAgent.setReportUncaughtExceptions(true);
-
-
 
 		boolean ret = CommonUtil.openWifiBrocast(this);
 
@@ -136,28 +151,27 @@ public class AllShareApplication extends Application implements ItatisticsEvent 
 	@Override
 	public void onEvent(String eventID) {
 		log.e("eventID = " + eventID);	
-		TCAgent.onEvent(this, eventID);
+
 	}
 
 	@Override
 	public void onEvent(String eventID, HashMap<String, String> map) {
 		log.e("eventID = " + eventID);	
-		TCAgent.onEvent(this, eventID, "", map);
+
 	}
 	
 	public static void onPause(Activity context){
 		MobclickAgent.onPause(context);
-		TCAgent.onPause(context);
+
 	}
 	
 	public static void onResume(Activity context){
 		MobclickAgent.onResume(context);
-		TCAgent.onResume(context);
+
 	}
 	
 	public static void onCatchError(Context context){
 
-		TCAgent.setReportUncaughtExceptions(true);
 	}
 	
 }

@@ -1,3 +1,19 @@
+/*
+ * Copyright  2016 geniusgithub
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.geniusgithub.mediaplayer.dlna.center;
 
 import android.app.Service;
@@ -11,10 +27,10 @@ import android.os.IBinder;
 import android.os.Message;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
+import com.geniusgithub.mediaplayer.component.CacheManager;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
-import com.geniusgithub.mediaplayer.player.picture.DelCacheFileManager;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
@@ -113,9 +129,7 @@ public class DlnaService extends Service implements IBaseEngine,
 		
 		registerNetworkStatusBR();
 
-
-		DelCacheFileManager mDelthumbnailManager = new DelCacheFileManager();
-		mDelthumbnailManager.clearThumbnailCache();
+		CacheManager.getInstance().clearCache();
 
 
 		boolean ret = CommonUtil.openWifiBrocast(this);
@@ -126,10 +140,7 @@ public class DlnaService extends Service implements IBaseEngine,
 		unRegisterNetworkStatusBR();
 		stopEngine();
 		AllShareApplication.getInstance().setControlPoint(null);
-
-		DelCacheFileManager mDelthumbnailManager = new DelCacheFileManager();
-		mDelthumbnailManager.clearThumbnailCache();
-
+		CacheManager.getInstance().clearCache();
 	}
 
 	
@@ -156,7 +167,7 @@ public class DlnaService extends Service implements IBaseEngine,
 	public boolean restartEngine() {
 		AlwaysLog.i(TAG, "restartEngine");
 		AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_STARTING);
-
+		CacheManager.getInstance().clearCache();
 		mCenterWorkThread.setCompleteFlag(false);
 		awakeWorkThread();
 

@@ -16,9 +16,6 @@ public class DelCacheFileManager implements Runnable
 
     }
 
-    public void clearThumbnailCache(){
-       start(FileManager.getThumbnailCacheRootDir(), true);
-    }
 
     public void clearBrowseCache(){
         start(FileManager.getBrowseCacheRootDir(), true);

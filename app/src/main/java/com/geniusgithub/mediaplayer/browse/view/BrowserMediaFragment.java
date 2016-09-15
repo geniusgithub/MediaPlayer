@@ -174,6 +174,7 @@ public class BrowserMediaFragment extends BaseFragment{
         public void updateItemList(List<MediaItem>  contentItem)
         {
             mContentAdapter.refreshData(contentItem);
+            mContentListView.scrollToPosition(0);
         }
 
         @Override

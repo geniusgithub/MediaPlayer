@@ -3,7 +3,7 @@ package com.geniusgithub.mediaplayer.util;
 
 
 public class LogFactory {
-	private static final String TAG = "all_share";
+	private static final String TAG = "DLNA_MediaPlayer";
 	private static CommonLog log = null;
 
 	public static CommonLog createLog() {

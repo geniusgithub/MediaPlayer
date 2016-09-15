@@ -1,5 +1,6 @@
 package com.geniusgithub.mediaplayer.browse.view;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.geniusgithub.common.cache.ImageLoaderEx;
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.component.ImageLoader;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
@@ -22,7 +23,7 @@ public class ContentItemViewHolder extends RecyclerView.ViewHolder implements Vi
 	public	static Drawable picIcon;
 	public	static Drawable videoIcon;
 
-
+	private Context mContext;
 
 	public static void  loadDefaultDrawable(Resources resource){
 		foldIcon = resource.getDrawable(R.drawable.ic_menu_archive);
@@ -48,27 +49,27 @@ public class ContentItemViewHolder extends RecyclerView.ViewHolder implements Vi
 	private MediaItem mMediaItem;
 	private int mPos;
 
-	public ContentItemViewHolder(View itemView) {
+	public ContentItemViewHolder(Context context, View itemView) {
 		super(itemView);
-
+		mContext = context;
 		ButterKnife.bind(this, itemView);
 		mRootView.setOnClickListener(this);
 	}
 
-	public void bindInfo(int pos, MediaItem dataItem, ImageLoaderEx imageLoaderEx, boolean isbusy){
+	public void bindInfo(int pos, MediaItem dataItem, boolean isbusy){
 		mMediaItem = dataItem;
 		mPos = pos;
 		mTVName.setText(dataItem.getTitle());
 		if (UpnpUtil.isAudioItem(dataItem)){
-			imageLoaderEx.DisplayImage(dataItem.getAlbumUri(), mImageView, isbusy, musicIcon);
+			ImageLoader.loadThumail(mContext, dataItem.getAlbumUri(), mImageView, musicIcon);
 		}else if (UpnpUtil.isVideoItem(dataItem)){
-			mImageView.setImageDrawable(videoIcon);
+		//	mImageView.setImageDrawable(videoIcon);
+			ImageLoader.loadThumail(mContext, dataItem.getRes(), mImageView, videoIcon);
 		}else if (UpnpUtil.isPictureItem(dataItem)){
-			imageLoaderEx.DisplayImage(dataItem.getRes(), mImageView, isbusy, picIcon);
+			ImageLoader.loadThumail(mContext, dataItem.getRes(), mImageView, picIcon);
 		}else{
 			mImageView.setImageDrawable(foldIcon);
 		}
-
 
 	}
 

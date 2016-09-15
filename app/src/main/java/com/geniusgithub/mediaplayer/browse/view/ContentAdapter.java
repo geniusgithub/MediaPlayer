@@ -8,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.geniusgithub.common.cache.ImageLoaderEx;
 import com.geniusgithub.mediaplayer.R;
+import com.geniusgithub.mediaplayer.component.ImageLoader;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
 import java.util.List;
@@ -23,7 +23,6 @@ public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements 
     private LayoutInflater mInflater;
 
     private boolean mBusy = false;
-    private ImageLoaderEx mImageLoader;
 
     public ContentAdapter(Context context, List<MediaItem>  mediaItemList){
 		super();
@@ -34,13 +33,17 @@ public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements 
         Resources res = context.getResources();
         ContentItemViewHolder.loadDefaultDrawable(res);
 
-
-        mImageLoader = new ImageLoaderEx(context);
 	}
 
 
     public void setFlagBusy(boolean busy) {
         this.mBusy = busy;
+        if (mBusy){
+            ImageLoader.pauseRequests(mContext);
+        }else{
+            ImageLoader.resumeRequests(mContext);
+        }
+
     }
 
 
@@ -121,7 +124,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements 
 	
     private ViewHolder createContentItemEntryViewHolder(ViewGroup parent) {
         View view = mInflater.inflate(R.layout.content_list_item, parent, false);
-        ContentItemViewHolder viewHolder = new ContentItemViewHolder(view);
+        ContentItemViewHolder viewHolder = new ContentItemViewHolder(mContext, view);
         viewHolder.setOnItemClickListener(this);
         return viewHolder;
     }
@@ -133,7 +136,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements 
         }
 
         ContentItemViewHolder contentViewHolder = (ContentItemViewHolder) viewHolder;
-        contentViewHolder.bindInfo(position, item,  mImageLoader, mBusy);
+        contentViewHolder.bindInfo(position, item,  mBusy);
     }
 
 
