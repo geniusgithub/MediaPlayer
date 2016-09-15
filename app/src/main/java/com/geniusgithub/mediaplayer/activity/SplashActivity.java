@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.TextView;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
@@ -16,15 +17,20 @@ import com.geniusgithub.mediaplayer.util.PermissionsUtil;
 
 import org.cybergarage.util.AlwaysLog;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SplashActivity extends BaseActivity {
 
 	private static final CommonLog log = LogFactory.createLog();
 	private static final  String TAG = SplashActivity.class.getSimpleName();
 	private Handler mHandle;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.welcome_layout);
+		ButterKnife.bind(this);
 		initData();
 	}
 	

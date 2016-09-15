@@ -27,6 +27,9 @@ import com.geniusgithub.mediaplayer.player.video.VideoPlayerContact;
 
 import org.cybergarage.util.AlwaysLog;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class VideoPlayerFragment extends BaseFragment{
 
@@ -93,24 +96,48 @@ public class VideoPlayerFragment extends BaseFragment{
         private Context mContext;
         private VideoPlayerContact.IPresenter mVideoPlayerPresenter;
 
+        @BindView(R.id.prepare_panel)
         public View mPrepareView;
+
+        @BindView(R.id.tv_prepare_speed)
         public TextView mTVPrepareSpeed;
 
+        @BindView(R.id.loading_panel)
         public View mLoadView;
+
+        @BindView(R.id.tv_speed)
         public TextView mTVLoadSpeed;
 
+        @BindView(R.id.control_panel)
         public View mControlView;
+
+        @BindView(R.id.tv_title)
         public TextView mTitle;
 
+        @BindView(R.id.btn_play)
         public ImageButton mBtnPlay;
+
+        @BindView(R.id.btn_pause)
         public ImageButton mBtnPause;
+
+        @BindView(R.id.btn_playpre)
         public ImageButton mBtnPre;
+
+        @BindView(R.id.btn_playnext)
         public ImageButton mBtnNext;
+
+        @BindView(R.id.playback_seeker)
         public SeekBar mSeekBar;
+
+        @BindView(R.id.tv_curTime)
         public TextView mTVCurTime;
+
+        @BindView(R.id.tv_totalTime)
         public TextView mTVTotalTime;
 
-        private SurfaceView mSurfaceView;
+        @BindView(R.id.surfaceView)
+        public SurfaceView mSurfaceView;
+
         private SurfaceHolder holder = null;
 
         public TranslateAnimation mHideDownTransformation;
@@ -303,37 +330,19 @@ public class VideoPlayerFragment extends BaseFragment{
 
 
         public void initView(View rootView){
+            ButterKnife.bind(this, rootView);
 
-            mPrepareView = rootView.findViewById(R.id.prepare_panel);
-            mTVPrepareSpeed = (TextView) rootView.findViewById(R.id.tv_prepare_speed);
 
-            mLoadView = rootView.findViewById(R.id.loading_panel);
-            mTVLoadSpeed = (TextView) rootView.findViewById(R.id.tv_speed);
-
-            mControlView = rootView.findViewById(R.id.control_panel);
-
-            mBtnPlay = (ImageButton) rootView.findViewById(R.id.btn_play);
-            mBtnPause = (ImageButton) rootView.findViewById(R.id.btn_pause);
-            mBtnPre = (ImageButton) rootView.findViewById(R.id.btn_playpre);
-            mBtnNext = (ImageButton) rootView.findViewById(R.id.btn_playnext);
             mBtnPlay.setOnClickListener(this);
             mBtnPause.setOnClickListener(this);
             mBtnPre.setOnClickListener(this);
             mBtnNext.setOnClickListener(this);
 
-            mSeekBar = (SeekBar) rootView.findViewById(R.id.playback_seeker);
-            mTVCurTime = (TextView) rootView.findViewById(R.id.tv_curTime);
-            mTVTotalTime = (TextView) rootView.findViewById(R.id.tv_totalTime);
-            mTitle = (TextView) rootView.findViewById(R.id.tv_title);
             mSeekBar.setOnSeekBarChangeListener(this);
 
-            mSurfaceView = (SurfaceView) rootView.findViewById(R.id.surfaceView);
             holder = mSurfaceView.getHolder();
             holder.addCallback(this);
             holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-
-
 
             mHideDownTransformation = new TranslateAnimation(0.0f, 0.0f,0.0f,200.0f);
             mHideDownTransformation.setDuration(1000);

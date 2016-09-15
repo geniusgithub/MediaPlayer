@@ -12,6 +12,9 @@ import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ContentItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 	public	static Drawable foldIcon ;
@@ -32,19 +35,23 @@ public class ContentItemViewHolder extends RecyclerView.ViewHolder implements Vi
 		public void onItemClick(int pos, MediaItem item);
 	}
 
-
+	@BindView(R.id.imageView)
 	public ImageView mImageView;
+
+	@BindView(R.id.ll_root)
 	public View mRootView;
+
+	@BindView(R.id.tv_content)
 	public TextView mTVName;
+
 	public onItemClickListener mOnItemClickListener;
 	private MediaItem mMediaItem;
 	private int mPos;
+
 	public ContentItemViewHolder(View itemView) {
 		super(itemView);
 
-		mImageView = (ImageView) itemView.findViewById(R.id.imageView);
-		mTVName = (TextView) itemView.findViewById(R.id.tv_content);
-		mRootView = itemView.findViewById(R.id.ll_root);
+		ButterKnife.bind(this, itemView);
 		mRootView.setOnClickListener(this);
 	}
 

@@ -25,6 +25,9 @@ import org.cybergarage.upnp.Device;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class BrowserMediaFragment extends BaseFragment{
 
@@ -103,14 +106,17 @@ public class BrowserMediaFragment extends BaseFragment{
 
         private Context mContext;
 
-        private RecyclerView mDevListView;
+        @BindView(R.id.device_list)
+         RecyclerView mDevListView;
+
         private DeviceAdapter mDevAdapter;
         private  OnDeviceItemClick mOnDeviceItemClick;
 
-        private RecyclerView mContentListView;
+        @BindView(R.id.content_list)
+         RecyclerView mContentListView;
+
         private ContentAdapter mContentAdapter;
         private OnContentItemClick mOnContentItemClick;
-
 
         private ProgressDialog mProgressDialog;
 
@@ -198,10 +204,9 @@ public class BrowserMediaFragment extends BaseFragment{
         }
 
         private void initView(View view){
+            ButterKnife.bind(this, view);
 
 
-
-            mDevListView = (RecyclerView) view.findViewById(R.id.device_list);
             mDevListView.setHasFixedSize(true);
             mDevListView.setNestedScrollingEnabled(false);
             LinearLayoutManager mLayoutManager1 = new LinearLayoutManager(mContext);
@@ -212,7 +217,6 @@ public class BrowserMediaFragment extends BaseFragment{
             mDevAdapter.setOnItemClickListener(mOnDeviceItemClick);
             mDevListView.setAdapter(mDevAdapter);
 
-            mContentListView = (RecyclerView) view.findViewById(R.id.content_list);
             mContentListView.setHasFixedSize(true);
             mContentListView.setNestedScrollingEnabled(false);
             LinearLayoutManager  mLayoutManager2 = new LinearLayoutManager(mContext);

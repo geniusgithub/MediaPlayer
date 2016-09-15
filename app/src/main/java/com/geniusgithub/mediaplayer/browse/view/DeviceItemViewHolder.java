@@ -9,6 +9,9 @@ import com.geniusgithub.mediaplayer.R;
 
 import org.cybergarage.upnp.Device;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DeviceItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
@@ -17,10 +20,18 @@ public class DeviceItemViewHolder extends RecyclerView.ViewHolder implements Vie
 		public void onDetailClick(Device device);
 	}
 
+	@BindView(R.id.ctrl_list_item_name)
 	public TextView mNameView;
+
+	@BindView(R.id.ctrl_list_item_ip)
 	public TextView mIPView;
+
+	@BindView(R.id.fl_detail)
 	public View mDetailView;
+
+	@BindView(R.id.cardview)
     public CardView mCardView;
+
 	public Device mDevice;
 
 	public onItemClickListener mOnItemClickListener;
@@ -29,11 +40,7 @@ public class DeviceItemViewHolder extends RecyclerView.ViewHolder implements Vie
 	public DeviceItemViewHolder(View itemView) {
 		super(itemView);
 
-		mNameView = (TextView)itemView.findViewById(R.id.ctrl_list_item_name);
-		mIPView = (TextView)itemView.findViewById(R.id.ctrl_list_item_ip);
-		mDetailView = itemView.findViewById(R.id.fl_detail);
-		mCardView = (CardView) itemView.findViewById(R.id.cardview);
-
+		ButterKnife.bind(this, itemView);
 		mDetailView.setOnClickListener(this);
 		mCardView.setOnClickListener(this);
 	}

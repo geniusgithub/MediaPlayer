@@ -29,6 +29,9 @@ import com.geniusgithub.mediaplayer.browse.view.BrowserMediaFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainFrameActivity extends BaseActivity{
 
     public static final String TAG = MainFrameActivity.class.getSimpleName();
@@ -144,22 +147,28 @@ public class MainFrameActivity extends BaseActivity{
 
 
 
-    private class MainView implements  MainContract.IView, IToolBar, NavigationViewEx.INavClickListener{
+     class MainView implements  MainContract.IView, IToolBar, NavigationViewEx.INavClickListener{
 
-        private MainContract.IPresenter mPresenter;
-        private View mRootView;
+         private MainContract.IPresenter mPresenter;
+         private View mRootView;
+
+         @BindView(R.id.toolbar)
+         Toolbar mToolbar;
+
+         @BindView(R.id.dl_main_drawer)
+          DrawerLayout mDrawerLayout;
+
+         @BindView(R.id.tabs)
+          TabLayout mTabLayout;
+
+         @BindView(R.id.viewpager)
+          ViewPager mViewPager;
+
+         @BindView(R.id.nv_main_navigation)
+          NavigationViewEx mNavigationView;
 
          private ActionBarDrawerToggle mDrawerToggle;
-         private DrawerLayout mDrawerLayout;
-         private Toolbar mToolbar;
-         private NavigationViewEx mNavigationView;
-
-
-         private ViewPager mViewPager;
-         private TabLayout mTabLayout;
          private TabLayout.Tab mTabLibrary;
-
-
          private BrowserMediaFragment mMediaServiceFragment;
 
          @Override
@@ -170,7 +179,7 @@ public class MainFrameActivity extends BaseActivity{
         @Override
         public void setupView(View rootView) {
             mRootView = rootView;
-
+            ButterKnife.bind(this, mRootView);
             initToolBar();
             initDrawLayout();
             setupViewPager();
@@ -226,14 +235,12 @@ public class MainFrameActivity extends BaseActivity{
 
 
          private void initToolBar() {
-            mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
             mToolbar.setTitle("DLNA");
             mToolbar.setTitleTextColor(Color.parseColor("#ffffff"));
             setSupportActionBar(mToolbar);
 
 
             final ActionBar ab = getSupportActionBar();
-           // ab.setHomeAsUpIndicator(R.drawable.ic_menu);
             ab.setDisplayHomeAsUpEnabled(true);
 
 
@@ -241,7 +248,6 @@ public class MainFrameActivity extends BaseActivity{
 
         private void initDrawLayout() {
 
-            mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer);
             mDrawerToggle = new ActionBarDrawerToggle(MainFrameActivity.this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
                 @Override
                 public void onDrawerOpened(View drawerView) {
@@ -262,7 +268,6 @@ public class MainFrameActivity extends BaseActivity{
             mDrawerLayout.addDrawerListener(mDrawerToggle);
 
 
-            mNavigationView = (NavigationViewEx) findViewById(R.id.nv_main_navigation);
             if (mNavigationView != null) {
                 mNavigationView.setmNavListener(this);
             }
@@ -270,10 +275,6 @@ public class MainFrameActivity extends BaseActivity{
 
 
          private void setupViewPager() {
-             mTabLayout = (TabLayout) findViewById(R.id.tabs);
-             mViewPager = (ViewPager) findViewById(R.id.viewpager);
-
-
              List<String> titles = new ArrayList<String>();
              titles.add("LIBRARY");
              mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
@@ -290,6 +291,7 @@ public class MainFrameActivity extends BaseActivity{
              mTabLayout.setTabsFromPagerAdapter(adapter);
              mViewPager.setOffscreenPageLimit(mTabLayout.getTabCount());
          }
+
 
 
 

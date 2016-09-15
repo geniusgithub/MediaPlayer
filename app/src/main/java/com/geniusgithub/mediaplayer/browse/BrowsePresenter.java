@@ -259,8 +259,6 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
             mContext.startActivity(intent2);
         }
 
-
-
     }
 
 

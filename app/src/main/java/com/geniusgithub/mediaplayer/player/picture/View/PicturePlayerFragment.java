@@ -22,6 +22,9 @@ import com.geniusgithub.mediaplayer.player.picture.PicturePlayerPresenter;
 
 import org.cybergarage.util.AlwaysLog;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class PicturePlayerFragment extends BaseFragment{
 
@@ -91,11 +94,22 @@ public class PicturePlayerFragment extends BaseFragment{
         private Context mContext;
         private PicturePlayerContact.IPresenter mPicturePlayerPresenter;
 
+        @BindView(R.id.imageview)
         public ImageView mImageView;
+
+        @BindView(R.id.btn_playpre)
         public ImageButton mBtnPre;
+
+        @BindView(R.id.btn_playnext)
         public ImageButton mBtnNext;
+
+        @BindView(R.id.btn_play)
         public ImageButton mBtnPlay;
+
+        @BindView(R.id.btn_pause)
         public ImageButton mBtnPause;
+
+        @BindView(R.id.show_load_progress)
         public View mLoadView;
 
         public Bitmap recycleBitmap;
@@ -200,14 +214,8 @@ public class PicturePlayerFragment extends BaseFragment{
         }
 
         private void initView(View rootView) {
-            mImageView = (ImageView) rootView.findViewById(R.id.imageview);
-            mLoadView = rootView.findViewById(R.id.show_load_progress);
+            ButterKnife.bind(this, rootView);
 
-
-            mBtnPre = (ImageButton) rootView.findViewById(R.id.btn_playpre);
-            mBtnNext = (ImageButton) rootView.findViewById(R.id.btn_playnext);
-            mBtnPlay = (ImageButton) rootView.findViewById(R.id.btn_play);
-            mBtnPause = (ImageButton) rootView.findViewById(R.id.btn_pause);
             mBtnPre.setOnClickListener(this);
             mBtnNext.setOnClickListener(this);
             mBtnPlay.setOnClickListener(this);

@@ -11,15 +11,24 @@ import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class AboutActivity extends BaseActivity {
 
-    private Toolbar mToolbar;
-    private TextView mTVVersion;
+    @BindView(R.id.toolbar)
+     Toolbar mToolbar;
+
+    @BindView(R.id.tv_version)
+     TextView mTVVersion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.abount_layout);
+        ButterKnife.bind(this);
 
-        setupViews();
+        initToolBar();
         initData();
     }
 
@@ -43,15 +52,7 @@ public class AboutActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void setupViews(){
-        setContentView(R.layout.abount_layout);
-        mTVVersion = (TextView) findViewById(R.id.tv_version);
-        initToolBar();
-    }
-
     private void initToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(getResources().getString(R.string.menu_about));
         mToolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         setSupportActionBar(mToolbar);

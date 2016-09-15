@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.geniusgithub.mediaplayer.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class NavigationViewEx extends LinearLayout implements View.OnClickListener{
 
     public static interface INavClickListener{
@@ -21,11 +24,21 @@ public class NavigationViewEx extends LinearLayout implements View.OnClickListen
     private Context mContext;
     private View mRootView;
 
-    private View mSearch;
-    private View mRest;
-    private View mStop;
-    private View mExit;
-    private TextView mTVLocalAddress;
+
+    @BindView(R.id.ll_search)
+     View mSearch;
+
+    @BindView(R.id.ll_restart)
+     View mRest;
+
+    @BindView(R.id.ll_stop)
+     View mStop;
+
+    @BindView(R.id.ll_exit)
+     View mExit;
+
+    @BindView(R.id.tv_localAddress)
+     TextView mTVLocalAddress;
 
     private INavClickListener mNavListener;
 
@@ -42,6 +55,7 @@ public class NavigationViewEx extends LinearLayout implements View.OnClickListen
         mContext = context;
 
         mRootView = LayoutInflater.from(context).inflate(R.layout.navigation_header, this,true);
+        ButterKnife.bind(this, mRootView);
     }
 
     public void setmNavListener(INavClickListener listener){
@@ -56,11 +70,6 @@ public class NavigationViewEx extends LinearLayout implements View.OnClickListen
     }
 
     private void initView(){
-        mTVLocalAddress = (TextView) mRootView.findViewById(R.id.tv_localAddress);
-        mSearch = mRootView.findViewById(R.id.ll_search);
-        mRest = mRootView.findViewById(R.id.ll_restart);
-        mStop = mRootView.findViewById(R.id.ll_stop);
-        mExit = mRootView.findViewById(R.id.ll_exit);
         mSearch.setOnClickListener(this);
         mRest.setOnClickListener(this);
         mStop.setOnClickListener(this);

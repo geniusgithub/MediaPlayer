@@ -32,6 +32,9 @@ import com.geniusgithub.mediaplayer.player.music.util.ImageUtils;
 
 import org.cybergarage.util.AlwaysLog;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MusicPlayerFragment extends BaseFragment{
 
@@ -109,34 +112,61 @@ public class MusicPlayerFragment extends BaseFragment{
         private Context mContext;
         private MusicPlayerContact.IPresenter  mMsuciPlayerPresenter;
 
-
+        @BindView(R.id.prepare_panel)
         public View mPrepareView;
+
+        @BindView(R.id.tv_prepare_speed)
         public TextView mTVPrepareSpeed;
 
+        @BindView(R.id.loading_panel)
         public View mLoadView;
+
+        @BindView(R.id.tv_speed)
         public TextView mTVLoadSpeed;
 
+        @BindView(R.id.control_panel)
         public View mControlView;
+
+        @BindView(R.id.tv_album)
         public TextView mTVAlbum;
 
+        @BindView(R.id.btn_play)
         public ImageButton mBtnPlay;
+
+        @BindView(R.id.btn_pause)
         public ImageButton mBtnPause;
+
+        @BindView(R.id.btn_playpre)
         public ImageButton mBtnPre;
+
+        @BindView(R.id.btn_playnext)
         public ImageButton mBtnNext;
+
+        @BindView(R.id.playback_seeker)
         public SeekBar mSeekBar;
+
+        @BindView(R.id.tv_curTime)
         public TextView mTVCurTime;
+
+        @BindView(R.id.tv_totalTime)
         public TextView mTVTotalTime;
+
+        @BindView(R.id.mp_freq_view)
         public VisualizerView mVisualizerView;
+
+        @BindView(R.id.iv_album)
         public ImageView mIVAlbum;
+
+        @BindView(R.id.song_info_view)
+        public View mSongInfoView;
+
+        @BindView(R.id.lrc_view)
+        public LyricView mLyricView;
 
         public TranslateAnimation mHideDownTransformation;
         public AlphaAnimation mAlphaHideTransformation;
 
-        public View mSongInfoView;
-        public LyricView mLyricView;
         public boolean lrcShow = false;
-
-
         public Drawable mDefaultDrawable;
 
         private final static int DRAW_OFFSET_Y = 200;
@@ -212,10 +242,6 @@ public class MusicPlayerFragment extends BaseFragment{
         public void showPlayErrorTip() {
             Toast.makeText(mContext, R.string.toast_musicplay_fail, Toast.LENGTH_SHORT).show();
         }
-
-
-
-
 
 
         @Override
@@ -353,33 +379,13 @@ public class MusicPlayerFragment extends BaseFragment{
 
 
         private void initView(View rootView) {
-            mPrepareView = rootView.findViewById(R.id.prepare_panel);
-            mTVPrepareSpeed = (TextView) rootView.findViewById(R.id.tv_prepare_speed);
+            ButterKnife.bind(this, rootView);
 
-            mLoadView = rootView.findViewById(R.id.loading_panel);
-            mTVLoadSpeed = (TextView) rootView.findViewById(R.id.tv_speed);
-
-            mControlView = rootView.findViewById(R.id.control_panel);
-            mTVAlbum = (TextView) rootView.findViewById(R.id.tv_album);
-
-            mBtnPlay = (ImageButton) rootView.findViewById(R.id.btn_play);
-            mBtnPause = (ImageButton) rootView.findViewById(R.id.btn_pause);
-            mBtnPre = (ImageButton) rootView.findViewById(R.id.btn_playpre);
-            mBtnNext = (ImageButton) rootView.findViewById(R.id.btn_playnext);
             mBtnPlay.setOnClickListener(this);
             mBtnPause.setOnClickListener(this);
             mBtnPre.setOnClickListener(this);
             mBtnNext.setOnClickListener(this);
-
-            mSeekBar = (SeekBar) rootView.findViewById(R.id.playback_seeker);
             mSeekBar.setOnSeekBarChangeListener(this);
-
-            mTVCurTime = (TextView) rootView.findViewById(R.id.tv_curTime);
-            mTVTotalTime = (TextView) rootView.findViewById(R.id.tv_totalTime);
-            mVisualizerView = (VisualizerView) rootView.findViewById(R.id.mp_freq_view);
-            mIVAlbum = (ImageView) rootView.findViewById(R.id.iv_album);
-
-
 
             mHideDownTransformation = new TranslateAnimation(0.0f, 0.0f, 0.0f, 200.0f);
             mHideDownTransformation.setDuration(1000);
@@ -387,11 +393,6 @@ public class MusicPlayerFragment extends BaseFragment{
             mAlphaHideTransformation = new AlphaAnimation(1, 0);
             mAlphaHideTransformation.setDuration(1000);
 
-
-
-            mSongInfoView = rootView.findViewById(R.id.song_info_view);
-
-            mLyricView = (LyricView) rootView.findViewById(R.id.lrc_view);
 
             mDefaultDrawable = mContext.getResources().getDrawable(R.drawable.mp_music_default);
             updateAlbumPIC(mDefaultDrawable);
