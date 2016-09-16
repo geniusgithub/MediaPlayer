@@ -22,5 +22,6 @@ public class BrowseContract {
     public interface IPresenter extends BasePresenter<IView> {
         public void enterDevice(Device device);
         public void browseItem(int index, MediaItem item);
+        public void cancelTask();
     }
 }

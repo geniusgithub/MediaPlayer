@@ -3,6 +3,7 @@ package com.geniusgithub.mediaplayer.browse.view;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -230,7 +231,12 @@ public class BrowserMediaFragment extends BaseFragment{
 
             mProgressDialog = new ProgressDialog(mContext);
             mProgressDialog.setMessage("Loading...");
-
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    mBrowsePresenter.cancelTask();
+                }
+            });
 
         }
 

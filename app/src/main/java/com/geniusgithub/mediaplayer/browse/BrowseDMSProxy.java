@@ -1,10 +1,10 @@
 package com.geniusgithub.mediaplayer.browse;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.geniusgithub.mediaplayer.dlna.ParseUtil;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
@@ -20,166 +20,133 @@ public class BrowseDMSProxy {
 
 	public static interface BrowseRequestCallback
 	{
-		public void onGetItems(final List<MediaItem> list);
+		public void onRequestBegin();
+		public void onRequestCancel();
+		public void onRequestSuccess(final List<MediaItem> list);
+		public void onRequestFail();
 	}
 	
 	private static final CommonLog log = LogFactory.createLog();
 	
-	public static  void syncGetDirectory(final Context context, final BrowseRequestCallback callback) {
-		Thread thread = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
+	public static  BrowseContentAsnyTask syncGetDirectory(final Context context, Device device, final BrowseRequestCallback callback) {
+		return syncGetItems(context, device, null, callback);
+	}
+	
+	public static BrowseContentAsnyTask syncGetItems(final Context context,  Device device, final String id, final BrowseRequestCallback callback) {
+		BrowseContentAsnyTask task =  new BrowseContentAsnyTask(context, id, callback);
+		task.bindCallback(callback);
+		task.execute(device);
+		return task;
+	}
 
-				List<MediaItem> list = null;
-				try {
-					list = getDirectory(context);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				if (callback != null){
-					callback.onGetItems(list);
+	public static class BrowseContentAsnyTask extends AsyncTask<Device, Void, List<MediaItem>>{
+
+		private Context mContext;
+		private String mReuqestID;
+		private BrowseRequestCallback mCallback;
+
+		public BrowseContentAsnyTask(Context context, String id, BrowseRequestCallback callback){
+			mContext = context;
+			mReuqestID = id;
+			bindCallback(callback);
+		}
+
+		public void bindCallback(BrowseRequestCallback callback){
+			mCallback = callback;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			if (mCallback != null){
+				mCallback.onRequestBegin();
+			}
+		}
+
+		@Override
+		protected List<MediaItem> doInBackground(Device... params) {
+
+			Device device = params[0];
+			List<MediaItem> list = null;
+			try {
+				list = getItems(mContext, device, mReuqestID);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+
+			return list;
+		}
+
+		@Override
+		protected void onPostExecute(List<MediaItem> mediaItemList) {
+			super.onPostExecute(mediaItemList);
+
+			if (mCallback != null){
+				if (mediaItemList != null){
+					mCallback.onRequestSuccess(mediaItemList);
+				}else{
+					mCallback.onRequestFail();
 				}
 			}
-		});
-		
-		thread.start();
-	}
-	
-	public static void syncGetItems(final Context context, final String id,final BrowseRequestCallback callback) {
-		Thread thread = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				List<MediaItem> list = null;
-				try {
-					list = getItems(context, id);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				if (callback != null){
-					callback.onGetItems(list);
-				}
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+
+			if (mCallback != null){
+				mCallback.onRequestCancel();
 			}
-		});
-		
-		thread.start();
-		
+		}
 
-	}
-	
-	public static List<MediaItem> getDirectory(Context context) throws Exception {
-		
-		Device selDevice = AllShareProxy.getInstance(context).getDMSSelectedDevice();
-		if (selDevice == null) {
-			log.e("no selDevice!!!");
-			return null;
-		}
-		
-		
-		
-//		Node selDevNode = selDevice.getDeviceNode();
-//		if (selDevNode != null){
-//			selDevNode.print();
-//		}
-		
-		org.cybergarage.upnp.Service service = selDevice
-		.getService("urn:schemas-upnp-org:service:ContentDirectory:1");
-		if (service == null)
-		{
-			log.e("no service for ContentDirectory!!!");
-			return null;
-		}
-		
-//		Node serverNode = service.getServiceNode();
-//		if (serverNode != null){
-//			serverNode.print();
-//		}
-	
-		Action action = service.getAction("Browse");
-		if(action == null)
-		{
-			log.e("action for Browse is null!!!");
-			return null;
-		}
-		ArgumentList argumentList = action.getArgumentList();
-		argumentList.getArgument("ObjectID").setValue(0);
-		argumentList.getArgument("BrowseFlag").setValue("BrowseDirectChildren");
-		argumentList.getArgument("StartingIndex").setValue("0");
-		argumentList.getArgument("RequestedCount").setValue("0");
-		argumentList.getArgument("Filter").setValue("*");
-		argumentList.getArgument("SortCriteria").setValue("");
-		
-		ArgumentList actionInputArgList = action.getInputArgumentList();	
-//		int size = actionInputArgList.size();
-//		for(int i = 0; i < size; i++){
-//			Argument argument =  (Argument) (actionInputArgList.get(i));
-//			argument.getArgumentNode().print();
-//		}
+		private static List<MediaItem> getItems(Context context, Device selDevice, String id) throws Exception{
 
-		if (action.postControlAction()) {
-			ArgumentList outArgList = action.getOutputArgumentList();
-			Argument result = outArgList.getArgument("Result");
-		
-			log.d("result value = \n" + result.getValue());	
-			
-			
-			List<MediaItem> items = ParseUtil.parseResult(result);
-			return items;
-		} else {
-			UPnPStatus err = action.getControlStatus();
-			log.e("Error Code = " + err.getCode());
-			log.e("Error Desc = " + err.getDescription());
-		}
-		return null;
-	}
-	
-	public static List<MediaItem> getItems(Context context, String id) throws Exception{
-		
-		
-		Device selDevice = AllShareProxy.getInstance(context).getDMSSelectedDevice();
-		if (selDevice == null) {
-			log.e("no selDevice!!!");
-			return null;
-		}
-	
-		org.cybergarage.upnp.Service service = selDevice
-		.getService("urn:schemas-upnp-org:service:ContentDirectory:1");
-		if (selDevice == null)
-		{
-			log.e("no service for ContentDirectory!!!");
-			return null;
-		}
-		
-		Action action = service.getAction("Browse");
-		if(action == null)
-		{
-			log.e("action for Browse is null");
-			return null;
-		}
-	
-	//	action.getActionNode().print();	
-		
-		ArgumentList argumentList = action.getArgumentList();
-		argumentList.getArgument("ObjectID").setValue(id);
-		argumentList.getArgument("BrowseFlag").setValue("BrowseDirectChildren");
-		argumentList.getArgument("StartingIndex").setValue("0");
-		argumentList.getArgument("RequestedCount").setValue("0");
-		argumentList.getArgument("Filter").setValue("*");
-		argumentList.getArgument("SortCriteria").setValue("");
+			org.cybergarage.upnp.Service service = selDevice
+					.getService("urn:schemas-upnp-org:service:ContentDirectory:1");
+			if (service == null)
+			{
+				log.e("no service for ContentDirectory!!!");
+				return null;
+			}
 
-		if (action.postControlAction()) {
-			ArgumentList outArgList = action.getOutputArgumentList();
-			Argument result = outArgList.getArgument("Result");
-			log.d("result value = \n" + result.getValue());	
-			
-			List<MediaItem> items = ParseUtil.parseResult(result);
-			return items;
-		} else {
-			UPnPStatus err = action.getControlStatus();
-			System.out.println("Error Code = " + err.getCode());
-			System.out.println("Error Desc = " + err.getDescription());
+			Action action = service.getAction("Browse");
+			if(action == null)
+			{
+				log.e("action for Browse is null");
+				return null;
+			}
+
+			//	action.getActionNode().print();
+
+			ArgumentList argumentList = action.getArgumentList();
+			if (id != null){
+				argumentList.getArgument("ObjectID").setValue(id);
+			}else{
+				argumentList.getArgument("ObjectID").setValue(0);
+			}
+
+			argumentList.getArgument("BrowseFlag").setValue("BrowseDirectChildren");
+			argumentList.getArgument("StartingIndex").setValue("0");
+			argumentList.getArgument("RequestedCount").setValue("0");
+			argumentList.getArgument("Filter").setValue("*");
+			argumentList.getArgument("SortCriteria").setValue("");
+
+			if (action.postControlAction()) {
+				ArgumentList outArgList = action.getOutputArgumentList();
+				Argument result = outArgList.getArgument("Result");
+				log.d("result value = \n" + result.getValue());
+
+				List<MediaItem> items = ParseUtil.parseResult(result);
+				return items;
+			} else {
+				UPnPStatus err = action.getControlStatus();
+				System.out.println("Error Code = " + err.getCode());
+				System.out.println("Error Desc = " + err.getDescription());
+			}
+			return null;
 		}
-		return null;
 	}
+
 }

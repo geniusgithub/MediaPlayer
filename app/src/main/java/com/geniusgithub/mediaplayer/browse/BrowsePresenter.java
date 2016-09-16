@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.DialogFactory;
+import com.geniusgithub.mediaplayer.browse.BrowseContract.IPresenter;
 import com.geniusgithub.mediaplayer.component.CacheManager;
 import com.geniusgithub.mediaplayer.component.ImageLoader;
 import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
@@ -25,12 +27,11 @@ import com.geniusgithub.mediaplayer.player.video.view.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import org.cybergarage.upnp.Device;
-import org.cybergarage.util.AlwaysLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChangeListener,
+public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
                                         BrowseDMSProxy.BrowseRequestCallback{
 
 
@@ -42,6 +43,8 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
     private AllShareProxy mAllShareProxy;
     private DMSDeviceBrocastFactory mBrocastFactory;
     private ContentManager mContentManager;
+    private Device mCurDevice;
+    private BrowseDMSProxy.BrowseContentAsnyTask mRequestTask;
 
     private List<MediaItem> mCurItems;
     private final int VIEW_DMS = 0;
@@ -72,8 +75,8 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
 
     @Override
     public void enterDevice(Device device) {
-        mAllShareProxy.setDMSSelectedDevice(device);
-        requestDirectory();
+        setCurDevice(device);
+        mRequestTask =  BrowseDMSProxy.syncGetDirectory(mContext, device, this);
     }
 
 
@@ -86,10 +89,19 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
         }else if (UpnpUtil.isPictureItem(item)){
             goPicturePlayerActivity(index, item);
         }else{
-            BrowseDMSProxy.syncGetItems(mContext, item.getStringid(), this);
-            mIBrowseView.showProgress(true);
+            mRequestTask = BrowseDMSProxy.syncGetItems(mContext, mCurDevice, item.getStringid(), this);
         }
     }
+
+    @Override
+    public void cancelTask() {
+        AlwaysLog.i(TAG, "cancelTask");
+        if (mRequestTask != null){
+            mRequestTask.cancel(true);
+            mRequestTask = null;
+        }
+    }
+
     ///////////////////////////////////////     presenter callback end
 
 
@@ -101,32 +113,42 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
         if (mViewType != VIEW_DMS && isSelDeviceChange){
             mContentManager.clear();
             ImageLoader.clearTask(mContext);
+           setCurDevice(null);
             switchView(VIEW_DMS);
         }
     }
 
 
     @Override
-    public void onGetItems(final List<MediaItem> list) {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mIBrowseView.showProgress(false);
-                if (list == null){
-                    CommonUtil.showToask(mContext, "can't get folder...");
-                    return ;
-                }
+    public void onRequestBegin() {
+        mIBrowseView.showProgress(true);
+    }
 
-                AlwaysLog.i(TAG, "onGetItems list.size = " + list.size());
-                ImageLoader.clearTask(mContext);
-                mContentManager.pushListItem(list);
-                updateItemList(list);
 
-                if (mViewType == VIEW_DMS){
-                    switchView(VIEW_CONTENT);
-                }
-            }
-        });
+    @Override
+    public void onRequestCancel() {
+        AlwaysLog.i(TAG, "onRequestCancel");
+    }
+
+    @Override
+    public void onRequestSuccess(final List<MediaItem> list) {
+        mIBrowseView.showProgress(false);
+        mRequestTask = null;
+
+        ImageLoader.clearTask(mContext);
+        mContentManager.pushListItem(list);
+        updateItemList(list);
+
+        if (mViewType == VIEW_DMS){
+            switchView(VIEW_CONTENT);
+        }
+    }
+
+    @Override
+    public void onRequestFail() {
+        mIBrowseView.showProgress(false);
+        mRequestTask = null;
+        CommonUtil.showToask(mContext, "can't get folder...");
     }
 
 
@@ -137,6 +159,7 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
 
         mContentManager = ContentManager.getInstance();
         mCurItems = new ArrayList<MediaItem>();
+        mCurDevice = mAllShareProxy.getDMSSelectedDevice();
         mHandler = new Handler();
 
         mBrocastFactory = new DMSDeviceBrocastFactory(mContext);
@@ -165,6 +188,7 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
                 List<MediaItem> list = mContentManager.peekListItem();
                 ImageLoader.clearTask(mContext);
                 if (list == null){
+                    setCurDevice(null);
                     switchView(VIEW_DMS);
                 }else{
                     updateItemList(list);
@@ -177,7 +201,10 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
     }
     ///////////////////////////////////////     lifecycle or ui operator end
 
-
+    private void setCurDevice(Device device){
+        mCurDevice = device;
+        AllShareProxy.getInstance(mContext).setDMSSelectedDevice(mCurDevice);
+    }
 
 
 
@@ -222,17 +249,6 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
         mIBrowseView.updateToolTitle(title);
     }
 
-    private void requestDirectory()
-    {
-        Device selDevice = mAllShareProxy.getDMSSelectedDevice();
-        if (selDevice == null){
-            CommonUtil.showToask(mContext, "can't select any devices...");
-            return ;
-        }
-
-        BrowseDMSProxy.syncGetDirectory(mContext, this);
-        mIBrowseView.showProgress(true);
-    }
 
     private void goMusicPlayerActivity(int index, MediaItem item){
 

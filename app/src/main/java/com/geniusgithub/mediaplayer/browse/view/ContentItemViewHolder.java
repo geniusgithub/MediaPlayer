@@ -63,10 +63,9 @@ public class ContentItemViewHolder extends RecyclerView.ViewHolder implements Vi
 		if (UpnpUtil.isAudioItem(dataItem)){
 			ImageLoader.loadThumail(mContext, dataItem.getAlbumUri(), mImageView, musicIcon);
 		}else if (UpnpUtil.isVideoItem(dataItem)){
-		//	mImageView.setImageDrawable(videoIcon);
-			ImageLoader.loadThumail(mContext, dataItem.getRes(), mImageView, videoIcon);
+			ImageLoader.loadThumail(mContext, dataItem.getAlbumUri(), mImageView, videoIcon);
 		}else if (UpnpUtil.isPictureItem(dataItem)){
-			ImageLoader.loadThumail(mContext, dataItem.getRes(), mImageView, picIcon);
+			ImageLoader.loadThumail(mContext, dataItem.getAlbumUri(), mImageView, picIcon);
 		}else{
 			mImageView.setImageDrawable(foldIcon);
 		}
