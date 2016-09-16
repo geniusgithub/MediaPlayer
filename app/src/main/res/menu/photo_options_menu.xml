@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_photo"
+        android:title="@string/auto_play"
+        android:showAsAction="always">
+
+<!--        <menu>
+            <item
+                android:id="@+id/me_album"
+                android:title="Album"/>
+            <item
+                android:id="@+id/me_lrc"
+                android:title="Lrc"/>
+        </menu>-->
+
+    </item>
+
+
+
+</menu>

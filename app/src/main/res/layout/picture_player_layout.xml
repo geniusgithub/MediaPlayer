@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/rl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
 	android:background="#000000">
 
-    <ImageView
-         android:id="@+id/imageview"
-         android:layout_width="match_parent"
-    	 android:layout_height="match_parent">     
-    </ImageView>
+	<com.geniusgithub.mediaplayer.player.picture.View.HackyViewPager
+		android:id="@+id/view_pager"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/colorPrimary"
+		app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+		app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+		/>
+
 
     <RelativeLayout 
 	    android:id="@+id/miniplayLayout" 
@@ -18,62 +28,8 @@
 	    android:layout_height="wrap_content"
 	   	android:padding="5dp"
 	    android:layout_alignParentBottom="true"
-	    android:gravity="center">		
-        
-            <ImageButton 
-	        android:id="@+id/btn_play" 
-	        android:layout_width="70dp"
-	        android:layout_height="70dp"
-	        android:layout_centerInParent="true"
-	        android:background="@drawable/selector_btn_play">
-	        </ImageButton>
-	        
-                 
-            <ImageButton 
-	        android:id="@+id/btn_pause" 
-	        android:layout_width="70dp"
-	        android:layout_height="70dp"
-	        android:layout_centerInParent="true"
-			android:visibility="gone"
-	        android:background="@drawable/selector_btn_pause">
-	        </ImageButton>    
-	        
-            
-	        <ImageButton 
-	        android:id="@+id/btn_playpre" 
-	        android:layout_width="60dp"
-	        android:layout_height="60dp"
-	        android:layout_toLeftOf="@id/btn_play"
-			android:layout_marginRight="20dp"
-	        android:layout_centerVertical="true"
-	        android:background="@drawable/selector_btn_pre">
-	        </ImageButton>
-	        
-	        <ImageButton 
-	        android:id="@+id/btn_playnext" 
-	        android:layout_width="60dp"
-	        android:layout_height="60dp"
-	        android:layout_toRightOf="@id/btn_play"
-			android:layout_marginLeft="20dp"
-	        android:layout_centerVertical="true"
-	        android:background="@drawable/selector_btn_next">
-	        </ImageButton>		
-	               	
+	    android:gravity="center">
 	</RelativeLayout>
-	
-    <LinearLayout
-        android:id="@+id/show_load_progress" 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:visibility="gone">
-        <ProgressBar
-             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminateDrawable="@drawable/progressbar"
-			style="@android:style/Widget.ProgressBar.Large"/>
-    </LinearLayout>
     
              
 </RelativeLayout>

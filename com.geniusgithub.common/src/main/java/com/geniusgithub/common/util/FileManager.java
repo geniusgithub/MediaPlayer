@@ -3,9 +3,6 @@ package com.geniusgithub.common.util;
 
 public class FileManager {
 
-	public static String getThumbnailCacheRootDir() {
-		return CommonUtil.getRootFilePath() + "com.geniusgithub.mediaplayer/ThumbnailCache/";
-	}
 
 	public static String getBrowseCacheRootDir() {
 		return CommonUtil.getRootFilePath() + "com.geniusgithub.mediaplayer/BrowseCache/";

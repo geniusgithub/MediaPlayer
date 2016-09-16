@@ -18,8 +18,8 @@ import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
-import com.geniusgithub.mediaplayer.player.picture.PicturePlayerPresenter;
-import com.geniusgithub.mediaplayer.player.picture.View.PicturePlayerActivity;
+import com.geniusgithub.mediaplayer.player.picture.PhotoBrowsePresenter;
+import com.geniusgithub.mediaplayer.player.picture.View.PhotoBrowseActivity;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayePresenter;
 import com.geniusgithub.mediaplayer.player.video.view.VideoPlayerActivity;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
@@ -273,8 +273,8 @@ public class BrowsePresenter implements BrowseContract.IPresenter, IDeviceChange
         MediaManager.getInstance().setPictureList(mCurItems);
 
         Intent intent = new Intent();
-        intent.setClass(mContext, PicturePlayerActivity.class);
-        intent.putExtra(PicturePlayerPresenter.PLAY_INDEX, position);
+        intent.setClass(mContext, PhotoBrowseActivity.class);
+        intent.putExtra(PhotoBrowsePresenter.PLAY_INDEX, position);
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);
     }

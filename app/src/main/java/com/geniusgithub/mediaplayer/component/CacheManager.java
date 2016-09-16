@@ -45,12 +45,16 @@ public class CacheManager {
     public void clearCache(){
         clearMemoryCache();
 
+        clearDiskCache();
+    }
+
+    public void clearDiskCache(){
         Thread mThead = new Thread(new Runnable() {
             @Override
             public void run() {
-                log.i("clearCache thread start...");
+                log.i("clearDiskCache thread start...");
                 if (isclearThumnailCacheStart){
-                    log.i("clearCache  start = true, so return now");
+                    log.i("clearDiskCache  start = true, so return now");
                     return ;
                 }
                 synchronized (CacheManager.this){
@@ -70,7 +74,7 @@ public class CacheManager {
         long time1 = System.currentTimeMillis();
         Glide.get(mContext).clearMemory();
         long time2 = System.currentTimeMillis();
-        log.i("clearMemory cost time:" + (time2 - time1));
+        log.i("clearMemoryCache cost time:" + (time2 - time1));
     }
 
 }

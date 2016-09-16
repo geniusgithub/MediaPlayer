@@ -12,6 +12,9 @@
     <string name="status_starting" >正在启动</string>
     <string name="status_stop" >已关闭</string>
 
+    <string name="auto_play" >幻灯片播放</string>
+    <string name="stop_play" >停止播放</string>
+
     <string name="tab_library">LIBRARY</string>
 
     <string name="second">S</string>
