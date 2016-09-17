@@ -23,14 +23,14 @@ MediaPlayer is the DLNA device(DMP), which can be in the search for DMS devices,
 ##Version
 
 ###V3.5
-1.添加butterknife,Glide，PhotoView等开源库
-2.优化界面和修复若干bug
+1.添加butterknife,Glide，PhotoView等开源库<br/> 
+2.优化界面和修复若干bug<br/> 
 
 ###V3.2
-1.更新界面为Material Design风格
-2.更新cyberlink库，优化逻辑
-3.适配android 6.0
-4.重构业务逻辑代码
+1.更新界面为Material Design风格<br/> 
+2.更新cyberlink库，优化逻辑<br/> 
+3.适配android 6.0<br/> 
+4.重构业务逻辑代码<br/> 
 
 ###V3.0
 1.首版提交
