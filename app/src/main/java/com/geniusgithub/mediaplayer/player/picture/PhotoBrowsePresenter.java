@@ -52,9 +52,6 @@ public class PhotoBrowsePresenter implements PhotoBrowseContact.IPresenter {
     public void unBindView() {
 
     }
-
-
-
     ///////////////////////////////////////     presenter callback end
 
 
@@ -70,7 +67,7 @@ public class PhotoBrowsePresenter implements PhotoBrowseContact.IPresenter {
             "http://ww2.sinaimg.cn/thumbnail/721f7167jw1e0aeqrqtlfj.jpg",
             "http://ww1.sinaimg.cn/thumbnail/60dd4473jw1e0aj52otyaj.jpg"};
 
-    private void unitInit(){
+    private void unitTest(){
         mCurItemsList = new ArrayList<MediaItem>();
         for (String value:URLS) {
             MediaItem item = new MediaItem();
@@ -107,6 +104,7 @@ public class PhotoBrowsePresenter implements PhotoBrowseContact.IPresenter {
 
         };
 
+      //  unitTest();
         mAutoPlayerTimer = new SingleSecondTimer(context);
         mAutoPlayerTimer.setTimeInterval(AUTO_PLAY_INTERVAL);
         mAutoPlayerTimer.setHandler(mHandler, PLAY_NEXT);
