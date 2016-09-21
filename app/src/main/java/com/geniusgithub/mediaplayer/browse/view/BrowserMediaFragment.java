@@ -168,13 +168,15 @@ public class BrowserMediaFragment extends BaseFragment{
         @Override
         public void updateDeviceList(List<Device> devices)
         {
-            mDevAdapter.refreshDevices(devices);
+            mDevAdapter.setData(devices);
+            mDevAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void updateItemList(List<MediaItem>  contentItem)
         {
-            mContentAdapter.refreshData(contentItem);
+            mContentAdapter.setData(contentItem);
+            mContentAdapter.notifyDataSetChanged();
             mContentListView.scrollToPosition(0);
         }
 
@@ -183,26 +185,27 @@ public class BrowserMediaFragment extends BaseFragment{
             BrowserMediaFragment.this.updateToolTitle(title);
         }
 
-        private class OnDeviceItemClick  implements DeviceItemViewHolder.onItemClickListener{
+        private class OnDeviceItemClick  implements DeviceItemView.onDeviceDetialClickListener, DeviceItemView.onDeviceItemClickListener{
+
             @Override
-            public void onItemClick(Device device) {
-                mIBrowsePresenter.enterDevice(device);
+            public void onDetailViewClick(Device device) {
+                showDeviceDetail(device);
             }
 
             @Override
-            public void onDetailClick(Device device) {
-                showDeviceDetail(device);
+            public void onItemClick(Device data, int position) {
+                mIBrowsePresenter.enterDevice(data);
             }
         }
 
 
-        private class OnContentItemClick implements ContentItemViewHolder.onItemClickListener{
+        private class OnContentItemClick implements ContentItemView.onContentItemClickListener{
 
             @Override
-            public void onItemClick(int pos, MediaItem item){
-                mIBrowsePresenter.browseItem(pos, item);
-
+           public  void onItemClick(MediaItem data, int position){
+                mIBrowsePresenter.browseItem(position, data);
             }
+
         }
 
         private void initView(View view){
@@ -217,6 +220,7 @@ public class BrowserMediaFragment extends BaseFragment{
             mDevAdapter = new DeviceAdapter(mContext, new ArrayList<Device>());
             mOnDeviceItemClick = new OnDeviceItemClick();
             mDevAdapter.setOnItemClickListener(mOnDeviceItemClick);
+            mDevAdapter.setOnDeviceDetialClickListener(mOnDeviceItemClick);
             mDevListView.setAdapter(mDevAdapter);
 
             mContentListView.setHasFixedSize(true);
