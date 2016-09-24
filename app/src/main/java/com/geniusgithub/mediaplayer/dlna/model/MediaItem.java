@@ -1,8 +1,15 @@
 package com.geniusgithub.mediaplayer.dlna.model;
 
-public class MediaItem {
-	
-	
+import com.geniusgithub.mediaplayer.player.base.MediaEntry;
+
+public class MediaItem implements MediaEntry{
+
+
+	@Override
+	public String getDataSource() {
+		return getRes();
+	}
+
 	public static class ResInfo {
 		public String protocolInfo = "";
 		public String resolution = "";

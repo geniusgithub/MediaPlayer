@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
@@ -11,35 +12,41 @@
 	    android:layout_alignParentBottom="true"
 		android:layout_marginBottom="10dp">
      
-	        <ImageButton 
+<!--	        <ImageButton
 	        android:id="@+id/btn_play" 
 	        android:layout_width="70dp"
 	        android:layout_height="70dp"
 			android:layout_centerInParent="true"
 	        android:background="@drawable/selector_btn_play">
-	        </ImageButton>
+	        </ImageButton>-->
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/btn_play"
+				android:layout_width="70dp"
+				android:layout_height="70dp"
+				android:layout_centerInParent="true"
+				app:srcCompat="@drawable/selector_btn_play"
+				android:background="?attr/selectableItemBackgroundBorderless"/>
 	        
-            <ImageButton 
+            <android.support.v7.widget.AppCompatImageView
 	        android:id="@+id/btn_pause" 
 	        android:layout_width="70dp"
 	        android:layout_height="70dp"
 	        android:layout_centerInParent="true"
 			android:visibility="gone"
-	        android:background="@drawable/selector_btn_pause">
-	        </ImageButton>    
+	        app:srcCompat="@drawable/selector_btn_pause"/>
 	        
    
-	        <ImageButton 
+	        <android.support.v7.widget.AppCompatImageView
 	        android:id="@+id/btn_playpre" 
 	        android:layout_width="60dp"
 	        android:layout_height="60dp"
 	        android:layout_toLeftOf="@id/btn_play"
 			android:layout_marginRight="20dp"
 	        android:layout_centerVertical="true"
-	        android:background="@drawable/selector_btn_pre">
-	        </ImageButton>
+	        android:background="@drawable/selector_btn_pre"/>
 	        
-	        <ImageButton 
+	        <android.support.v7.widget.AppCompatImageView
 	        android:id="@+id/btn_playnext" 
 	        android:layout_width="60dp"
 	        android:layout_height="60dp"
@@ -47,7 +54,7 @@
 	 		android:layout_marginLeft="20dp"
 	        android:layout_centerVertical="true"
 	        android:background="@drawable/selector_btn_next">
-	        </ImageButton>		
+	        </android.support.v7.widget.AppCompatImageView>
 	               	
 	    </RelativeLayout>
 	

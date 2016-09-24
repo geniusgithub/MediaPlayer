@@ -1,35 +1,24 @@
 package com.geniusgithub.mediaplayer.player.music.lrc;
 
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpVersion;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpHost;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpHead;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.conn.params.ConnManagerParams;
-import org.apache.http.conn.params.ConnRouteParams;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ClientConnectionManager;
-import android.text.TextUtils;
-import java.io.BufferedReader;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 
 
 public class HttpManager {
@@ -69,7 +58,7 @@ public class HttpManager {
 		return sClient.execute(get);
 	}
 
-	public static String doGetReturnString(String url) throws ErrorThrowable {
+	/*public static String doGetReturnString(String url) throws ErrorThrowable {
 
 		String data = null;
 
@@ -106,9 +95,9 @@ public class HttpManager {
 		}
 
 		return data;
-	}
+	}*/
 
-	public static InputStream doGetReturnInputStream(String url, Long begin)
+	/*public static InputStream doGetReturnInputStream(String url, Long begin)
 			throws ErrorThrowable {
 		if (url == null || TextUtils.isEmpty(url)) {
 			return null;
@@ -144,8 +133,8 @@ public class HttpManager {
 		}
 		return data;
 	}
-
-	public static InputStream executeGet(String url, Long begin,
+*/
+/*	public static InputStream executeGet(String url, Long begin,
 			StringBuffer fileSize) throws Exception {
 		HttpUriRequest hr = null;
 		hr = new HttpGet(url);
@@ -192,9 +181,9 @@ public class HttpManager {
 		}
 
 		return null;
-	}
+	}*/
 
-	private static String convertStreamToString(InputStream is) {
+/*	private static String convertStreamToString(InputStream is) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();
 		String line = null;
@@ -212,5 +201,5 @@ public class HttpManager {
 			}
 		}
 		return sb.toString();
-	}
+	}*/
 }

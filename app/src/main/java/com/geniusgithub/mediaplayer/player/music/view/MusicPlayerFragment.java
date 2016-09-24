@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -131,16 +130,16 @@ public class MusicPlayerFragment extends BaseFragment{
         public TextView mTVAlbum;
 
         @BindView(R.id.btn_play)
-        public ImageButton mBtnPlay;
+        public ImageView mBtnPlay;
 
         @BindView(R.id.btn_pause)
-        public ImageButton mBtnPause;
+        public ImageView mBtnPause;
 
         @BindView(R.id.btn_playpre)
-        public ImageButton mBtnPre;
+        public ImageView mBtnPre;
 
         @BindView(R.id.btn_playnext)
-        public ImageButton mBtnNext;
+        public ImageView mBtnNext;
 
         @BindView(R.id.playback_seeker)
         public SeekBar mSeekBar;
