@@ -17,7 +17,7 @@ import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
 import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
-import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
+import com.geniusgithub.mediaplayer.player.base.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
 import com.geniusgithub.mediaplayer.player.music.util.LoaderHelper;

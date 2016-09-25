@@ -4,7 +4,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.geniusgithub.common.util.AlwaysLog;
-import com.geniusgithub.mediaplayer.player.PlayState;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,9 +55,9 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
     public boolean play() {
         AlwaysLog.i(TAG, "play mEnumPlayState = " + mEnumPlayState);
         switch (mEnumPlayState) {
-            case PlayState.MPS_PAUSE:
+            case EnumPlayState.MPS_PAUSE:
                 mPlayer.start();
-                mEnumPlayState = PlayState.MPS_PLAYING;
+                mEnumPlayState = EnumPlayState.MPS_PLAYING;
                 notifyPlayState(mEnumPlayState);
                 return true;
             default:
@@ -116,7 +115,7 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
     public boolean pause() {
         AlwaysLog.i(TAG, "pause");
         switch (mEnumPlayState) {
-            case PlayState.MPS_PLAYING:
+            case EnumPlayState.MPS_PLAYING:
                 mPlayer.pause();
                 mEnumPlayState = EnumPlayState.MPS_PAUSE;
                 notifyPlayState(mEnumPlayState);
@@ -126,6 +125,11 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
         }
 
         return false;
+    }
+
+    @Override
+    public boolean isPause(){
+       return mEnumPlayState == EnumPlayState.MPS_PAUSE;
     }
 
     @Override
@@ -150,9 +154,9 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
     @Override
     public int getDuration() {
         switch(mEnumPlayState){
-            case PlayState.MPS_PLAYING:
-            case PlayState.MPS_PAUSE:
-            case PlayState.MPS_PARECOMPLETE:
+            case EnumPlayState.MPS_PLAYING:
+            case EnumPlayState.MPS_PAUSE:
+            case EnumPlayState.MPS_PARECOMPLETE:
                 return mPlayer.getDuration();
         }
 
@@ -199,10 +203,10 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
     public void onPrepared(MediaPlayer mp) {
         AlwaysLog.i(TAG, "onPrepared");
         prepareComplete(mp);
-        mEnumPlayState = PlayState.MPS_PARECOMPLETE;
+        mEnumPlayState = EnumPlayState.MPS_PARECOMPLETE;
         notifyPlayState(mEnumPlayState);
         mPlayer.start();
-        mEnumPlayState = PlayState.MPS_PLAYING;
+        mEnumPlayState = EnumPlayState.MPS_PLAYING;
         notifyPlayState(mEnumPlayState);
 
     }
@@ -259,7 +263,7 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
             mPlayer.setDataSource(entry.getDataSource());
         } catch (IOException e) {
             e.printStackTrace();
-            mEnumPlayState = PlayState.MPS_INVALID;
+            mEnumPlayState = EnumPlayState.MPS_INVALID;
             notifyPlayState(mEnumPlayState);
             return false;
         }
@@ -267,7 +271,7 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.prepareAsync();
         AlwaysLog.i(TAG, "prepareAsync path = " + entry.getDataSource());
-        mEnumPlayState = PlayState.MPS_PARESYNC;
+        mEnumPlayState = EnumPlayState.MPS_PARESYNC;
         notifyPlayState(mEnumPlayState);
 
         return true;

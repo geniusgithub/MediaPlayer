@@ -2,7 +2,7 @@ package com.geniusgithub.mediaplayer.player;
 
 import android.content.Context;
 
-import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
+import com.geniusgithub.mediaplayer.player.base.AbstractTimer;
 
 public class SingleSecondTimer extends AbstractTimer {
 

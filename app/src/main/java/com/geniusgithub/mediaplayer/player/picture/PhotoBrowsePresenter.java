@@ -11,7 +11,7 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
-import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
+import com.geniusgithub.mediaplayer.player.base.AbstractTimer;
 
 import java.util.ArrayList;
 import java.util.List;

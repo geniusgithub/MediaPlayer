@@ -23,6 +23,8 @@ public interface IPlayback {
 
     boolean pause();
 
+    boolean isPause();
+
     void stop();
 
     int getProgress();

@@ -153,8 +153,7 @@
         <activity
             android:name=".player.picture.View.PhotoBrowseActivity"
             android:launchMode="singleTask"
-            android:theme="@style/ActivityBaseTheme"
-            >
+            android:theme="@style/ActivityBaseTheme" >
 
 <!--            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

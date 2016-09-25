@@ -8,20 +8,24 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
-import com.geniusgithub.mediaplayer.player.PlayerEngineListener;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
-import com.geniusgithub.mediaplayer.player.common.AbstractTimer;
-import com.geniusgithub.mediaplayer.player.music.util.LoaderHelper;
+import com.geniusgithub.mediaplayer.player.base.AbstractTimer;
+import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
+import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
+import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
 
-public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  MediaPlayer.OnBufferingUpdateListener,MediaPlayer.OnErrorListener {
 
+public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
+
+    private final static String TAG = MusicPlayerPresenter.class.getSimpleName();
     private static final CommonLog log = LogFactory.createLog();
 
     private Context mContext;
@@ -39,9 +43,11 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
     private final static int HIDE_DELAY_TIME = 3000;
 
 
-    private VideoPlayEngineImpl mPlayerEngineImpl;
-    private VideoPlayEngineListener mPlayEngineListener;
-    private VideoControlCenter mVideoControlCenter;
+    private VideoPlayerEngine mPlayerEngineImpl;
+    private VideoPlayStateListener mPlayEngineListener;
+    private MediaPlayerListener mMediaPlayListener;
+    private MediaItemPlayList mPLayList;
+
 
     private MediaItem mMediaInfo = new MediaItem();
     private Handler mHandler;
@@ -73,22 +79,22 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
 
     @Override
     public void onVideoPlay() {
-        mVideoControlCenter.replay();
+        mPlayerEngineImpl.play();
     }
 
     @Override
     public void onVideoPause() {
-        mVideoControlCenter.pause();
+        mPlayerEngineImpl.pause();
     }
 
     @Override
     public void onPlayPre() {
-        mVideoControlCenter.prev();
+        mPlayerEngineImpl.playLast();
     }
 
     @Override
     public void onPlayNext() {
-        mVideoControlCenter.next();
+        mPlayerEngineImpl.playNext();
     }
 
 
@@ -100,19 +106,7 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
 
 
 
-    @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
-        int duration = mPlayerEngineImpl.getDuration();
-        int time = duration * percent / 100;
-        mIVideoPlayerView.setSeekbarSecondProgress(time);
-    }
 
-    @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
-        mIVideoPlayerView.showPlayErrorTip();
-        log.e("onError what = " + what + ", extra = " + extra);
-        return false;
-    }
 
 
 
@@ -131,7 +125,7 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
         mCheckDelayTimer.stopTimer();
         mNetWorkTimer.stopTimer();
         mPlayPosTimer.stopTimer();
-        mVideoControlCenter.exit();
+        mPlayerEngineImpl.releasePlayer();
     }
 
 
@@ -189,15 +183,17 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
         mCheckDelayTimer = new CheckDelayTimer(mContext);
         mCheckDelayTimer.setHandler(mHandler, CHECK_DELAY);
 
-        mPlayerEngineImpl = new VideoPlayEngineImpl(mContext, mIVideoPlayerView.getSurfaceHolder());
-        mPlayerEngineImpl.setOnBuffUpdateListener(this);
+        mPLayList = new MediaItemPlayList();
+        mPlayerEngineImpl = new VideoPlayerEngine(mContext);
 
-        mPlayEngineListener = new VideoPlayEngineListener();
-        mPlayerEngineImpl.setPlayerListener(mPlayEngineListener);
+        mMediaPlayListener = new MediaPlayerListener();
+        mPlayerEngineImpl.setHolder( mIVideoPlayerView.getSurfaceHolder());
+        mPlayerEngineImpl.setOnBuffUpdateListener(mMediaPlayListener);
+        mPlayerEngineImpl.setOnErrorListener(mMediaPlayListener);
 
-        mVideoControlCenter = new VideoControlCenter(mContext);
-        mVideoControlCenter.bindVideoPlayEngine(mPlayerEngineImpl);
 
+        mPlayEngineListener = new VideoPlayStateListener();
+        mPlayerEngineImpl.registerCallback(mPlayEngineListener);
 
         mNetWorkTimer.startTimer();
         mCheckDelayTimer.startTimer();
@@ -211,11 +207,12 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
             mMediaInfo = MediaItemFactory.getItemFromIntent(intent);
         }
 
-        mVideoControlCenter.updateMediaInfo(curIndex, MediaManager.getInstance().getVideoList());
+        AlwaysLog.i(TAG, "refreshIntent curIndex = " + curIndex);
+        mPLayList.setMediaList(MediaManager.getInstance().getVideoList());
+        mPLayList.setPlayingIndex(curIndex);
 
-        mIVideoPlayerView.updateMediaInfoView(mMediaInfo);
         if (mIVideoPlayerView.isSurfaceCreate()){
-            mPlayerEngineImpl.playMedia(mMediaInfo);
+            mPlayerEngineImpl.play(mPLayList);
         }else{
             delayToPlayMedia(mMediaInfo);
         }
@@ -241,7 +238,7 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
             @Override
             public void run() {
                 if (!isDestroy){
-                    mPlayerEngineImpl.playMedia(mMediaInfo);
+                    mPlayerEngineImpl.play(mPLayList);
                 }else{
                     log.e("activity destroy...so don't playMedia...");
                 }
@@ -250,8 +247,8 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
     }
 
     public void refreshCurPos(){
-        int pos = mPlayerEngineImpl.getCurPosition();
-
+        int pos = mPlayerEngineImpl.getProgress();
+        AlwaysLog.i(TAG, "refreshCurPos  = " + pos);
         mIVideoPlayerView.setSeekbarProgress(pos);
 
     }
@@ -264,7 +261,7 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
     }
 
     public void checkDelay(){
-        int pos = mPlayerEngineImpl.getCurPosition();
+        int pos = mPlayerEngineImpl.getProgress();
 
         boolean ret = mCheckDelayTimer.isDelay(pos);
         if (ret){
@@ -285,79 +282,81 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter,  Med
     }
 
     public void seek(int pos){
-        mVideoControlCenter.skipTo(pos);
+        mPlayerEngineImpl.seekTo(pos);
         mIVideoPlayerView.setSeekbarProgress(pos);
 
     }
 
 
-    private class VideoPlayEngineListener implements PlayerEngineListener {
+    private class MediaPlayerListener implements  MediaPlayer.OnBufferingUpdateListener,
+                                                    MediaPlayer.OnErrorListener{
+
 
         @Override
-        public void onTrackPlay(MediaItem itemInfo) {
-
-            mPlayPosTimer.startTimer();
-            LoaderHelper.syncDownLoadDrawable(mMediaInfo.getAlbumUri(), mHandler, LOAD_DRAWABLE_COMPLETE);
-            mIVideoPlayerView.showPlay(false);
-            mIVideoPlayerView.showPrepareLoadView(false);
-            showControlView(true);
+        public void onBufferingUpdate(MediaPlayer mp, int percent) {
+            int duration = mPlayerEngineImpl.getDuration();
+            int time = duration * percent / 100;
+            mIVideoPlayerView.setSeekbarSecondProgress(time);
         }
 
         @Override
-        public void onTrackStop(MediaItem itemInfo) {
+        public boolean onError(MediaPlayer mp, int what, int extra) {
+            mIVideoPlayerView.showPlayErrorTip();
+            log.e("onError what = " + what + ", extra = " + extra);
+            return false;
+        }
 
+    }
+
+    private class VideoPlayStateListener implements PlayStateCallback {
+
+
+        @Override
+        public void onTrackPlay() {
+            mPlayPosTimer.startTimer();
+            mIVideoPlayerView.showPlay(false);
+        }
+
+        @Override
+        public void onTrackStop() {
             mPlayPosTimer.stopTimer();
             mIVideoPlayerView.showPlay(true);
-            mIVideoPlayerView.updateMediaInfoView(mMediaInfo);
             mIVideoPlayerView.showLoadView(false);
         }
 
         @Override
-        public void onTrackPause(MediaItem itemInfo) {
-
+        public void onTrackPause() {
             mPlayPosTimer.stopTimer();
             mIVideoPlayerView.showPlay(true);
         }
 
         @Override
-        public void onTrackPrepareSync(MediaItem itemInfo) {
-
+        public void onTrackPrepareSync() {
+            mMediaInfo = mPLayList.getCurrentMedia();
             mPlayPosTimer.stopTimer();
-            mIVideoPlayerView.updateMediaInfoView(itemInfo);
+            mIVideoPlayerView.updateMediaInfoView(mMediaInfo);
             mIVideoPlayerView.showPlay(false);
             mIVideoPlayerView.showPrepareLoadView(true);
             showControlView(false);
         }
 
         @Override
-        public void onTrackPrepareComplete(MediaItem itemInfo) {
+        public void onTrackPrepareComplete() {
+            mIVideoPlayerView.showPrepareLoadView(false);
+            mIVideoPlayerView.showControlView(true);
 
-            mPlayPosTimer.stopTimer();
             int duration = mPlayerEngineImpl.getDuration();
             mIVideoPlayerView.setSeekbarMax(duration);
             mIVideoPlayerView.setTotalTime(duration);
-
         }
 
         @Override
-        public void onTrackStreamError(MediaItem itemInfo) {
-            log.e("onTrackStreamError");
-            mPlayPosTimer.stopTimer();
-            mVideoControlCenter.stop();
-            mIVideoPlayerView.showPlayErrorTip();
-        }
-
-        @Override
-        public void onTrackPlayComplete(MediaItem itemInfo) {
-            log.e("onTrackPlayComplete");
-            boolean ret = mVideoControlCenter.next();
-            if (!ret) {
+        public void onTrackStreamError() {
+                log.e("onTrackStreamError");
+                mPlayPosTimer.stopTimer();
+                mPlayerEngineImpl.stop();
                 mIVideoPlayerView.showPlayErrorTip();
-                mIVideoPlayerView.updateMediaInfoView(itemInfo);
-                mIVideoPlayerView.showPlay(false);
-                mIVideoPlayerView.showPrepareLoadView(false);
-                showControlView(true);
-            }
+
         }
     }
 

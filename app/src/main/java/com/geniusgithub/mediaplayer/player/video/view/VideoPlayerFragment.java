@@ -309,8 +309,6 @@ public class VideoPlayerFragment extends BaseFragment{
         }
 
         private boolean isSeekbarTouch = false;
-
-
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             setcurTime(progress);
@@ -324,7 +322,7 @@ public class VideoPlayerFragment extends BaseFragment{
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            isSeekbarTouch = true;
+            isSeekbarTouch = false;
             mVideoPlayerPresenter.onSeekStopTrackingTouch(seekBar);
         }
 
