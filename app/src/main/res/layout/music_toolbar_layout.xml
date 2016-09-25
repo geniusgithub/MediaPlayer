@@ -11,14 +11,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentBottom="true"
 		android:layout_marginBottom="10dp">
-     
-<!--	        <ImageButton
-	        android:id="@+id/btn_play" 
-	        android:layout_width="70dp"
-	        android:layout_height="70dp"
-			android:layout_centerInParent="true"
-	        android:background="@drawable/selector_btn_play">
-	        </ImageButton>-->
+
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/btn_play"
@@ -114,73 +107,38 @@
 			android:layout_marginRight="15dp"
 			android:layout_above="@id/rl_seekLayout"/>
 
+	   <com.geniusgithub.mediaplayer.player.music.lrc.LyricView
+		android:id="@+id/lrc_view"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_above="@id/rl_seekLayout"/>
 
 
-		<RelativeLayout
-			android:id="@+id/rl_centerLayout"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_above="@id/rl_seekLayout">
+	<RelativeLayout
+		android:id="@+id/song_info_view"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_above="@id/rl_seekLayout"
+		android:layout_centerInParent="true"
+		android:gravity="center">
+
+		<com.geniusgithub.mediaplayer.widget.ShadowImageView
+			android:id="@+id/iv_albumbackground"
+			android:layout_width="260dp"
+			android:layout_height="260dp"
+			android:layout_centerInParent="true"
+			android:background="@drawable/mp_music_default"/>
 
 
-			<LinearLayout
-				android:id="@+id/song_info_view"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_centerInParent="true"
-				android:gravity="center">
+		<com.geniusgithub.mediaplayer.widget.ShadowImageView
+			android:id="@+id/iv_album"
+			android:layout_width="130dp"
+			android:layout_height="130dp"
+			android:layout_centerInParent="true"
+			android:src="@drawable/tab_icon_music"
+			android:scaleType="centerInside"/>
+	</RelativeLayout>
 
-				<ImageView
-					android:id="@+id/iv_album"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@drawable/mp_music_default"
-					android:scaleType="centerInside"/>
-
-				<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:orientation="vertical"
-					android:layout_marginLeft="20dp">
-
-
-	<!--				<TextView
-						android:id="@+id/tv_title"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@android:color/white"
-						android:textSize="30sp">
-					</TextView>-->
-
-					<TextView
-						android:id="@+id/tv_album"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@android:color/white"
-						android:textSize="18sp">
-					</TextView>
-
-					<!--			<TextView
-                                    android:id="@+id/tv_artist"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="18sp">
-                                </TextView>-->
-
-				</LinearLayout>
-			</LinearLayout>
-
-
-			<com.geniusgithub.mediaplayer.player.music.lrc.LyricView
-				android:id="@+id/lrc_view"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_centerInParent="true"/>
-
-
-
-		</RelativeLayout>
 
     
 </RelativeLayout>

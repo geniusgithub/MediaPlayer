@@ -1,6 +1,5 @@
 package com.geniusgithub.mediaplayer.player.music;
 
-import android.graphics.drawable.Drawable;
 import android.media.audiofx.Visualizer;
 import android.widget.SeekBar;
 
@@ -14,7 +13,6 @@ public class MusicPlayerContact {
         public void updateToolTitle(String title,String author);
         public void showPrepareLoadView(boolean bShow);
         public void showControlView(boolean bShow);
-        public void showLoadView(boolean bShow);
         public void showLRCView(boolean bShow);
         public void showPlay(boolean bShow);
         public void showPlayErrorTip();
@@ -30,7 +28,7 @@ public class MusicPlayerContact {
         public void refreshLyrc(int pos);
         public void updateLyricView(MediaItem itemInfo);
         public void updateMediaInfoView(MediaItem itemInfo);
-        public void updateAlbumPIC(Drawable drawable);
+        public void startRotateAnimation(boolean rotate);
 
         public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate);
         public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate);

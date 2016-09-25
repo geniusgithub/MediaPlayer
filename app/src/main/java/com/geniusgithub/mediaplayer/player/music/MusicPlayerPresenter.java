@@ -2,7 +2,6 @@ package com.geniusgithub.mediaplayer.player.music;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.os.Handler;
@@ -14,13 +13,11 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
-import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
 import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
 import com.geniusgithub.mediaplayer.player.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
-import com.geniusgithub.mediaplayer.player.music.util.LoaderHelper;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.FileHelper;
@@ -44,9 +41,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     public static final String PLAY_INDEX = "player_index";
     private final static int REFRESH_CURPOS = 0x0001;
     private final static int REFRESH_SPEED = 0x0002;
-    private final static int CHECK_DELAY = 0x0003;
-    private final static int LOAD_DRAWABLE_COMPLETE = 0x0006;
-    private final static int UPDATE_LRC_VIEW = 0x0007;
+    private final static int UPDATE_LRC_VIEW = 0x0003;
 
 
     private MusicPlayerEngine mPlayerEngineImpl;
@@ -59,7 +54,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
     private AbstractTimer mPlayPosTimer;
     private AbstractTimer mNetWorkTimer;
-    private CheckDelayTimer mCheckDelayTimer;
 
     private boolean isDestroy = false;
 
@@ -138,14 +132,13 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     public void onUiDestroy(){
         isDestroy = true;
         mLrcDownLoadHelper.unInit();
-        mCheckDelayTimer.stopTimer();
         mNetWorkTimer.stopTimer();
         mPlayPosTimer.stopTimer();
         mPlayerEngineImpl.releasePlayer();
     }
 
     public void onNewIntent(Intent intent) {
-        log.e("onNewIntent");
+        log.i("onNewIntent");
         refreshIntent(intent);
 
     }
@@ -167,17 +160,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
                     case REFRESH_SPEED:
                         refreshSpeed();
                         break;
-                    case CHECK_DELAY:
-                        checkDelay();
-                        break;
-                    case LOAD_DRAWABLE_COMPLETE:
-                        Object object = msg.obj;
-                        Drawable drawable = null;
-                        if (object != null){
-                            drawable = (Drawable) object;
-                        }
-                        onLoadDrawableComplete(drawable);
-                        break;
                     case UPDATE_LRC_VIEW:
                         updateLyricView(mMediaInfo);
                         break;
@@ -190,8 +172,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
         mNetWorkTimer = new SingleSecondTimer(mContext);
         mNetWorkTimer.setHandler(mHandler, REFRESH_SPEED);
-        mCheckDelayTimer = new CheckDelayTimer(mContext);
-        mCheckDelayTimer.setHandler(mHandler, CHECK_DELAY);
+
 
 
         mPLayList = new MediaItemPlayList();
@@ -207,7 +188,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
 
         mNetWorkTimer.startTimer();
-        mCheckDelayTimer.startTimer();
 
         mLrcDownLoadHelper = new LrcDownLoadHelper();
         mLrcDownLoadHelper.init();
@@ -239,7 +219,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             mMediaInfo = MediaItemFactory.getItemFromIntent(intent);
         }
 
-     //   curIndex = unitTest();
+    //    curIndex = unitTest();
 
         AlwaysLog.i(TAG, "refreshIntent curIndex = " + curIndex);
          AlwaysLog.i(TAG, "mMediaInfo = " + mMediaInfo.getShowString());
@@ -249,7 +229,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         mPlayerEngineImpl.play(mPLayList);
 
         mView.showPrepareLoadView(true);
-        mView.showLoadView(false);
         mView.showControlView(false);
 
     }
@@ -285,29 +264,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         mView.setSpeed(speed);
     }
 
-    private void checkDelay(){
-        int pos = mPlayerEngineImpl.getProgress();
-
-        boolean ret = mCheckDelayTimer.isDelay(pos);
-        if (ret){
-            mView.showLoadView(true);
-        }else{
-            mView.showLoadView(false);
-        }
-
-        mCheckDelayTimer.setPos(pos);
-
-    }
-
-
-    public void onLoadDrawableComplete(Drawable drawable) {
-        if (isDestroy) {
-            return;
-        }
-
-        mView.updateAlbumPIC(drawable);
-
-    }
 
     private void updateLyricView(MediaItem mMediaInfo) {
         mView.updateLyricView(mMediaInfo);
@@ -358,19 +314,21 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         @Override
         public void onTrackPlay() {
             mPlayPosTimer.startTimer();
+            mView.startRotateAnimation(true);
             mView.showPlay(false);
         }
 
         @Override
         public void onTrackStop() {
             mPlayPosTimer.stopTimer();
+            mView.startRotateAnimation(false);
             mView.showPlay(true);
-            mView.showLoadView(false);
         }
 
         @Override
         public void onTrackPause() {
             mPlayPosTimer.stopTimer();
+            mView.startRotateAnimation(false);
             mView.showPlay(true);
         }
 
@@ -383,7 +341,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             mView.showPrepareLoadView(true);
             mView.showControlView(false);
 
-            LoaderHelper.syncDownLoadDrawable(mMediaInfo.getAlbumUri(), mHandler, LOAD_DRAWABLE_COMPLETE);
          /*   boolean need = checkNeedDownLyric(itemInfo);
             log.i("checkNeedDownLyric need = " + need);
             if (need) {
@@ -406,6 +363,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         public void onTrackStreamError() {
             log.e("onTrackStreamError");
             mPlayPosTimer.stopTimer();
+            mView.startRotateAnimation(false);
             mPlayerEngineImpl.stop();
             mView.showPlayErrorTip();
         }

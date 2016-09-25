@@ -3,7 +3,6 @@ package com.geniusgithub.mediaplayer.player.music.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
@@ -11,23 +10,24 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
 import com.geniusgithub.mediaplayer.base.IToolBar;
 import com.geniusgithub.mediaplayer.base.ToolEntry;
+import com.geniusgithub.mediaplayer.component.CircleTransform;
 import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerContact;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.lrc.LyricView;
-import com.geniusgithub.mediaplayer.player.music.util.ImageUtils;
+import com.geniusgithub.mediaplayer.widget.ShadowImageView;
 
 import org.cybergarage.util.AlwaysLog;
 
@@ -118,17 +118,8 @@ public class MusicPlayerFragment extends BaseFragment{
         @BindView(R.id.tv_prepare_speed)
         public TextView mTVPrepareSpeed;
 
-        @BindView(R.id.loading_panel)
-        public View mLoadView;
-
-        @BindView(R.id.tv_speed)
-        public TextView mTVLoadSpeed;
-
         @BindView(R.id.control_panel)
         public View mControlView;
-
-        @BindView(R.id.tv_album)
-        public TextView mTVAlbum;
 
         @BindView(R.id.btn_play)
         public ImageView mBtnPlay;
@@ -155,16 +146,16 @@ public class MusicPlayerFragment extends BaseFragment{
         public VisualizerView mVisualizerView;
 
         @BindView(R.id.iv_album)
-        public ImageView mIVAlbum;
+        public ShadowImageView mIVAlbum;
+
+        @BindView(R.id.iv_albumbackground)
+        public ShadowImageView mIVAlbumBackground;
 
         @BindView(R.id.song_info_view)
         public View mSongInfoView;
 
         @BindView(R.id.lrc_view)
         public LyricView mLyricView;
-
-        public TranslateAnimation mHideDownTransformation;
-        public AlphaAnimation mAlphaHideTransformation;
 
         public boolean lrcShow = false;
         public Drawable mDefaultDrawable;
@@ -200,18 +191,6 @@ public class MusicPlayerFragment extends BaseFragment{
                 mControlView.setVisibility(View.VISIBLE);
             } else {
                 mControlView.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void showLoadView(boolean bShow) {
-            if (bShow) {
-                mLoadView.setVisibility(View.VISIBLE);
-            } else {
-                if (mLoadView.isShown()) {
-                    mLoadView.startAnimation(mAlphaHideTransformation);
-                    mLoadView.setVisibility(View.GONE);
-                }
             }
         }
 
@@ -280,7 +259,6 @@ public class MusicPlayerFragment extends BaseFragment{
         public void setSpeed(float speed) {
             String showString = (int) speed + "KB/" + mContext.getResources().getString(R.string.second);
             mTVPrepareSpeed.setText(showString);
-            mTVLoadSpeed.setText(showString);
         }
 
 
@@ -312,22 +290,22 @@ public class MusicPlayerFragment extends BaseFragment{
             setSeekbarProgress(0);
 
             updateToolTitle(itemInfo.getTitle(), itemInfo.getArtist());
-            mTVAlbum.setText(itemInfo.getAlbum());
+            cancelAlumAnimation();
+            loadAlbum(mContext, itemInfo.getAlbumUri(), mIVAlbum);
         }
 
 
         @Override
-        public void updateAlbumPIC(Drawable drawable) {
-            if (drawable == null){
-                drawable = mDefaultDrawable;
+        public void startRotateAnimation(boolean rotate) {
+            if (rotate){
+                mIVAlbum.startRotateAnimation();
+                mIVAlbumBackground.startRotateAnimation();
+            }else{
+                mIVAlbum.pauseRotateAnimation();
+                mIVAlbumBackground.pauseRotateAnimation();
             }
-
-            Bitmap bitmap = ImageUtils.createRotateReflectedMap(mContext, drawable);
-            if (bitmap != null) {
-                mIVAlbum.setImageBitmap(bitmap);
-            }
-
         }
+
 
 
 
@@ -387,21 +365,26 @@ public class MusicPlayerFragment extends BaseFragment{
             mBtnNext.setOnClickListener(this);
             mSeekBar.setOnSeekBarChangeListener(this);
 
-            mHideDownTransformation = new TranslateAnimation(0.0f, 0.0f, 0.0f, 200.0f);
-            mHideDownTransformation.setDuration(1000);
-
-            mAlphaHideTransformation = new AlphaAnimation(1, 0);
-            mAlphaHideTransformation.setDuration(1000);
-
 
             mDefaultDrawable = mContext.getResources().getDrawable(R.drawable.mp_music_default);
-            updateAlbumPIC(mDefaultDrawable);
         }
 
         @Override
         public void updateToolTitle(String title,String author) {
             MusicPlayerFragment.this.updateToolTitle(title, author);
         }
+
+        private void loadAlbum(Context context, String uri, ImageView imageView){
+            Glide.with(mContext).load(uri).crossFade().diskCacheStrategy(DiskCacheStrategy.NONE).
+                    transform(new CircleTransform(context)).into(imageView);
+        }
+
+
+        private void cancelAlumAnimation() {
+            mIVAlbum.cancelRotateAnimation();
+            mIVAlbumBackground.cancelRotateAnimation();
+        }
+
     }
 
 
