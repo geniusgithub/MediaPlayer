@@ -55,6 +55,7 @@ public class BrowserMediaFragment extends BaseFragment{
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         onUIReady(view);
     }
 
@@ -94,11 +95,6 @@ public class BrowserMediaFragment extends BaseFragment{
             mExternToolbar.updateToolTitle(entry);
         }
     }
-
-
-
-
-
 
 
 

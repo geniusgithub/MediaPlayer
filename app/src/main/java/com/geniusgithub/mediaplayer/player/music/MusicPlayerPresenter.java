@@ -13,11 +13,11 @@ import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
+import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
 import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
-import com.geniusgithub.mediaplayer.player.base.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
 import com.geniusgithub.mediaplayer.player.music.util.LoaderHelper;
@@ -29,6 +29,8 @@ import com.geniusgithub.mediaplayer.util.LogFactory;
 import org.cybergarage.util.AlwaysLog;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  LrcDownLoadHelper.ILRCDownLoadCallback{
 
@@ -217,6 +219,18 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     }
 
 
+    private int unitTest(){
+        mMediaInfo.title = "天后";
+        mMediaInfo.artist = "陈势安";
+        mMediaInfo.album = "天后(台湾版)";
+        mMediaInfo.resInfo.res = "http://192.168.1.5:57645/external/audio/media/7258.mp3";
+        mMediaInfo.albumarturi = "http://192.168.1.5:57645/external/audio/albums/31.jpg";
+        List<MediaItem> list = new ArrayList<MediaItem>();
+        list.add(mMediaInfo);
+        MediaManager.getInstance().setMusicList(list);
+        return 0;
+    }
+
     public void refreshIntent(Intent intent){
 
         int curIndex = 0;
@@ -225,7 +239,11 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             mMediaInfo = MediaItemFactory.getItemFromIntent(intent);
         }
 
+     //   curIndex = unitTest();
+
         AlwaysLog.i(TAG, "refreshIntent curIndex = " + curIndex);
+         AlwaysLog.i(TAG, "mMediaInfo = " + mMediaInfo.getShowString());
+
         mPLayList.setMediaList(MediaManager.getInstance().getMusicList());
         mPLayList.setPlayingIndex(curIndex);
         mPlayerEngineImpl.play(mPLayList);

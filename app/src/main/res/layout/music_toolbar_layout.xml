@@ -90,18 +90,17 @@
 			android:textSize="10sp"
 		    android:layout_alignParentRight="true">
 		    </TextView>
-		  
-           <SeekBar 
-	        android:id="@+id/playback_seeker"
-	        android:layout_width="fill_parent"
-	        android:layout_height="20dp"
-	        android:layout_centerVertical="true"
-	        android:layout_toLeftOf="@id/tv_totalTime"
-			android:layout_toRightOf="@id/tv_curTime"
-	        android:max="100"
-	        android:thumbOffset="5dp"
-	        android:progressDrawable="@drawable/seekbar_background"
-	        android:thumb="@drawable/seekbar_thumb"/> 
+
+
+			<android.support.v7.widget.AppCompatSeekBar
+				android:id="@+id/playback_seeker"
+				style="@style/Widget.AppCompat.SeekBar"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_toLeftOf="@id/tv_totalTime"
+				android:layout_toRightOf="@id/tv_curTime"
+				android:layout_weight="1"
+				android:max="100"/>
                	
 		</RelativeLayout>       
 

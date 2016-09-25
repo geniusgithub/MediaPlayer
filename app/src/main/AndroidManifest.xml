@@ -92,10 +92,12 @@
             android:name=".activity.SplashActivity"
             android:theme="@style/Theme.AppStartLoad"
             android:screenOrientation="portrait">
+s
         <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
 
         </activity>
         <activity
@@ -125,25 +127,12 @@
         </activity>-->
 
         <activity
-            android:name=".activity.MusicPlayerActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/ActivityBaseTheme">
-
-<!--            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-
-        </activity>
-
-        <activity
             android:name=".player.music.view.MusicPlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityBaseTheme">
 
-            <!--            <intent-filter>
+<!--                         <intent-filter>
                             <action android:name="android.intent.action.MAIN" />
                             <category android:name="android.intent.category.LAUNCHER" />
                         </intent-filter>-->

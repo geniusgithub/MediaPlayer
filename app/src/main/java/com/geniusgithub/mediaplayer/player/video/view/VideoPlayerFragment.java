@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
 import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
@@ -25,7 +26,6 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayePresenter;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayerContact;
 
-import org.cybergarage.util.AlwaysLog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,9 +49,9 @@ public class VideoPlayerFragment extends BaseFragment{
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         onUIReady(view);
     }
-
 
 
     @Override
@@ -71,9 +71,6 @@ public class VideoPlayerFragment extends BaseFragment{
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return mVideoPlayerPresenter.dispatchTouchEvent(ev);
     }
-
-
-
 
     private void onUIReady(View view){
         mRootView = view.findViewById(R.id.rootframeview);
@@ -276,17 +273,21 @@ public class VideoPlayerFragment extends BaseFragment{
 
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-
+            AlwaysLog.i(TAG, "surfaceCreated");
+            mVideoPlayerPresenter.onVideoRePlay(holder);
         }
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            AlwaysLog.i(TAG, "surfaceChanged");
             isSurfaceCreate = true;
         }
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
+            AlwaysLog.i(TAG, "surfaceDestroyed");
             isSurfaceCreate = false;
+            mVideoPlayerPresenter.onVideoStop();
         }
 
         @Override

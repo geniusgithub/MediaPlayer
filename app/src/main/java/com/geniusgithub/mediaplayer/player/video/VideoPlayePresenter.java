@@ -6,18 +6,18 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.widget.SeekBar;
 
 import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
 import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
+import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
-import com.geniusgithub.mediaplayer.player.base.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
 import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
-import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.LogFactory;
@@ -25,7 +25,7 @@ import com.geniusgithub.mediaplayer.util.LogFactory;
 
 public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
 
-    private final static String TAG = MusicPlayerPresenter.class.getSimpleName();
+    private final static String TAG = VideoPlayePresenter.class.getSimpleName();
     private static final CommonLog log = LogFactory.createLog();
 
     private Context mContext;
@@ -57,7 +57,8 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
     private CheckDelayTimer mCheckDelayTimer;
 
     private boolean isDestroy = false;
-
+    private boolean isFirstPlay = true;
+    private int mCurProgress = 0;
 
     public VideoPlayePresenter(Context context){
         mContext = context;
@@ -76,6 +77,21 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
     }
 
 
+    @Override
+    public void onVideoRePlay(SurfaceHolder holder) {
+        mPlayerEngineImpl.setHolder(holder);
+        if (isFirstPlay){
+            mPlayerEngineImpl.play(mPLayList);
+            isFirstPlay = false;
+        }else{
+            if (mCurProgress != 0){
+                mPlayerEngineImpl.setInitPlayProgress(mCurProgress);
+                mCurProgress = 0;
+            }
+            mPlayerEngineImpl.play();
+        }
+
+    }
 
     @Override
     public void onVideoPlay() {
@@ -85,6 +101,12 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
     @Override
     public void onVideoPause() {
         mPlayerEngineImpl.pause();
+    }
+
+    @Override
+    public void onVideoStop() {
+        mCurProgress = mPlayerEngineImpl.getProgress();
+        mPlayerEngineImpl.stop();
     }
 
     @Override
@@ -187,7 +209,6 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
         mPlayerEngineImpl = new VideoPlayerEngine(mContext);
 
         mMediaPlayListener = new MediaPlayerListener();
-        mPlayerEngineImpl.setHolder( mIVideoPlayerView.getSurfaceHolder());
         mPlayerEngineImpl.setOnBuffUpdateListener(mMediaPlayListener);
         mPlayerEngineImpl.setOnErrorListener(mMediaPlayListener);
 
@@ -211,12 +232,6 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
         mPLayList.setMediaList(MediaManager.getInstance().getVideoList());
         mPLayList.setPlayingIndex(curIndex);
 
-        if (mIVideoPlayerView.isSurfaceCreate()){
-            mPlayerEngineImpl.play(mPLayList);
-        }else{
-            delayToPlayMedia(mMediaInfo);
-        }
-
         mIVideoPlayerView.showPrepareLoadView(true);
         mIVideoPlayerView.showLoadView(false);
         showControlView(false);
@@ -231,24 +246,9 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
         mHandler.sendEmptyMessageDelayed(HIDE_TOOL, HIDE_DELAY_TIME);
     }
 
-    private void delayToPlayMedia(final MediaItem mMediaInfo){
-
-        mHandler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                if (!isDestroy){
-                    mPlayerEngineImpl.play(mPLayList);
-                }else{
-                    log.e("activity destroy...so don't playMedia...");
-                }
-            }
-        }, 1000);
-    }
 
     public void refreshCurPos(){
         int pos = mPlayerEngineImpl.getProgress();
-        AlwaysLog.i(TAG, "refreshCurPos  = " + pos);
         mIVideoPlayerView.setSeekbarProgress(pos);
 
     }
@@ -313,12 +313,14 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
 
         @Override
         public void onTrackPlay() {
+            AlwaysLog.i(TAG, "onTrackPlay");
             mPlayPosTimer.startTimer();
             mIVideoPlayerView.showPlay(false);
         }
 
         @Override
         public void onTrackStop() {
+            AlwaysLog.i(TAG, "onTrackStop");
             mPlayPosTimer.stopTimer();
             mIVideoPlayerView.showPlay(true);
             mIVideoPlayerView.showLoadView(false);
@@ -326,6 +328,7 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
 
         @Override
         public void onTrackPause() {
+            AlwaysLog.i(TAG, "onTrackPause");
             mPlayPosTimer.stopTimer();
             mIVideoPlayerView.showPlay(true);
         }
@@ -352,7 +355,7 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
 
         @Override
         public void onTrackStreamError() {
-                log.e("onTrackStreamError");
+                AlwaysLog.e(TAG, "onTrackStreamError");
                 mPlayPosTimer.stopTimer();
                 mPlayerEngineImpl.stop();
                 mIVideoPlayerView.showPlayErrorTip();

@@ -19,6 +19,8 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
     protected MediaPlayer mPlayer;
     protected PlayList mPlayList;
     protected int mEnumPlayState;
+    protected  boolean isErrorHappen = false;
+    protected int mInitProgress = 0;
 
     private MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener;
     private MediaPlayer.OnErrorListener mErrorListener;
@@ -43,12 +45,21 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
         mErrorListener = listener;
     }
 
+    protected  MediaPlayer getMediaPlayer(){
+        return mPlayer;
+    }
+
     @Override
     public void setPlayList(PlayList list) {
         if (list == null){
             list = new PlayList();
         }
         mPlayList = list;
+    }
+
+    @Override
+    public void setInitPlayProgress(int progress) {
+        mInitProgress = progress;
     }
 
     @Override
@@ -113,7 +124,7 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
 
     @Override
     public boolean pause() {
-        AlwaysLog.i(TAG, "pause");
+        AlwaysLog.i(TAG, "pause mEnumPlayState = " + mEnumPlayState);
         switch (mEnumPlayState) {
             case EnumPlayState.MPS_PLAYING:
                 mPlayer.pause();
@@ -135,14 +146,14 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
     @Override
     public void stop() {
         AlwaysLog.i(TAG, "stop");
-        mPlayer.reset();
+        mPlayer.stop();
         mEnumPlayState = EnumPlayState.MPS_STOP;
         notifyPlayState(mEnumPlayState);
     }
 
     @Override
     public int getProgress() {
-        if (mEnumPlayState == EnumPlayState.MPS_PLAYING || mEnumPlayState == EnumPlayState.MPS_PAUSE)
+        if (mEnumPlayState == EnumPlayState.MPS_PLAYING || mEnumPlayState == EnumPlayState.MPS_PAUSE || mEnumPlayState == EnumPlayState.MPS_STOP)
         {
             return mPlayer.getCurrentPosition();
         }
@@ -186,7 +197,9 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
         mPlayList = null;
         mPlayer.reset();
         mPlayer.release();
+        isErrorHappen = false;
         mPlayer = null;
+        mInitProgress = 0;
     }
 
     @Override
@@ -206,6 +219,10 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
         mEnumPlayState = EnumPlayState.MPS_PARECOMPLETE;
         notifyPlayState(mEnumPlayState);
         mPlayer.start();
+        if (mInitProgress != 0){
+            mPlayer.seekTo(mInitProgress);
+            mInitProgress = 0;
+        }
         mEnumPlayState = EnumPlayState.MPS_PLAYING;
         notifyPlayState(mEnumPlayState);
 
@@ -213,7 +230,11 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        AlwaysLog.i(TAG, "onCompletion");
+        AlwaysLog.i(TAG, "onCompletion isErrorHappen =s" + isErrorHappen);
+        if (isErrorHappen){
+            return ;
+        }
+
         MediaEntry next = null;
         mEnumPlayState = EnumPlayState.MPS_STOP;
         if (mPlayList.getPlayMode() == PlayMode.LIST && mPlayList.getPlayingIndex() == mPlayList.getMediaCount() - 1) {
@@ -240,6 +261,7 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
+        isErrorHappen = true;
        if (mErrorListener != null){
            return mErrorListener.onError(mp, what, extra);
        }
@@ -252,6 +274,7 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
     protected boolean prepareSelf() {
         AlwaysLog.i(TAG, "prepareSelf");
         mPlayer.reset();
+        isErrorHappen = false;
         MediaEntry entry = mPlayList.getCurrentMedia();
         if (entry == null){
             mEnumPlayState = EnumPlayState.MPS_STOP;

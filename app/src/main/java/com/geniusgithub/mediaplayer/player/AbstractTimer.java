@@ -1,4 +1,4 @@
-package com.geniusgithub.mediaplayer.player.base;
+package com.geniusgithub.mediaplayer.player;
 
 import android.content.Context;
 import android.os.Handler;

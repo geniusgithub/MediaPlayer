@@ -31,6 +31,7 @@ public class VideoPlayerEngine extends Player implements MediaPlayer.OnInfoListe
 
     public void setHolder(SurfaceHolder holder){
         mHolder = holder;
+        getMediaPlayer().setDisplay(holder);
     }
 
     @Override

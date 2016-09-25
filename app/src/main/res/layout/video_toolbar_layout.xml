@@ -84,9 +84,9 @@
 		    android:layout_toLeftOf="@id/tv_totalTime">
 		    </TextView>
               
-            <TextView 
-		    android:text="@string/init_time" 
-		    android:id="@+id/tv_curTime" 
+            <TextView
+				android:id="@+id/tv_curTime"
+				android:text="@string/init_time"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content" 	
 		    android:layout_centerVertical="true"
@@ -94,19 +94,17 @@
 	    	android:textSize="20sp"
 		    android:layout_toLeftOf="@id/tv_line">
 		    </TextView>
-		    
-		  
-            <SeekBar 
-	        android:id="@+id/playback_seeker"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"	  
-	        android:layout_centerVertical="true"
-	        android:layout_toLeftOf="@id/tv_curTime"
-	        android:layout_marginRight="10dp"
-	        android:max="100"
-	        android:thumbOffset="5dp"
-	        android:progressDrawable="@drawable/seekbar_background"
-	        android:thumb="@drawable/seekbar_thumb"/> 
+
+
+			<android.support.v7.widget.AppCompatSeekBar
+				android:id="@+id/playback_seeker"
+				style="@style/Widget.AppCompat.SeekBar"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_toLeftOf="@id/tv_curTime"
+				android:layout_marginRight="10dp"
+				android:max="100"/>
                	
 		</RelativeLayout>       
 			

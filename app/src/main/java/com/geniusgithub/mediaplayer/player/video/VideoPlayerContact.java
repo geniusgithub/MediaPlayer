@@ -31,8 +31,10 @@ public class VideoPlayerContact {
     }
 
     public interface IPresenter extends BasePresenter<IView> {
+        public void onVideoRePlay(SurfaceHolder holder);
         public void onVideoPlay();
         public void onVideoPause();
+        public void onVideoStop();
         public void onPlayPre();
         public void onPlayNext();
         public void onSeekStopTrackingTouch(SeekBar seekBar);

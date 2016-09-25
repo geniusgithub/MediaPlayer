@@ -265,8 +265,8 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
 
         MediaManager.getInstance().setVideoList(mCurItems);
 
-      Intent intent = new Intent(Intent.ACTION_VIEW);
-        String type = "video*//* ";
+     Intent intent = new Intent(Intent.ACTION_VIEW);
+        String type = "video*//**//* ";
         Uri uri = Uri.parse(item.getRes());
         intent.setDataAndType(uri, type);
 
@@ -280,7 +280,6 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
             MediaItemFactory.putItemToIntent(item, intent2);
             mContext.startActivity(intent2);
         }
-
 
 
     }

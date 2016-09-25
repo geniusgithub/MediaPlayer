@@ -49,6 +49,7 @@ public class PhotoBrowseFragment extends BaseFragment{
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         onUIReady(view);
         setHasOptionsMenu(true);
     }
