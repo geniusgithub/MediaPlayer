@@ -20,8 +20,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
+import com.geniusgithub.common.util.AlwaysLog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,10 +29,8 @@ import java.io.InputStream;
 
 
 public class MusicUtils {
-
-	private static final CommonLog log = LogFactory.createLog();
 	
-	private static final String TAG = "MusicUtils";
+	private static final String TAG = MusicUtils.class.getSimpleName();
 	public static int downprogress;
 
 //	public static boolean isMusicLocal(String url) {
@@ -180,7 +177,7 @@ public class MusicUtils {
 
 	public static String getLyricFile(String song, String artist) {
 		String lyricDir = getLyricDir();
-		log.e("getLyricDir = " + getLyricDir());
+		AlwaysLog.i(TAG, "getLyricDir = " + getLyricDir());
 		if (lyricDir == null) {
 			return null;
 		}

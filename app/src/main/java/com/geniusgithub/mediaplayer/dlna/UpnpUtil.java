@@ -1,8 +1,6 @@
 package com.geniusgithub.mediaplayer.dlna;
 
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import org.cybergarage.upnp.Device;
 
@@ -14,9 +12,7 @@ import java.util.Enumeration;
 
 public class UpnpUtil {
 
-	private static final CommonLog log = LogFactory.createLog();
 
-	
 	public static boolean isMediaServerDevice(Device device){
 		if ("urn:schemas-upnp-org:device:MediaServer:1".equalsIgnoreCase(device.getDeviceType())){
 			return true;

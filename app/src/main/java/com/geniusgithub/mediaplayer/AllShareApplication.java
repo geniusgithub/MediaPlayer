@@ -21,15 +21,14 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
-import com.geniusgithub.mediaplayer.component.CacheManager;
-import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.base.ItatisticsEvent;
+import com.geniusgithub.mediaplayer.component.CacheManager;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
+import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
-import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -63,7 +62,7 @@ import java.util.HashMap;
  */
 public class AllShareApplication extends Application implements ItatisticsEvent {
 
-	private static final CommonLog log = LogFactory.createLog();
+	private final static String TAG = AllShareApplication.class.getSimpleName();
 
 	private static AllShareApplication mAllShareApplication;
 
@@ -143,20 +142,20 @@ public class AllShareApplication extends Application implements ItatisticsEvent 
 		mHandle.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				log.e("Exit Application...");
+				AlwaysLog.i(TAG, "Exit Application...");
 				System.exit(0);
 			}
 		}, 500);
 	}
 	@Override
 	public void onEvent(String eventID) {
-		log.e("eventID = " + eventID);	
+		AlwaysLog.d(TAG, "eventID = " + eventID);
 
 	}
 
 	@Override
 	public void onEvent(String eventID, HashMap<String, String> map) {
-		log.e("eventID = " + eventID);	
+		AlwaysLog.i(TAG, "eventID = " + eventID);
 
 	}
 	

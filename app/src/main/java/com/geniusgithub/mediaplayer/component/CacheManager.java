@@ -6,12 +6,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.cache.DiskCache;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
+import com.geniusgithub.common.util.AlwaysLog;
+import com.geniusgithub.mediaplayer.AllShareApplication;
 
 public class CacheManager {
-
-    private static final CommonLog log = LogFactory.createLog();
+    private final static String TAG = AllShareApplication.class.getSimpleName();
     private static CacheManager mInstance;
 
     private Context mContext;
@@ -37,7 +36,7 @@ public class CacheManager {
 
 
     public void initConfigure(GlideBuilder build){
-        log.i("CacheManager initConfigure");
+        AlwaysLog.i(TAG, "CacheManager initConfigure");
         build.setDiskCache(new ExternalCacheDiskCacheFactory(mContext, THNUMNAIL_CACHE, DiskCache.Factory.DEFAULT_DISK_CACHE_SIZE));
     }
 
@@ -52,9 +51,9 @@ public class CacheManager {
         Thread mThead = new Thread(new Runnable() {
             @Override
             public void run() {
-                log.i("clearDiskCache thread start...");
+                AlwaysLog.i(TAG, "clearDiskCache thread start...");
                 if (isclearThumnailCacheStart){
-                    log.i("clearDiskCache  start = true, so return now");
+                    AlwaysLog.i(TAG, "clearDiskCache  start = true, so return now");
                     return ;
                 }
                 synchronized (CacheManager.this){
@@ -62,7 +61,7 @@ public class CacheManager {
                     long time1 = System.currentTimeMillis();
                     Glide.get(mContext).clearDiskCache();
                     long time2 = System.currentTimeMillis();
-                    log.i("clearDiskCache cost time:" + (time2 - time1));
+                    AlwaysLog.i(TAG, "clearDiskCache cost time:" + (time2 - time1));
                     isclearThumnailCacheStart = false;
                 }
             }
@@ -74,7 +73,7 @@ public class CacheManager {
         long time1 = System.currentTimeMillis();
         Glide.get(mContext).clearMemory();
         long time2 = System.currentTimeMillis();
-        log.i("clearMemoryCache cost time:" + (time2 - time1));
+        AlwaysLog.i(TAG, "clearMemoryCache cost time:" + (time2 - time1));
     }
 
 }

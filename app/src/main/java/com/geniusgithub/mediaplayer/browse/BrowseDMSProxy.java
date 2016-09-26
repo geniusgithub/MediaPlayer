@@ -3,10 +3,9 @@ package com.geniusgithub.mediaplayer.browse;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.dlna.ParseUtil;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.Argument;
@@ -18,6 +17,7 @@ import java.util.List;
 
 public class BrowseDMSProxy {
 
+	public static final String TAG = BrowseDMSProxy.class.getSimpleName();
 	public static interface BrowseRequestCallback
 	{
 		public void onRequestBegin();
@@ -25,8 +25,6 @@ public class BrowseDMSProxy {
 		public void onRequestSuccess(final List<MediaItem> list);
 		public void onRequestFail();
 	}
-	
-	private static final CommonLog log = LogFactory.createLog();
 	
 	public static  BrowseContentAsnyTask syncGetDirectory(final Context context, Device device, final BrowseRequestCallback callback) {
 		return syncGetItems(context, device, null, callback);
@@ -107,14 +105,14 @@ public class BrowseDMSProxy {
 					.getService("urn:schemas-upnp-org:service:ContentDirectory:1");
 			if (service == null)
 			{
-				log.e("no service for ContentDirectory!!!");
+				AlwaysLog.e(TAG, "no service for ContentDirectory!!!");
 				return null;
 			}
 
 			Action action = service.getAction("Browse");
 			if(action == null)
 			{
-				log.e("action for Browse is null");
+				AlwaysLog.e(TAG, "action for Browse is null");
 				return null;
 			}
 
@@ -136,7 +134,7 @@ public class BrowseDMSProxy {
 			if (action.postControlAction()) {
 				ArgumentList outArgList = action.getOutputArgumentList();
 				Argument result = outArgList.getArgument("Result");
-				log.d("result value = \n" + result.getValue());
+				AlwaysLog.d(TAG, "result value = \n" + result.getValue());
 
 				List<MediaItem> items = ParseUtil.parseResult(result);
 				return items;

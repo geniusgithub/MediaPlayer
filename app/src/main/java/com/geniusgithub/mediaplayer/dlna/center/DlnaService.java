@@ -26,26 +26,23 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.component.CacheManager;
 import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
 import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
-import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.device.DeviceChangeListener;
 import org.cybergarage.upnp.device.SearchResponseListener;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
-import org.cybergarage.util.AlwaysLog;
 
 public class DlnaService extends Service implements IBaseEngine,
 													DeviceChangeListener,
 													ControlCenterWorkThread.ISearchDeviceListener{
-	
-	private static final CommonLog log = LogFactory.createLog();
+
 	private static final String TAG = DlnaService.class.getSimpleName();
 
 	public static final String SEARCH_DEVICES = "com.geniusgithub.allshare.search_device";
@@ -85,8 +82,6 @@ public class DlnaService extends Service implements IBaseEngine,
 			}else if (DlnaService.RESET_SEARCH_DEVICES.equals(action)){
 				restartEngine();
 			}
-		}else{
-			log.e("intent = " + intent);
 		}
 
 		return super.onStartCommand(intent, flags, startId);
@@ -94,7 +89,7 @@ public class DlnaService extends Service implements IBaseEngine,
 
 	@Override
 	public void onDestroy() {
-		log.e("DlnaService onDestroy");
+		AlwaysLog.i(TAG, "DlnaService onDestroy");
 		unInit();
 		super.onDestroy();
 	}
@@ -210,7 +205,7 @@ public class DlnaService extends Service implements IBaseEngine,
 				}
 			}
 			long time2 = System.currentTimeMillis();
-			log.e("exitCenterWorkThread cost time:" + (time2 - time1));
+			AlwaysLog.d(TAG, "exitCenterWorkThread cost time:" + (time2 - time1));
 			mCenterWorkThread = null;
 		}
 	}
@@ -244,19 +239,6 @@ public class DlnaService extends Service implements IBaseEngine,
 		AllShareApplication.getInstance().updateControlStauts(IControlPointStatu.STATUS_SOTP);
 	}
 
-/*	public static final String SEARCH_DEVICES_FAIL = "com.geniusgithub.allshare.search_devices_fail";
-	public static void sendSearchDeviceFailBrocast(Context context){
-		log.e("sendSearchDeviceFailBrocast");
-		Intent intent = new Intent(SEARCH_DEVICES_FAIL);
-		context.sendBroadcast(intent);
-	}*/
-
-/*	public static final String START_DEVICES_EVENT = "com.geniusgithub.allshare.start_devices_event";
-	public static void sendStartDeviceEventBrocast(Context context, boolean startSuccess){
-		log.e("sendStartDeviceEventBrocast startSuccess = " + startSuccess);
-		Intent intent = new Intent(START_DEVICES_EVENT);
-		context.sendBroadcast(intent);
-	}*/
 	
 	private class NetworkStatusChangeBR extends BroadcastReceiver{
 
@@ -291,7 +273,7 @@ public class DlnaService extends Service implements IBaseEngine,
 	
 	private void sendNetworkChangeMessage(){
 		if (firstReceiveNetworkChangeBR){
-			log.e("first receive the NetworkChangeMessage, so drop it...");
+		    AlwaysLog.i(TAG, "first receive the NetworkChangeMessage, so drop it...");
 			firstReceiveNetworkChangeBR = false;
 			return ;
 		}

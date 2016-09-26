@@ -18,15 +18,12 @@ import com.geniusgithub.mediaplayer.player.CheckDelayTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
 import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
-import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 
 public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
 
     private final static String TAG = VideoPlayePresenter.class.getSimpleName();
-    private static final CommonLog log = LogFactory.createLog();
 
     private Context mContext;
     private VideoPlayerContact.IView mIVideoPlayerView;
@@ -221,7 +218,6 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
     }
 
     private void refreshIntent(Intent intent){
-        log.e("refreshIntent");
         int curIndex = 0;
         if (intent != null){
             curIndex = intent.getIntExtra(PLAY_INDEX, 0);
@@ -302,7 +298,7 @@ public class VideoPlayePresenter implements  VideoPlayerContact.IPresenter{
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
             mIVideoPlayerView.showPlayErrorTip();
-            log.e("onError what = " + what + ", extra = " + extra);
+            AlwaysLog.e(TAG, "onError what = " + what + ", extra = " + extra);
             return false;
         }
 

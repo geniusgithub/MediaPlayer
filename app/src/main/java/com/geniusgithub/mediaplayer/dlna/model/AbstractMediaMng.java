@@ -2,9 +2,6 @@ package com.geniusgithub.mediaplayer.dlna.model;
 
 import android.content.Context;
 
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
-
 import org.cybergarage.upnp.Device;
 
 import java.util.ArrayList;
@@ -12,7 +9,7 @@ import java.util.List;
 
 public abstract class AbstractMediaMng {
 
-	public static final CommonLog log = LogFactory.createLog();
+	public static final String TAG = AbstractMediaMng.class.getSimpleName();
 	protected Context mContext;
 	
 	protected List<Device> mDeviceList = new ArrayList<Device>();

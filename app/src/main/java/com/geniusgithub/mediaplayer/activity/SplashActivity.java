@@ -5,24 +5,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.TextView;
 
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
 import com.geniusgithub.mediaplayer.main.MainFrameActivity;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 import com.geniusgithub.mediaplayer.util.PermissionsUtil;
 
-import org.cybergarage.util.AlwaysLog;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity {
 
-	private static final CommonLog log = LogFactory.createLog();
 	private static final  String TAG = SplashActivity.class.getSimpleName();
 	private Handler mHandle;
 
@@ -126,11 +120,11 @@ public class SplashActivity extends BaseActivity {
 
 	private void doStoragePermission(int[] grantResults){
 		if (grantResults[0] == PackageManager.PERMISSION_DENIED){
-			log.e("doStoragePermission is denied!!!" );
+			AlwaysLog.e(TAG, "doStoragePermission is denied!!!" );
 			Dialog dialog = PermissionsUtil.createPermissionSettingDialog(this, "存储权限");
 			dialog.show();
 		}else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-			log.i("doStoragePermission, is granted!!!" );
+			AlwaysLog.i(TAG, "doStoragePermission, is granted!!!" );
 			requestSpecialPermissions(PermissionsUtil.MICROPHONE, REQUEST_AUDIORECORD_PERMISSION);
 		}
 
@@ -138,11 +132,11 @@ public class SplashActivity extends BaseActivity {
 
 	private void doAudioRecordPermission(int[] grantResults){
 		if (grantResults[0] == PackageManager.PERMISSION_DENIED){
-			log.e("doAudioRecordPermission is denied!!!" );
+			AlwaysLog.e(TAG, "doAudioRecordPermission is denied!!!" );
 			Dialog dialog = PermissionsUtil.createPermissionSettingDialog(this, "录音权限");
 			dialog.show();
 		}else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-			log.i("doAudioRecordPermission, is granted!!!" );
+			AlwaysLog.i(TAG, "doAudioRecordPermission, is granted!!!" );
 			requestSpecialPermissions(PermissionsUtil.PHONE, REQUEST_PHONE_PERMISSION);
 		}
 
@@ -150,11 +144,11 @@ public class SplashActivity extends BaseActivity {
 
 	private void doPhonePermission(int[] grantResults){
 		if (grantResults[0] == PackageManager.PERMISSION_DENIED){
-			log.e("doPhonePermission is denied!!!" );
+			AlwaysLog.e(TAG, "doPhonePermission is denied!!!" );
 			Dialog dialog = PermissionsUtil.createPermissionSettingDialog(this, "读电话权限");
 			dialog.show();
 		}else if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-			log.i("doPhonePermission, is granted!!!" );
+			AlwaysLog.i(TAG, "doPhonePermission, is granted!!!" );
 			goMainActivity();
 
 		}

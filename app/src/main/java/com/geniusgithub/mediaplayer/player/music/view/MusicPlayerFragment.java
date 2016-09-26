@@ -299,7 +299,7 @@ public class MusicPlayerFragment extends BaseFragment{
         public void startRotateAnimation(boolean rotate) {
             if (rotate){
                 mIVAlbum.startRotateAnimation();
-                mIVAlbumBackground.startRotateAnimation();
+                mIVAlbumBackground.resumeRotateAnimation();
             }else{
                 mIVAlbum.pauseRotateAnimation();
                 mIVAlbumBackground.pauseRotateAnimation();

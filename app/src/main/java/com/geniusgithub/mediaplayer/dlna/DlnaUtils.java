@@ -1,7 +1,5 @@
 package com.geniusgithub.mediaplayer.dlna;
 
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +7,6 @@ import java.util.regex.Pattern;
 
 public class DlnaUtils {
 
-	private static final CommonLog log = LogFactory.createLog();
 	
 	public static int convertSeekRelTimeToMs(String reltime){
 		int sec=0;

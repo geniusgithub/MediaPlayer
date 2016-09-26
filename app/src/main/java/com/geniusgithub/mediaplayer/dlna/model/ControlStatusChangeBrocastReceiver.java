@@ -1,19 +1,14 @@
 package com.geniusgithub.mediaplayer.dlna.model;
 
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 public class ControlStatusChangeBrocastReceiver extends BroadcastReceiver {
 
-
-	public static final CommonLog log = LogFactory.createLog();
 	protected IStatusChangeListener mListener;
 
 

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.SeekBar;
 
+import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
@@ -18,12 +19,8 @@ import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
 import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
 import com.geniusgithub.mediaplayer.player.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
-import com.geniusgithub.mediaplayer.util.CommonLog;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.geniusgithub.mediaplayer.util.FileHelper;
-import com.geniusgithub.mediaplayer.util.LogFactory;
-
-import org.cybergarage.util.AlwaysLog;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,7 +29,6 @@ import java.util.List;
 public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  LrcDownLoadHelper.ILRCDownLoadCallback{
 
     private final static String TAG = MusicPlayerPresenter.class.getSimpleName();
-    private static final CommonLog log = LogFactory.createLog();
 
     private Context mContext;
     private MusicPlayerContact.IView mView;
@@ -138,7 +134,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     }
 
     public void onNewIntent(Intent intent) {
-        log.i("onNewIntent");
         refreshIntent(intent);
 
     }
@@ -195,7 +190,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         mView.showLRCView(false);
 
         boolean ret = FileHelper.createDirectory(MusicUtils.getLyricDir());
-        log.i(" FileHelper.createDirectory:" + MusicUtils.getLyricDir() + ", ret = " + ret);
+        AlwaysLog.i(TAG, " FileHelper.createDirectory:" + MusicUtils.getLyricDir() + ", ret = " + ret);
     }
 
 
@@ -289,7 +284,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
             mView.showPlayErrorTip();
-            log.e("onError what = " + what + ", extra = " + extra);
+            AlwaysLog.e(TAG, "onError what = " + what + ", extra = " + extra);
             return false;
         }
 
@@ -361,7 +356,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
         @Override
         public void onTrackStreamError() {
-            log.e("onTrackStreamError");
+            AlwaysLog.e(TAG, "onTrackStreamError");
             mPlayPosTimer.stopTimer();
             mView.startRotateAnimation(false);
             mPlayerEngineImpl.stop();

@@ -1,15 +1,13 @@
 package com.geniusgithub.mediaplayer.player.music.lrc;
 
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
+import com.geniusgithub.common.util.AlwaysLog;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 public class LrcDownLoadHelper {
-
-	private static final CommonLog log = LogFactory.createLog();
+	private final static String TAG = LrcDownLoadHelper.class.getSimpleName();
 	
 	private final static int THREAD_COUNT = 3;
 	private ExecutorService mExecutorService;
@@ -69,7 +67,7 @@ public class LrcDownLoadHelper {
 		@Override
 		public void run() {
 			boolean ret = LyricHelper.searchLryics(mSong, mArtist);
-			log.e(" LyricHelper.searchLryics mSong = " + mSong + ", mArtist = " + mArtist + ", ret = " + ret);
+			AlwaysLog.e(TAG, " LyricHelper.searchLryics mSong = " + mSong + ", mArtist = " + mArtist + ", ret = " + ret);
 			
 			if (mCallback != null){
 				mCallback.lrcDownLoadComplete(ret, mSong, mArtist); 

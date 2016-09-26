@@ -22,7 +22,6 @@ import java.io.InputStream;
 
 public class CommonUtil {
 
-	private static final CommonLog log = LogFactory.createLog();
 	
 	public static boolean hasSDCard() {
 		String status = Environment.getExternalStorageState();

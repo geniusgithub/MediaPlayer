@@ -8,8 +8,6 @@ import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.center.DlnaService;
 import com.geniusgithub.mediaplayer.dlna.model.AbstractMediaMng;
 import com.geniusgithub.mediaplayer.dlna.model.MediaServerMng;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import org.cybergarage.upnp.Device;
 import org.cybergarage.util.AlwaysLog;
@@ -20,7 +18,6 @@ import java.util.List;
 public class AllShareProxy implements IDeviceOperator,
 										IDeviceOperator.IDMSDeviceOperator{
 
-	private static final CommonLog log = LogFactory.createLog();
 	private final static String TAG = AllShareProxy.class.getSimpleName();
 	
 	private static  AllShareProxy instance;

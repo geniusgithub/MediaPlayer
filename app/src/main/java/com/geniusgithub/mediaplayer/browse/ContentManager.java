@@ -1,16 +1,12 @@
 package com.geniusgithub.mediaplayer.browse;
 
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.util.CommonLog;
-import com.geniusgithub.mediaplayer.util.LogFactory;
 
 import java.util.List;
 import java.util.Stack;
 
 
 public class ContentManager {
-
-	private static final CommonLog log = LogFactory.createLog();
 	
 	private static ContentManager mInstance = null;
 	
