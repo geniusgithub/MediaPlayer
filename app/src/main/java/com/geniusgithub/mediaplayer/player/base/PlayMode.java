@@ -4,7 +4,6 @@ package com.geniusgithub.mediaplayer.player.base;
 public enum PlayMode {
     SINGLE,
     LOOP,
-    LIST,
     SHUFFLE;
 
     public static PlayMode getDefault() {
@@ -16,8 +15,6 @@ public enum PlayMode {
 
         switch (current) {
             case LOOP:
-                return LIST;
-            case LIST:
                 return SHUFFLE;
             case SHUFFLE:
                 return SINGLE;

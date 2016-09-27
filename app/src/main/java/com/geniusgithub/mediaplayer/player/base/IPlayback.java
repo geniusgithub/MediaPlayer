@@ -11,6 +11,8 @@ public interface IPlayback {
 
     void setPlayList(PlayList list);
 
+    void setPlayMode(PlayMode mode);
+
     void setInitPlayProgress(int progress);
 
     boolean play();

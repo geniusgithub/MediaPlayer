@@ -3,7 +3,6 @@ package com.geniusgithub.mediaplayer.player.music;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.audiofx.Visualizer;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.SeekBar;
@@ -16,7 +15,9 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;
+import com.geniusgithub.mediaplayer.player.base.PlayMode;
 import com.geniusgithub.mediaplayer.player.base.PlayStateCallback;
+import com.geniusgithub.mediaplayer.player.base.Player;
 import com.geniusgithub.mediaplayer.player.music.lrc.LrcDownLoadHelper;
 import com.geniusgithub.mediaplayer.player.music.lrc.MusicUtils;
 import com.geniusgithub.mediaplayer.util.CommonUtil;
@@ -40,10 +41,11 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     private final static int UPDATE_LRC_VIEW = 0x0003;
 
 
-    private MusicPlayerEngine mPlayerEngineImpl;
+    private Player mMusicPlayerEngineImpl;
     private MusicPlayStateListener mPlayStateCallback;
     private MediaPlayerListener mMediaPlayerListener;
     private MediaItemPlayList mPLayList;
+    private PlayMode mCurPlayMode;
 
     private MediaItem mMediaInfo = new MediaItem();
     private Handler mHandler;
@@ -77,27 +79,36 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     @Override
     public void onMusicPlay() {
         AlwaysLog.i(TAG, "onMusicPlay");
-        mPlayerEngineImpl.play();
+        mMusicPlayerEngineImpl.play();
     }
 
     @Override
     public void onMusicPause() {
         AlwaysLog.i(TAG, "onMusicPause");
-        mPlayerEngineImpl.pause();
+        mMusicPlayerEngineImpl.pause();
     }
 
     @Override
     public void onPlayPre() {
         AlwaysLog.i(TAG, "onPlayPre");
-        mPlayerEngineImpl.playLast();
+        mMusicPlayerEngineImpl.playLast();
     }
 
     @Override
     public void onPlayNext() {
         AlwaysLog.i(TAG, "onPlayNext");
-        mPlayerEngineImpl.playNext();
+        mMusicPlayerEngineImpl.playNext();
     }
 
+    @Override
+    public void onToggleMode() {
+        AlwaysLog.i(TAG, "onToggleMode");
+
+        mCurPlayMode = PlayMode.switchNextMode(mCurPlayMode);
+        mMusicPlayerEngineImpl.setPlayMode(mCurPlayMode);
+        mView.updatePlayMode(mCurPlayMode);
+
+    }
 
 
     @Override
@@ -130,7 +141,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         mLrcDownLoadHelper.unInit();
         mNetWorkTimer.stopTimer();
         mPlayPosTimer.stopTimer();
-        mPlayerEngineImpl.releasePlayer();
+        mMusicPlayerEngineImpl.releasePlayer();
     }
 
     public void onNewIntent(Intent intent) {
@@ -150,7 +161,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
                 {
                     case REFRESH_CURPOS:
                         refreshCurPos();
-                        mView.refreshLyrc(mPlayerEngineImpl.getProgress());
+                        mView.refreshLyrc(mMusicPlayerEngineImpl.getProgress());
                         break;
                     case REFRESH_SPEED:
                         refreshSpeed();
@@ -171,16 +182,15 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
 
         mPLayList = new MediaItemPlayList();
-        mPlayerEngineImpl = new MusicPlayerEngine();
+        mCurPlayMode = PlayMode.getDefault();
+        mPLayList.setPlayMode(mCurPlayMode);
+        mMusicPlayerEngineImpl = new MusicPlayerEngine();
 
         mMediaPlayerListener = new MediaPlayerListener();
-        mPlayerEngineImpl.setOnBuffUpdateListener(mMediaPlayerListener);
-        mPlayerEngineImpl.setOnErrorListener(mMediaPlayerListener);
-        mPlayerEngineImpl.setDataCaptureListener(mMediaPlayerListener);
-
+        mMusicPlayerEngineImpl.setOnBuffUpdateListener(mMediaPlayerListener);
+        mMusicPlayerEngineImpl.setOnErrorListener(mMediaPlayerListener);
         mPlayStateCallback = new MusicPlayStateListener();
-        mPlayerEngineImpl.registerCallback(mPlayStateCallback);
-
+        mMusicPlayerEngineImpl.registerCallback(mPlayStateCallback);
 
         mNetWorkTimer.startTimer();
 
@@ -188,6 +198,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         mLrcDownLoadHelper.init();
 
         mView.showLRCView(false);
+        mView.updatePlayMode(mCurPlayMode);
 
         boolean ret = FileHelper.createDirectory(MusicUtils.getLyricDir());
         AlwaysLog.i(TAG, " FileHelper.createDirectory:" + MusicUtils.getLyricDir() + ", ret = " + ret);
@@ -221,7 +232,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
         mPLayList.setMediaList(MediaManager.getInstance().getMusicList());
         mPLayList.setPlayingIndex(curIndex);
-        mPlayerEngineImpl.play(mPLayList);
+        mMusicPlayerEngineImpl.play(mPLayList);
 
         mView.showPrepareLoadView(true);
         mView.showControlView(false);
@@ -230,7 +241,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
     private void seek(int pos) {
         AlwaysLog.i(TAG, "seek pos =  " + pos);
-        mPlayerEngineImpl.seekTo(pos);
+        mMusicPlayerEngineImpl.seekTo(pos);
         mView.setSeekbarProgress(pos);
 
     }
@@ -248,7 +259,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     }
 
     private void refreshCurPos(){
-        int pos = mPlayerEngineImpl.getProgress();
+        int pos = mMusicPlayerEngineImpl.getProgress();
 
         mView.setSeekbarProgress(pos);
 
@@ -263,19 +274,18 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     private void updateLyricView(MediaItem mMediaInfo) {
         mView.updateLyricView(mMediaInfo);
         int pos = 0;
-        pos = mPlayerEngineImpl.getProgress();
+        pos = mMusicPlayerEngineImpl.getProgress();
         mView.refreshLyrc(pos);
     }
 
 
 
     private class MediaPlayerListener implements  MediaPlayer.OnBufferingUpdateListener,
-                                                MediaPlayer.OnErrorListener,
-                                                Visualizer.OnDataCaptureListener{
+                                                MediaPlayer.OnErrorListener{
 
         @Override
         public void onBufferingUpdate(MediaPlayer mp, int percent) {
-            int duration = mPlayerEngineImpl.getDuration();
+            int duration = mMusicPlayerEngineImpl.getDuration();
             int time = duration * percent / 100;
 
             mView.setSeekbarSecondProgress(time);
@@ -287,18 +297,6 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             AlwaysLog.e(TAG, "onError what = " + what + ", extra = " + extra);
             return false;
         }
-
-
-        @Override
-        public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
-            mView.onWaveFormDataCapture(visualizer, waveform, samplingRate);
-        }
-
-        @Override
-        public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
-            mView.onFftDataCapture(visualizer, fft, samplingRate);
-        }
-
 
     }
 
@@ -349,7 +347,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             mView.showPrepareLoadView(false);
             mView.showControlView(true);
 
-            int duration = mPlayerEngineImpl.getDuration();
+            int duration = mMusicPlayerEngineImpl.getDuration();
             mView.setSeekbarMax(duration);
             mView.setTotalTime(duration);
         }
@@ -359,7 +357,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             AlwaysLog.e(TAG, "onTrackStreamError");
             mPlayPosTimer.stopTimer();
             mView.startRotateAnimation(false);
-            mPlayerEngineImpl.stop();
+            mMusicPlayerEngineImpl.stop();
             mView.showPlayErrorTip();
         }
 

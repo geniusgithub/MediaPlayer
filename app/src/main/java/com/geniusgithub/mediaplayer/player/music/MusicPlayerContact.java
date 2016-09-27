@@ -1,11 +1,11 @@
 package com.geniusgithub.mediaplayer.player.music;
 
-import android.media.audiofx.Visualizer;
 import android.widget.SeekBar;
 
 import com.geniusgithub.mediaplayer.base.BasePresenter;
 import com.geniusgithub.mediaplayer.base.BaseView;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.player.base.PlayMode;
 
 public class MusicPlayerContact {
 
@@ -29,9 +29,7 @@ public class MusicPlayerContact {
         public void updateLyricView(MediaItem itemInfo);
         public void updateMediaInfoView(MediaItem itemInfo);
         public void startRotateAnimation(boolean rotate);
-
-        public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate);
-        public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate);
+        public void updatePlayMode(PlayMode playMode);
     }
 
     public interface IPresenter extends BasePresenter<IView> {
@@ -39,6 +37,7 @@ public class MusicPlayerContact {
         public void onMusicPause();
         public void onPlayPre();
         public void onPlayNext();
+        public void onToggleMode();
         public void onSeekStopTrackingTouch(SeekBar seekBar);
     }
 }

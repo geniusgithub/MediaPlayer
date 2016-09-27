@@ -12,6 +12,11 @@
     <string name="status_starting" >正在启动</string>
     <string name="status_stop" >已关闭</string>
 
+    <string name="play_mode_single" >单曲循环</string>
+    <string name="play_mode_list" >列表循环</string>
+    <string name="play_mode_shuffle" >随机播放</string>
+
+
     <string name="auto_play" >幻灯片播放</string>
     <string name="stop_play" >停止播放</string>
 

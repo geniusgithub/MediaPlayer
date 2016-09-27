@@ -35,7 +35,7 @@
 	        android:layout_width="60dp"
 	        android:layout_height="60dp"
 	        android:layout_toLeftOf="@id/btn_play"
-			android:layout_marginRight="20dp"
+			android:layout_marginRight="10dp"
 	        android:layout_centerVertical="true"
 	        android:background="@drawable/selector_btn_pre"/>
 	        
@@ -44,11 +44,27 @@
 	        android:layout_width="60dp"
 	        android:layout_height="60dp"
 	        android:layout_toRightOf="@id/btn_play"
-	 		android:layout_marginLeft="20dp"
+	 		android:layout_marginLeft="10dp"
 	        android:layout_centerVertical="true"
 	        android:background="@drawable/selector_btn_next">
 	        </android.support.v7.widget.AppCompatImageView>
-	               	
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/button_play_mode_toggle"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:layout_marginLeft="10dp"
+				android:layout_centerVertical="true"
+				android:background="@drawable/selector_btn_mode_list"/>
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/button_play_list"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:layout_marginRight="10dp"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:background="@drawable/selector_btn_playlist"/>
 	    </RelativeLayout>
 	
 	     
@@ -59,7 +75,7 @@
 	    android:layout_above="@id/miniplayLayout"
 		android:layout_marginLeft="15dp"
 		android:layout_marginRight="15dp"
-		android:layout_marginBottom="2dp">
+		android:layout_marginBottom="10dp">
 
 			<TextView
 				android:text="@string/init_time"
@@ -96,16 +112,6 @@
 				android:max="100"/>
                	
 		</RelativeLayout>       
-
-
-	
-		<com.geniusgithub.mediaplayer.player.music.view.VisualizerView
-			android:id="@+id/mp_freq_view"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="15dp"
-			android:layout_marginRight="15dp"
-			android:layout_above="@id/rl_seekLayout"/>
 
 	   <com.geniusgithub.mediaplayer.player.music.lrc.LyricView
 		android:id="@+id/lrc_view"

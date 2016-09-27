@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener,
+public  abstract  class Player implements IPlayback,MediaPlayer.OnPreparedListener,
                                 MediaPlayer.OnCompletionListener,
                                  MediaPlayer.OnBufferingUpdateListener,
                                     MediaPlayer.OnErrorListener{
@@ -55,6 +55,13 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
             list = new PlayList();
         }
         mPlayList = list;
+    }
+
+    @Override
+    public void setPlayMode(PlayMode mode) {
+        if (mPlayList != null){
+            mPlayList.setPlayMode(mode);
+        }
     }
 
     @Override
@@ -237,9 +244,7 @@ public abstract class Player implements IPlayback,MediaPlayer.OnPreparedListener
 
         MediaEntry next = null;
         mEnumPlayState = EnumPlayState.MPS_STOP;
-        if (mPlayList.getPlayMode() == PlayMode.LIST && mPlayList.getPlayingIndex() == mPlayList.getMediaCount() - 1) {
-            notifyPlayState(mEnumPlayState);
-        } else if (mPlayList.getPlayMode() == PlayMode.SINGLE) {
+        if (mPlayList.getPlayMode() == PlayMode.SINGLE) {
             next = mPlayList.getCurrentMedia();
             play();
         } else {

@@ -70,7 +70,6 @@ public class PlayList<T extends MediaEntry> {
 
         switch (playMode) {
             case LOOP:
-            case LIST:
             case SINGLE:
                 int newIndex = playingIndex - 1;
                 if (newIndex < 0) {
@@ -88,9 +87,6 @@ public class PlayList<T extends MediaEntry> {
 
     public boolean hasNext(boolean fromComplete){
         if (mediaList.isEmpty()) return false;
-            if (fromComplete) {
-                if (playMode == PlayMode.LIST && playingIndex + 1 >= mediaList.size()) return false;
-            }
         return true;
     }
 
@@ -100,7 +96,6 @@ public class PlayList<T extends MediaEntry> {
 
         switch (playMode) {
             case LOOP:
-            case LIST:
             case SINGLE:
                 int newIndex = playingIndex + 1;
                 if (newIndex >= mediaList.size()) {

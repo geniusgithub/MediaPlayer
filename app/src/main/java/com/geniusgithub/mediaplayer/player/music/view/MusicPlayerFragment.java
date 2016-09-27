@@ -4,7 +4,6 @@ package com.geniusgithub.mediaplayer.player.music.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import com.geniusgithub.mediaplayer.base.ToolEntry;
 import com.geniusgithub.mediaplayer.component.CircleTransform;
 import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.player.base.PlayMode;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerContact;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.lrc.LyricView;
@@ -133,6 +133,12 @@ public class MusicPlayerFragment extends BaseFragment{
         @BindView(R.id.btn_playnext)
         public ImageView mBtnNext;
 
+        @BindView(R.id.button_play_mode_toggle)
+        public ImageView mBtnToggleMode;
+
+        @BindView(R.id.button_play_list)
+        public ImageView mBtnPlayList;
+
         @BindView(R.id.playback_seeker)
         public SeekBar mSeekBar;
 
@@ -142,8 +148,6 @@ public class MusicPlayerFragment extends BaseFragment{
         @BindView(R.id.tv_totalTime)
         public TextView mTVTotalTime;
 
-        @BindView(R.id.mp_freq_view)
-        public VisualizerView mVisualizerView;
 
         @BindView(R.id.iv_album)
         public ShadowImageView mIVAlbum;
@@ -306,19 +310,39 @@ public class MusicPlayerFragment extends BaseFragment{
             }
         }
 
-
-
-
+        private boolean isFirstUpdatePlayMode = true;
         @Override
-        public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
-            mVisualizerView.updateVisualizer(waveform);
+        public void updatePlayMode(PlayMode playMode) {
+            if (playMode == null) {
+                playMode = PlayMode.getDefault();
+            }
+            switch (playMode) {
+                case LOOP:
+                    mBtnToggleMode.setBackgroundResource(R.drawable.selector_btn_mode_list);
+                    if (!isFirstUpdatePlayMode) {
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.play_mode_list), Toast.LENGTH_SHORT).show();
+                    }else{
+                        isFirstUpdatePlayMode = false;
+                    }
+                    break;
+                case SHUFFLE:
+                    mBtnToggleMode.setBackgroundResource(R.drawable.selector_btn_mode_shuffle);
+                    if (!isFirstUpdatePlayMode){
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.play_mode_shuffle), Toast.LENGTH_SHORT).show();
+                    }else{
+                        isFirstUpdatePlayMode = false;
+                    }
+                    break;
+                case SINGLE:
+                    mBtnToggleMode.setBackgroundResource(R.drawable.selector_btn_mode_single);
+                    if (!isFirstUpdatePlayMode){
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.play_mode_single), Toast.LENGTH_SHORT).show();
+                    }else{
+                        isFirstUpdatePlayMode = false;
+                    }
+                    break;
+            }
         }
-
-        @Override
-        public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
-            mVisualizerView.updateVisualizer(fft);
-        }
-
 
         @Override
         public void onClick(View v) {
@@ -334,6 +358,11 @@ public class MusicPlayerFragment extends BaseFragment{
                     break;
                 case R.id.btn_playnext:
                     mMsuciPlayerPresenter.onPlayNext();
+                    break;
+                case R.id.button_play_mode_toggle:
+                    mMsuciPlayerPresenter.onToggleMode();
+                    break;
+                case R.id.button_play_list:
                     break;
             }
         }
@@ -363,6 +392,8 @@ public class MusicPlayerFragment extends BaseFragment{
             mBtnPause.setOnClickListener(this);
             mBtnPre.setOnClickListener(this);
             mBtnNext.setOnClickListener(this);
+            mBtnToggleMode.setOnClickListener(this);
+            mBtnPlayList.setOnClickListener(this);
             mSeekBar.setOnSeekBarChangeListener(this);
 
 
