@@ -16,7 +16,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <!--DrawerLayout-->
-    <include layout="@layout/custom_drawerlayout" />
+    <include layout="@layout/main_drawerlayout" />
 
 
 </LinearLayout>

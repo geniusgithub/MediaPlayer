@@ -7,20 +7,14 @@
     android:layout_height="match_parent">
 
     <!-- 你的内容布局-->
-    <include layout="@layout/navigation_content"/>
+    <include layout="@layout/main_content"/>
 
-    <com.geniusgithub.mediaplayer.main.NavigationViewEx
+    <com.geniusgithub.mediaplayer.main.MainNavigationView
         android:id="@+id/nv_main_navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/window_background">
-    </com.geniusgithub.mediaplayer.main.NavigationViewEx>
-<!--    <android.support.design.widget.NavigationView
-        android:id="@+id/nv_main_navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_header"/>-->
+    </com.geniusgithub.mediaplayer.main.MainNavigationView>
 
 </android.support.v4.widget.DrawerLayout>

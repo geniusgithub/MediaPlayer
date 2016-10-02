@@ -39,7 +39,8 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
     private final static int REFRESH_CURPOS = 0x0001;
     private final static int REFRESH_SPEED = 0x0002;
     private final static int UPDATE_LRC_VIEW = 0x0003;
-
+    private final static int SHOW_PREPARE_VIEW = 0x0004;
+    private final static int SHOW_PREPARE_DELAY = 150;
 
     private Player mMusicPlayerEngineImpl;
     private MusicPlayStateListener mPlayStateCallback;
@@ -116,6 +117,13 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         AlwaysLog.i(TAG, "onSeekStopTrackingTouch ");
         seek(seekBar.getProgress());
     }
+
+    @Override
+    public void onPlayItemClick(MediaItem data, int position) {
+        AlwaysLog.i(TAG, "onPlayItemClick  position = " + position);
+        mPLayList.setPlayingIndex(position);
+        mMusicPlayerEngineImpl.play(mPLayList);
+    }
     ///////////////////////////////////////     presenter callback end
 
 
@@ -169,6 +177,11 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
                     case UPDATE_LRC_VIEW:
                         updateLyricView(mMediaInfo);
                         break;
+                    case SHOW_PREPARE_VIEW:
+                        boolean bShow = (boolean) msg.obj;
+                        AlwaysLog.i(TAG, "SHOW_PREPARE_VIEW bShow = " + bShow);
+                        showPrepareView(bShow, 0);
+                        break;
                 }
             }
 
@@ -199,23 +212,30 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
         mView.showLRCView(false);
         mView.updatePlayMode(mCurPlayMode);
-
+        showPrepareView(false, 0);
         boolean ret = FileHelper.createDirectory(MusicUtils.getLyricDir());
         AlwaysLog.i(TAG, " FileHelper.createDirectory:" + MusicUtils.getLyricDir() + ", ret = " + ret);
     }
 
 
     private int unitTest(){
-        mMediaInfo.title = "天后";
+/*        mMediaInfo.title = "天后";
         mMediaInfo.artist = "陈势安";
         mMediaInfo.album = "天后(台湾版)";
         mMediaInfo.resInfo.res = "http://192.168.1.5:57645/external/audio/media/7258.mp3";
-        mMediaInfo.albumarturi = "http://192.168.1.5:57645/external/audio/albums/31.jpg";
+        mMediaInfo.albumarturi = "http://192.168.1.5:57645/external/audio/albums/31.jpg";*/
+
+        mMediaInfo.title = "想你的夜";
+        mMediaInfo.artist = "陶波";
+        mMediaInfo.album = "想你的夜";
+        mMediaInfo.resInfo.res = "http://192.168.1.107:57645/external/audio/media/141.mp3";
+        mMediaInfo.albumarturi = "http://192.168.1.107:57645/external/audio/albums/5.jpg";
         List<MediaItem> list = new ArrayList<MediaItem>();
         list.add(mMediaInfo);
         MediaManager.getInstance().setMusicList(list);
         return 0;
     }
+
 
     public void refreshIntent(Intent intent){
 
@@ -225,7 +245,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             mMediaInfo = MediaItemFactory.getItemFromIntent(intent);
         }
 
-    //    curIndex = unitTest();
+      //  curIndex = unitTest();
 
         AlwaysLog.i(TAG, "refreshIntent curIndex = " + curIndex);
          AlwaysLog.i(TAG, "mMediaInfo = " + mMediaInfo.getShowString());
@@ -234,8 +254,8 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         mPLayList.setPlayingIndex(curIndex);
         mMusicPlayerEngineImpl.play(mPLayList);
 
-        mView.showPrepareLoadView(true);
-        mView.showControlView(false);
+        mView.updatePlayList(MediaManager.getInstance().getMusicList());
+        showPrepareView(true, SHOW_PREPARE_DELAY);
 
     }
 
@@ -278,6 +298,16 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         mView.refreshLyrc(pos);
     }
 
+    private void showPrepareView(boolean bShow, long timeDelay){
+        mHandler.removeMessages(SHOW_PREPARE_VIEW);
+        if (timeDelay != 0){
+            Message msg = mHandler.obtainMessage(SHOW_PREPARE_VIEW, bShow);
+            mHandler.sendMessageDelayed(msg, SHOW_PREPARE_DELAY);
+        }else{
+            mView.showPrepareLoadView(bShow);
+        }
+
+    }
 
 
     private class MediaPlayerListener implements  MediaPlayer.OnBufferingUpdateListener,
@@ -331,8 +361,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
             mPlayPosTimer.stopTimer();
             mView.updateMediaInfoView(mMediaInfo);
             mView.showPlay(false);
-            mView.showPrepareLoadView(true);
-            mView.showControlView(false);
+            showPrepareView(true, SHOW_PREPARE_DELAY);
 
          /*   boolean need = checkNeedDownLyric(itemInfo);
             log.i("checkNeedDownLyric need = " + need);
@@ -344,9 +373,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
 
         @Override
         public void onTrackPrepareComplete() {
-            mView.showPrepareLoadView(false);
-            mView.showControlView(true);
-
+            showPrepareView(false, 0);
             int duration = mMusicPlayerEngineImpl.getDuration();
             mView.setSeekbarMax(duration);
             mView.setTotalTime(duration);

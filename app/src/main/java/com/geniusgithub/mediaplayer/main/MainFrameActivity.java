@@ -147,7 +147,7 @@ public class MainFrameActivity extends BaseActivity{
 
 
 
-     class MainView implements  MainContract.IView, IToolBar, NavigationViewEx.INavClickListener{
+     class MainView implements  MainContract.IView, IToolBar, MainNavigationView.INavClickListener{
 
          private MainContract.IPresenter mPresenter;
          private View mRootView;
@@ -165,7 +165,7 @@ public class MainFrameActivity extends BaseActivity{
           ViewPager mViewPager;
 
          @BindView(R.id.nv_main_navigation)
-          NavigationViewEx mNavigationView;
+          MainNavigationView mNavigationView;
 
          private ActionBarDrawerToggle mDrawerToggle;
          private TabLayout.Tab mTabLibrary;

@@ -31,6 +31,9 @@ import com.geniusgithub.mediaplayer.widget.ShadowImageView;
 
 import org.cybergarage.util.AlwaysLog;
 
+import java.util.List;
+import java.util.logging.Handler;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,7 +57,7 @@ public class MusicPlayerFragment extends BaseFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.music_player_layout, container, false);
+        View view = inflater.inflate(R.layout.music_fragment_layout, container, false);
         return view;
     }
 
@@ -81,7 +84,7 @@ public class MusicPlayerFragment extends BaseFragment{
 
 
     private void onUIReady(View view){
-        mRootView = view.findViewById(R.id.rootframeview);
+        mRootView = view.findViewById(R.id.dl_music_drawer);
 
         mMusicPlayerPresenter = new MusicPlayerPresenter();
         mMusicPlayerView = new MusicPlayerView(getActivity());
@@ -107,10 +110,14 @@ public class MusicPlayerFragment extends BaseFragment{
 
 
     public class MusicPlayerView implements MusicPlayerContact.IView, View.OnClickListener,
-                                                                     SeekBar.OnSeekBarChangeListener {
+                                                                     SeekBar.OnSeekBarChangeListener,
+                                                MusicNavigationView.onPlayItemClickListener{
 
         private Context mContext;
         private MusicPlayerContact.IPresenter  mMsuciPlayerPresenter;
+
+        @BindView(R.id.nv_navigation)
+        public MusicNavigationView mNavView;
 
         @BindView(R.id.prepare_panel)
         public View mPrepareView;
@@ -166,6 +173,7 @@ public class MusicPlayerFragment extends BaseFragment{
 
         private final static int DRAW_OFFSET_Y = 200;
 
+        private Handler mHandler;
         public MusicPlayerView(Context context){
             mContext = context;
         }
@@ -182,21 +190,20 @@ public class MusicPlayerFragment extends BaseFragment{
 
         @Override
         public void showPrepareLoadView(boolean bShow) {
+
             if (bShow) {
                 mPrepareView.setVisibility(View.VISIBLE);
+                showControlView(false);
             } else {
                 mPrepareView.setVisibility(View.GONE);
+                showControlView(true);
             }
+
+
         }
 
-        @Override
-        public void showControlView(boolean bShow) {
-            if (bShow) {
-                mControlView.setVisibility(View.VISIBLE);
-            } else {
-                mControlView.setVisibility(View.GONE);
-            }
-        }
+
+
 
         @Override
         public void showLRCView(boolean bShow) {
@@ -302,7 +309,7 @@ public class MusicPlayerFragment extends BaseFragment{
         @Override
         public void startRotateAnimation(boolean rotate) {
             if (rotate){
-                mIVAlbum.startRotateAnimation();
+                mIVAlbum.resumeRotateAnimation();
                 mIVAlbumBackground.resumeRotateAnimation();
             }else{
                 mIVAlbum.pauseRotateAnimation();
@@ -396,6 +403,7 @@ public class MusicPlayerFragment extends BaseFragment{
             mBtnPlayList.setOnClickListener(this);
             mSeekBar.setOnSeekBarChangeListener(this);
 
+            mNavView.addItemListener(this);
 
             mDefaultDrawable = mContext.getResources().getDrawable(R.drawable.mp_music_default);
         }
@@ -403,6 +411,24 @@ public class MusicPlayerFragment extends BaseFragment{
         @Override
         public void updateToolTitle(String title,String author) {
             MusicPlayerFragment.this.updateToolTitle(title, author);
+        }
+
+        @Override
+        public void updatePlayList(List<MediaItem> list) {
+            mNavView.updatePlayList(list);
+        }
+
+        @Override
+        public void onItemClick(MediaItem data, int position) {
+            mMusicPlayerPresenter.onPlayItemClick(data, position);
+        }
+
+        public void showControlView(boolean bShow) {
+            if (bShow) {
+                mControlView.setVisibility(View.VISIBLE);
+            } else {
+                mControlView.setVisibility(View.GONE);
+            }
         }
 
         private void loadAlbum(Context context, String uri, ImageView imageView){
@@ -415,6 +441,7 @@ public class MusicPlayerFragment extends BaseFragment{
             mIVAlbum.cancelRotateAnimation();
             mIVAlbumBackground.cancelRotateAnimation();
         }
+
 
     }
 

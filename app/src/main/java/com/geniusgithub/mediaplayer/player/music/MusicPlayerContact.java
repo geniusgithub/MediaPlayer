@@ -7,12 +7,14 @@ import com.geniusgithub.mediaplayer.base.BaseView;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.base.PlayMode;
 
+import java.util.List;
+
 public class MusicPlayerContact {
 
     public interface IView extends BaseView<IPresenter> {
         public void updateToolTitle(String title,String author);
+        public void updatePlayList(List<MediaItem> list);
         public void showPrepareLoadView(boolean bShow);
-        public void showControlView(boolean bShow);
         public void showLRCView(boolean bShow);
         public void showPlay(boolean bShow);
         public void showPlayErrorTip();
@@ -39,5 +41,6 @@ public class MusicPlayerContact {
         public void onPlayNext();
         public void onToggleMode();
         public void onSeekStopTrackingTouch(SeekBar seekBar);
+        public void onPlayItemClick(MediaItem data, int position);
     }
 }

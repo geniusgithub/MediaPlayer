@@ -12,7 +12,7 @@ import com.geniusgithub.mediaplayer.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NavigationViewEx extends LinearLayout implements View.OnClickListener{
+public class MainNavigationView extends LinearLayout implements View.OnClickListener {
 
     public static interface INavClickListener{
         public void onStartClick();
@@ -26,35 +26,35 @@ public class NavigationViewEx extends LinearLayout implements View.OnClickListen
 
 
     @BindView(R.id.ll_search)
-     View mSearch;
+    View mSearch;
 
     @BindView(R.id.ll_restart)
-     View mRest;
+    View mRest;
 
     @BindView(R.id.ll_stop)
-     View mStop;
+    View mStop;
 
     @BindView(R.id.ll_exit)
-     View mExit;
+    View mExit;
 
     @BindView(R.id.tv_localAddress)
-     TextView mTVLocalAddress;
+    TextView mTVLocalAddress;
 
     private INavClickListener mNavListener;
 
-    public NavigationViewEx(Context context) {
+    public MainNavigationView(Context context) {
         super(context);
     }
 
-    public NavigationViewEx(Context context, AttributeSet attrs) {
+    public MainNavigationView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public NavigationViewEx(Context context, AttributeSet attrs, int defStyle) {
+    public MainNavigationView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
 
-        mRootView = LayoutInflater.from(context).inflate(R.layout.navigation_header, this,true);
+        mRootView = LayoutInflater.from(context).inflate(R.layout.main_navigation_layout, this,true);
         ButterKnife.bind(this, mRootView);
     }
 
@@ -83,9 +83,9 @@ public class NavigationViewEx extends LinearLayout implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_search:
-              if (mNavListener != null){
-                  mNavListener.onStartClick();
-              }
+                if (mNavListener != null){
+                    mNavListener.onStartClick();
+                }
                 break;
             case R.id.ll_restart:
                 if (mNavListener != null){
@@ -106,7 +106,7 @@ public class NavigationViewEx extends LinearLayout implements View.OnClickListen
     }
 
 
-   public void  updateLocalAddress(String value){
-       mTVLocalAddress.setText(value);
-   }
+    public void  updateLocalAddress(String value){
+        mTVLocalAddress.setText(value);
+    }
 }
