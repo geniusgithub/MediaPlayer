@@ -12,7 +12,6 @@ import java.util.List;
 public class MusicPlayerContact {
 
     public interface IView extends BaseView<IPresenter> {
-        public void updateToolTitle(String title,String author);
         public void updatePlayList(List<MediaItem> list);
         public void showPrepareLoadView(boolean bShow);
         public void showLRCView(boolean bShow);
@@ -29,7 +28,7 @@ public class MusicPlayerContact {
 
         public void refreshLyrc(int pos);
         public void updateLyricView(MediaItem itemInfo);
-        public void updateMediaInfoView(MediaItem itemInfo);
+        public void updateMediaInfoView(MediaItem itemInfo, int pos);
         public void startRotateAnimation(boolean rotate);
         public void updatePlayMode(PlayMode playMode);
     }

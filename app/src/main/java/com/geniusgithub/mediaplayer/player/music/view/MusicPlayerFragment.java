@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,6 +120,10 @@ public class MusicPlayerFragment extends BaseFragment{
 
         @BindView(R.id.nv_navigation)
         public MusicNavigationView mNavView;
+
+        @BindView(R.id.dl_music_drawer)
+        public DrawerLayout mDrawerLayout;
+
 
         @BindView(R.id.prepare_panel)
         public View mPrepareView;
@@ -294,13 +300,15 @@ public class MusicPlayerFragment extends BaseFragment{
         }
 
         @Override
-        public void updateMediaInfoView(MediaItem itemInfo) {
+        public void updateMediaInfoView(MediaItem itemInfo, int pos) {
             setcurTime(0);
             setTotalTime(0);
             setSeekbarMax(100);
             setSeekbarProgress(0);
 
             updateToolTitle(itemInfo.getTitle(), itemInfo.getArtist());
+            mNavView.updateSelPos(pos);
+
             cancelAlumAnimation();
             loadAlbum(mContext, itemInfo.getAlbumUri(), mIVAlbum);
         }
@@ -370,6 +378,7 @@ public class MusicPlayerFragment extends BaseFragment{
                     mMsuciPlayerPresenter.onToggleMode();
                     break;
                 case R.id.button_play_list:
+                    updateDrawableStatus();
                     break;
             }
         }
@@ -408,10 +417,6 @@ public class MusicPlayerFragment extends BaseFragment{
             mDefaultDrawable = mContext.getResources().getDrawable(R.drawable.mp_music_default);
         }
 
-        @Override
-        public void updateToolTitle(String title,String author) {
-            MusicPlayerFragment.this.updateToolTitle(title, author);
-        }
 
         @Override
         public void updatePlayList(List<MediaItem> list) {
@@ -421,8 +426,21 @@ public class MusicPlayerFragment extends BaseFragment{
         @Override
         public void onItemClick(MediaItem data, int position) {
             mMusicPlayerPresenter.onPlayItemClick(data, position);
+            updateDrawableStatus();
         }
 
+
+        public void updateToolTitle(String title,String author) {
+            MusicPlayerFragment.this.updateToolTitle(title, author);
+        }
+
+        private void updateDrawableStatus(){
+            if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)){
+                mDrawerLayout.closeDrawers();
+            }else{
+                mDrawerLayout.openDrawer(Gravity.RIGHT);
+            }
+        }
         public void showControlView(boolean bShow) {
             if (bShow) {
                 mControlView.setVisibility(View.VISIBLE);

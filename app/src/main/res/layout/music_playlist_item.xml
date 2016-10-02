@@ -18,15 +18,6 @@
 			android:textColor="@color/white">
 		</TextView>
 
-	<TextView
-		android:id="@+id/tv_artist"
-		android:layout_toRightOf="@id/tv_name"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:textSize="12sp"
-		android:textColor="@color/gold">
-	</TextView>
 
 	<TextView
 		android:id="@+id/tv_duration"
@@ -38,4 +29,20 @@
 		android:textSize="16sp"
 		android:textColor="@color/white">
 	</TextView>
+
+
+	<TextView
+		android:id="@+id/tv_artist"
+		android:layout_toRightOf="@id/tv_name"
+		android:layout_toLeftOf="@id/tv_duration"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:textSize="12sp"
+		android:textColor="@color/gold"
+		android:singleLine="true"
+		android:ellipsize="end">
+	</TextView>
+
+
 </RelativeLayout>

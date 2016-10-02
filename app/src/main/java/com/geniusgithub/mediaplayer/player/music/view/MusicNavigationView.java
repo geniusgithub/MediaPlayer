@@ -78,6 +78,10 @@ public class MusicNavigationView extends LinearLayout {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void updateSelPos(int pos){
+        mAdapter.updateSelPos(pos);
+    }
+
     public void addItemListener(onPlayItemClickListener listener){
         mItemClickListener = listener;
     }

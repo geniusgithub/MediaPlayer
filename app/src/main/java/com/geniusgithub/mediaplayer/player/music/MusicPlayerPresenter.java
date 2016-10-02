@@ -359,7 +359,7 @@ public class MusicPlayerPresenter implements MusicPlayerContact.IPresenter,  Lrc
         public void onTrackPrepareSync() {
             mMediaInfo = mPLayList.getCurrentMedia();
             mPlayPosTimer.stopTimer();
-            mView.updateMediaInfoView(mMediaInfo);
+            mView.updateMediaInfoView(mMediaInfo, mPLayList.getPlayingIndex());
             mView.showPlay(false);
             showPrepareView(true, SHOW_PREPARE_DELAY);
 
