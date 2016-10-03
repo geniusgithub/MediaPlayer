@@ -2,6 +2,8 @@ a MediaPlay  run in Android Platform
 ===========
 MediaPlayer is the DLNA device(DMP), which can be in the search for DMS devices, browse resources and play locally
 
+
+
 ###Preview
 
 ![github](https://github.com/geniusgithub/MediaPlayer/blob/master/storage/main.jpg?raw=true "github")  
@@ -10,6 +12,8 @@ MediaPlayer is the DLNA device(DMP), which can be in the search for DMS devices,
 
 ![github](https://github.com/geniusgithub/MediaPlayer/blob/master/storage/media.jpg?raw=true "github")  
 
+##APK DOWNLOAD
+* [mediaPlayer.apk](https://raw.githubusercontent.com/geniusgithub/MediaPlayer/master/storage/mediaPlayer.apk)
 
 ##Points
 
