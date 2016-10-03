@@ -8,8 +8,8 @@ import android.widget.TextView;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.adapter.IBaseAdapterView;
-import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.util.TimeUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +57,7 @@ public class MusicListItemView extends LinearLayout implements IBaseAdapterView<
         mCurPos = position;
         mTVName.setText(data.getTitle());
         mTVArtist.setText("- " + data.getArtist());
-        mTVDuration.setText(DlnaUtils.formateTime(data.getDuration()));
+        mTVDuration.setText(TimeUtil.formateTime(data.getDuration()));
     }
 
     public void updateSelColor(int selPos){

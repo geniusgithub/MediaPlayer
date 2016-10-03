@@ -7,9 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.geniusgithub.common.util.CommonUtil;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
-import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

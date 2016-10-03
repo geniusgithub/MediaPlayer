@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/com.geniusgithub.common" />
             <option value="$PROJECT_DIR$/cybergarage-upnp" />
+            <option value="$PROJECT_DIR$/dlnaLibrary" />
           </set>
         </option>
         <option name="myModules">
@@ -20,6 +21,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/com.geniusgithub.common" />
             <option value="$PROJECT_DIR$/cybergarage-upnp" />
+            <option value="$PROJECT_DIR$/dlnaLibrary" />
           </set>
         </option>
       </GradleProjectSettings>

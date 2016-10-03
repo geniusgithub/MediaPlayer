@@ -12,11 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.geniusgithub.mediaplayer.DialogFactory;
+import com.geniusgithub.mediaplayer.component.DialogFactory;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
-import com.geniusgithub.mediaplayer.base.IToolBar;
-import com.geniusgithub.mediaplayer.base.ToolEntry;
+import com.geniusgithub.mediaplayer.component.IToolBar;
+import com.geniusgithub.mediaplayer.component.ToolEntry;
 import com.geniusgithub.mediaplayer.browse.BrowseContract;
 import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
@@ -49,7 +49,7 @@ public class BrowserMediaFragment extends BaseFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dms_layout, container, false);
+        View view = inflater.inflate(R.layout.browse_fragment_layout, container, false);
         return view;
     }
 

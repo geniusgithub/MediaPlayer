@@ -6,25 +6,25 @@ import android.net.Uri;
 import android.os.Handler;
 
 import com.geniusgithub.common.util.AlwaysLog;
+import com.geniusgithub.common.util.CommonUtil;
 import com.geniusgithub.mediaplayer.AllShareApplication;
-import com.geniusgithub.mediaplayer.DialogFactory;
 import com.geniusgithub.mediaplayer.browse.BrowseContract.IPresenter;
 import com.geniusgithub.mediaplayer.component.CacheManager;
+import com.geniusgithub.mediaplayer.component.DialogFactory;
 import com.geniusgithub.mediaplayer.component.ImageLoader;
-import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
+import com.geniusgithub.mediaplayer.component.MediaItemFactory;
+import com.geniusgithub.mediaplayer.component.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
+import com.geniusgithub.mediaplayer.dlna.model.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItemFactory;
-import com.geniusgithub.mediaplayer.dlna.model.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
-import com.geniusgithub.mediaplayer.dlna.proxy.IDeviceChangeListener;
+import com.geniusgithub.mediaplayer.dlna.util.UpnpUtil;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
-import com.geniusgithub.mediaplayer.player.picture.PhotoBrowsePresenter;
-import com.geniusgithub.mediaplayer.player.picture.View.PhotoBrowseActivity;
+import com.geniusgithub.mediaplayer.player.photo.PhotoBrowsePresenter;
+import com.geniusgithub.mediaplayer.player.photo.view.PhotoBrowseActivity;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayePresenter;
 import com.geniusgithub.mediaplayer.player.video.view.VideoPlayerActivity;
-import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 import org.cybergarage.upnp.Device;
 
@@ -87,7 +87,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
         }else if (UpnpUtil.isVideoItem(item)){
             goVideoPlayerActivity(index, item);
         }else if (UpnpUtil.isPictureItem(item)){
-            goPicturePlayerActivity(index, item);
+            goPhotoPlayerActivity(index, item);
         }else{
             mRequestTask = BrowseDMSProxy.syncGetItems(mContext, mCurDevice, item.getStringid(), this);
         }
@@ -265,8 +265,10 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
 
         MediaManager.getInstance().setVideoList(mCurItems);
 
-     Intent intent = new Intent(Intent.ACTION_VIEW);
-        String type = "video/* ";
+
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        String type = "video/*";
         Uri uri = Uri.parse(item.getRes());
         intent.setDataAndType(uri, type);
 
@@ -282,10 +284,11 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
         }
 
 
+
     }
 
 
-    private void goPicturePlayerActivity(int position, MediaItem item){
+    private void goPhotoPlayerActivity(int position, MediaItem item){
 
         MediaManager.getInstance().setPictureList(mCurItems);
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.geniusgithub.common.util.AlwaysLog;
-import com.geniusgithub.mediaplayer.dlna.ParseUtil;
+import com.geniusgithub.mediaplayer.dlna.util.ParseUtil;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
 import org.cybergarage.upnp.Action;

@@ -12,7 +12,7 @@ import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.adapter.IBaseAdapterView;
 import com.geniusgithub.mediaplayer.base.adapter.OnItemClickListener;
 import com.geniusgithub.mediaplayer.component.ImageLoader;
-import com.geniusgithub.mediaplayer.dlna.UpnpUtil;
+import com.geniusgithub.mediaplayer.dlna.util.UpnpUtil;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
 import butterknife.BindView;

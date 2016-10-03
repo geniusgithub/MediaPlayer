@@ -5,8 +5,8 @@ import android.media.MediaPlayer;
 import android.view.SurfaceHolder;
 
 import com.geniusgithub.common.util.AlwaysLog;
+import com.geniusgithub.common.util.CommonUtil;
 import com.geniusgithub.mediaplayer.player.base.Player;
-import com.geniusgithub.mediaplayer.util.CommonUtil;
 
 public class VideoPlayerEngine extends Player implements MediaPlayer.OnInfoListener {
 

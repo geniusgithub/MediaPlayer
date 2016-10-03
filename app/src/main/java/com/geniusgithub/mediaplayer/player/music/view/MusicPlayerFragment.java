@@ -20,16 +20,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
-import com.geniusgithub.mediaplayer.base.IToolBar;
-import com.geniusgithub.mediaplayer.base.ToolEntry;
 import com.geniusgithub.mediaplayer.component.CircleTransform;
-import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
+import com.geniusgithub.mediaplayer.component.IToolBar;
+import com.geniusgithub.mediaplayer.component.ToolEntry;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.util.TimeUtil;
 import com.geniusgithub.mediaplayer.player.base.PlayMode;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerContact;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.lrc.LyricView;
-import com.geniusgithub.mediaplayer.widget.ShadowImageView;
 
 import org.cybergarage.util.AlwaysLog;
 
@@ -163,10 +162,10 @@ public class MusicPlayerFragment extends BaseFragment{
 
 
         @BindView(R.id.iv_album)
-        public ShadowImageView mIVAlbum;
+        public com.geniusgithub.mediaplayer.widget.ShadowImageView mIVAlbum;
 
         @BindView(R.id.iv_albumbackground)
-        public ShadowImageView mIVAlbumBackground;
+        public com.geniusgithub.mediaplayer.widget.ShadowImageView mIVAlbumBackground;
 
         @BindView(R.id.song_info_view)
         public View mSongInfoView;
@@ -261,14 +260,14 @@ public class MusicPlayerFragment extends BaseFragment{
 
         @Override
         public void setTotalTime(int totalTime) {
-            String timeString = DlnaUtils.formateTime(totalTime);
+            String timeString = TimeUtil.formateTime(totalTime);
             mTVTotalTime.setText(timeString);
         }
 
 
         @Override
         public void setcurTime(int curTime) {
-            String timeString = DlnaUtils.formateTime(curTime);
+            String timeString = TimeUtil.formateTime(curTime);
             mTVCurTime.setText(timeString);
         }
 

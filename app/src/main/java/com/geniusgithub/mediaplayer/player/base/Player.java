@@ -4,6 +4,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.geniusgithub.common.util.AlwaysLog;
+import com.geniusgithub.mediaplayer.dlna.model.MediaEntry;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public  abstract  class Player implements IPlayback,MediaPlayer.OnPreparedListen
                                  MediaPlayer.OnBufferingUpdateListener,
                                     MediaPlayer.OnErrorListener{
 
-    protected static final String TAG = "Player";
+    protected static final String TAG = Player.class.getSimpleName();
 
     protected MediaPlayer mPlayer;
     protected PlayList mPlayList;

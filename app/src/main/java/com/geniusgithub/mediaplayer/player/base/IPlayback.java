@@ -1,12 +1,5 @@
 package com.geniusgithub.mediaplayer.player.base;
 
-/**
- * Created with Android Studio.
- * User: ryan.hoo.j@gmail.com
- * Date: 9/5/16
- * Time: 6:02 PM
- * Desc: IPlayer
- */
 public interface IPlayback {
 
     void setPlayList(PlayList list);
@@ -43,22 +36,4 @@ public interface IPlayback {
 
     void unregisterCallback(PlayStateCallback callback);
 
-//    void setPlayMode(PlayMode playMode);
-
-/*
-
-    void removeCallbacks();
-
-  */
-
-/*    interface Callback {
-
-        void onSwitchLast(@Nullable Song last);
-
-        void onSwitchNext(@Nullable Song next);
-
-        void onComplete(@Nullable Song next);
-
-        void onPlayStatusChanged(boolean isPlaying);
-    }*/
 }

@@ -10,8 +10,8 @@ import android.view.MenuItem;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseActivity;
-import com.geniusgithub.mediaplayer.base.IToolBar;
-import com.geniusgithub.mediaplayer.base.ToolEntry;
+import com.geniusgithub.mediaplayer.component.IToolBar;
+import com.geniusgithub.mediaplayer.component.ToolEntry;
 
 public class MusicPlayerActivity extends BaseActivity implements IToolBar{
 

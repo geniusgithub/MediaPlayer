@@ -22,13 +22,10 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.geniusgithub.common.util.AlwaysLog;
-import com.geniusgithub.mediaplayer.base.ItatisticsEvent;
 import com.geniusgithub.mediaplayer.component.CacheManager;
-import com.geniusgithub.mediaplayer.dlna.ControlPointImpl;
-import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
-import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
+import com.geniusgithub.mediaplayer.dlna.center.ControlPointImpl;
+import com.geniusgithub.mediaplayer.dlna.base.IEngineStatusCallback;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
-import com.geniusgithub.mediaplayer.util.CommonUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -60,7 +57,7 @@ import java.util.HashMap;
  * @cnblog http://www.cnblogs.com/lance2016/
  * @github https://github.com/geniusgithub
  */
-public class AllShareApplication extends Application implements ItatisticsEvent {
+public class AllShareApplication extends Application implements IEngineStatusCallback, ItatisticsEvent {
 
 	private final static String TAG = AllShareApplication.class.getSimpleName();
 
@@ -72,7 +69,7 @@ public class AllShareApplication extends Application implements ItatisticsEvent 
 	
 	private CacheManager mCacheManager;
 
-	private int mContropPointStatus = IControlPointStatu.STATUS_SOTP;
+
 
 	private boolean mEnterMain = false;
 
@@ -98,22 +95,7 @@ public class AllShareApplication extends Application implements ItatisticsEvent 
 
 		MobclickAgent.setDebugMode(true);
 
-		boolean ret = CommonUtil.openWifiBrocast(this);
-
 	}
-
-	public synchronized void updateControlStauts(int stauts){
-		if (mContropPointStatus != stauts){
-			mContropPointStatus = stauts;
-			ControlStatusChangeBrocastFactory.sendControlStatusChangeBrocast(this, mContropPointStatus);
-		}
-
-	}
-
-	public synchronized int getControlStatus(){
-		return mContropPointStatus;
-	}
-
 
 	public void setEnterFlag(boolean flag){
 		mEnterMain = flag;
@@ -122,21 +104,7 @@ public class AllShareApplication extends Application implements ItatisticsEvent 
 	public boolean getEnterFlag(){
 		return mEnterMain;
 	}
-	
-	public void setControlPoint(ControlPointImpl controlPoint){
-		mControlPoint = controlPoint;
-	}
 
-	public String getLocalAddress(){
-		if (mControlPoint != null){
-			return mControlPoint.getLocalAddress();
-		}
-
-		return "";
-	}
-	public ControlPointImpl getControlPoint(){
-		return mControlPoint;
-	}
 
 	public void delayToExit(){
 		mHandle.postDelayed(new Runnable() {
@@ -172,5 +140,19 @@ public class AllShareApplication extends Application implements ItatisticsEvent 
 	public static void onCatchError(Context context){
 
 	}
-	
+
+	@Override
+	public void onEngineCreate() {
+		CacheManager.getInstance().clearCache();
+	}
+
+	@Override
+	public void onEngineDestory() {
+		CacheManager.getInstance().clearCache();
+	}
+
+	@Override
+	public void onEngineRestart() {
+		CacheManager.getInstance().clearCache();
+	}
 }

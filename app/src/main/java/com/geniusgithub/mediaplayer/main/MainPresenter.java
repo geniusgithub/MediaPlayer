@@ -3,7 +3,7 @@ package com.geniusgithub.mediaplayer.main;
 import android.content.Context;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
-import com.geniusgithub.mediaplayer.dlna.IControlPointStatu;
+import com.geniusgithub.mediaplayer.dlna.base.IControlPointState;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.IStatusChangeListener;
@@ -85,20 +85,20 @@ public class MainPresenter implements  MainContract.IPresenter, IStatusChangeLis
 
 
     public void updateLocalAddress() {
-        updateLocalAddress(AllShareApplication.getInstance().getControlStatus());
+        updateLocalAddress(mAllShareProxy.getControlStatus());
     }
 
     public void updateLocalAddress(int status) {
         String value = mContext.getResources().getString(R.string.status_stop);
         switch(status){
-            case IControlPointStatu.STATUS_SOTP:
+            case IControlPointState.STATUS_SOTP:
                 value = mContext.getResources().getString(R.string.status_stop);
                 break;
-            case IControlPointStatu.STATUS_STARTED:
+            case IControlPointState.STATUS_STARTED:
                 value = mContext.getResources().getString(R.string.status_started);
-                value += "(" + AllShareApplication.getInstance().getLocalAddress() + ")";
+                value += "(" + mAllShareProxy.getLocalAddress() + ")";
                 break;
-            case IControlPointStatu.STATUS_STARTING:
+            case IControlPointState.STATUS_STARTING:
                 value = mContext.getResources().getString(R.string.status_starting);
                 break;
         }

@@ -21,8 +21,8 @@ import android.widget.Toast;
 import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
-import com.geniusgithub.mediaplayer.dlna.DlnaUtils;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.util.TimeUtil;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayePresenter;
 import com.geniusgithub.mediaplayer.player.video.VideoPlayerContact;
 
@@ -236,13 +236,13 @@ public class VideoPlayerFragment extends BaseFragment{
 
         @Override
         public void setcurTime(int curTime) {
-            String timeString = DlnaUtils.formateTime(curTime);
+            String timeString = TimeUtil.formateTime(curTime);
             mTVCurTime.setText(timeString);
         }
 
         @Override
         public void setTotalTime(int totalTime) {
-            String timeString = DlnaUtils.formateTime(totalTime);
+            String timeString = TimeUtil.formateTime(totalTime);
             mTVTotalTime.setText(timeString);
         }
 
