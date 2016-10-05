@@ -83,6 +83,20 @@ public class ResourceNode extends ContentNode
 		return getValue();
 	}
 
+
+	// add by geniusgitub begin
+	public String getSize()
+	{
+		return getAttributeValue(SIZE);
+	}
+
+	public String getDuration()
+	{
+		return getAttributeValue("duration");
+	}
+	// add by geniusgitub end
+
+
 	////////////////////////////////////////////////
 	//	ProtocolInfo
 	////////////////////////////////////////////////

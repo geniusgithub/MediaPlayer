@@ -1,5 +1,12 @@
 package com.geniusgithub.mediaplayer.dlna.model;
 
+import com.geniusgithub.mediaplayer.dlna.util.ParseUtil;
+
+import org.cybergarage.upnp.std.av.server.object.ContentNode;
+import org.cybergarage.upnp.std.av.server.object.container.ContainerNode;
+import org.cybergarage.upnp.std.av.server.object.item.ItemNode;
+import org.cybergarage.upnp.std.av.server.object.item.ResourceNode;
+
 public class MediaItem implements MediaEntry{
 
 
@@ -10,7 +17,6 @@ public class MediaItem implements MediaEntry{
 
 	public static class ResInfo {
 		public String protocolInfo = "";
-		public String resolution = "";
 		public long size = 0;
 		public String res = "";
 		public int duration = 0;
@@ -22,21 +28,12 @@ public class MediaItem implements MediaEntry{
 	public String album = "";
 	public String objectClass = "";
 	public String albumarturi = "";
-	public String childCount = "";
 	public long date = 0;
 	public ResInfo resInfo = new ResInfo();
 	
 	
 	public MediaItem() {
 		
-	}
-	
-	public MediaItem(String stringid, String title, String artist, String album, String objectClass) {
-		setStringid(stringid);
-		setTitle(title);
-		setArtist(artist);
-		setAlbum(album);
-		setObjectClass(objectClass);
 	}
 	
 	public String getShowString(){
@@ -48,8 +45,7 @@ public class MediaItem implements MediaEntry{
 							"objectClass = " + objectClass + "\n" + 
 							"res = " + resInfo.res + "\n" + 
 							"duration = " + resInfo.duration + "\n" + 
-							"albumUri = " + albumarturi + "\n" + 
-							"childCount = " + childCount + "\n" + 
+							"albumUri = " + albumarturi + "\n" +
 							"date = " + date + "\n" + 
 							"size = " + resInfo.size);
 		
@@ -112,13 +108,7 @@ public class MediaItem implements MediaEntry{
 	public void setAlbumUri(String albumUri){
 		this.albumarturi = (albumUri != null ? albumUri : "");
 	}
-	
-	public String getchildCount() {
-		return childCount;
-	}
-	public void setchildCount(String childCount) {
-		this.childCount = (childCount != null ? childCount : "");
-	}
+
 	
 	public long getSize() {
 		return resInfo.size;
@@ -126,14 +116,7 @@ public class MediaItem implements MediaEntry{
 	public void setSize(long size) {
 		resInfo.size = size;
 	}
-	
-	public String getresolution() {
-		return resInfo.resolution;
-	}
-	public void setresolution(String resolution) {
-		resInfo.resolution = resolution != null ? resolution : "";
-	}
-	
+
 	public String getprotocolInfo() {
 		return resInfo.protocolInfo;
 	}
@@ -148,4 +131,55 @@ public class MediaItem implements MediaEntry{
 		this.date = date;
 	}
 
+
+	public static class Builder{
+
+		public static MediaItem create(ContentNode node){
+			MediaItem item = null;
+
+			if (node instanceof ContainerNode){
+				item = create((ContainerNode) node);
+			}else if (node instanceof ItemNode){
+				item = create((ItemNode) node);
+			}
+
+			return item;
+		}
+
+
+
+		public static MediaItem create(ContainerNode node){
+			MediaItem item = new MediaItem();
+
+			item.setStringid(node.getID());
+			item.setTitle(node.getTitle());
+			item.setObjectClass(node.getUPnPClass());
+
+			return item;
+		}
+
+
+		 public static MediaItem create(ItemNode node){
+			 MediaItem item = new MediaItem();
+
+			 item.setStringid(node.getID());
+			 item.setTitle(node.getTitle());
+			 item.setObjectClass(node.getUPnPClass());
+			 item.setDate(node.getDateTime());
+
+			 item.setAlbum(node.getAlbum());
+			 item.setAlbumUri(node.getAlbumArtURI());
+			 item.setArtist(node.getArtist());
+
+			 ResourceNode resourceNode = node.getFirstResource();
+			 if (resourceNode != null){
+				 item.setRes(resourceNode.getURL());
+				 item.setprotocolInfo(resourceNode.getProtocolInfo());
+				 item.setDuration(ParseUtil.formatDurationString(resourceNode.getDuration()));
+				 item.setSize(ParseUtil.formatSizeString(resourceNode.getSize()));
+			 }
+
+			return item;
+		 }
+	}
 }

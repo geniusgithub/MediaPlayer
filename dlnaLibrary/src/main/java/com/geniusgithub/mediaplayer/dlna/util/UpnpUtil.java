@@ -4,11 +4,6 @@ import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 
 import org.cybergarage.upnp.Device;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-
 
 public class UpnpUtil {
 
@@ -38,38 +33,39 @@ public class UpnpUtil {
 //		}
 //		return false;
 //	}
-	
-	public final static String DLNA_OBJECTCLASS_MUSICID = "object.item.audioItem";
-	public final static String DLNA_OBJECTCLASS_VIDEOID = "object.item.videoItem";
-	public final static String DLNA_OBJECTCLASS_PHOTOID = "object.item.imageItem";
+
 	public static boolean isAudioItem(MediaItem item){
 		String objectClass = item.getObjectClass();
-		if (objectClass != null && objectClass.contains(DLNA_OBJECTCLASS_MUSICID))
-		{
+		if (isUPnPClassStartWith(objectClass, "object.item.audio") || isUPnPClassStartWith(objectClass, "object.item.music"))
 			return true;
-		}		
 		return false;
 	}
-	
+
+
+
 	public static boolean isVideoItem(MediaItem item){
 		String objectClass = item.getObjectClass();
-		if (objectClass != null && objectClass.contains(DLNA_OBJECTCLASS_VIDEOID))
-		{
+		if (isUPnPClassStartWith(objectClass, "object.item.movie") || isUPnPClassStartWith(objectClass, "object.item.video"))
 			return true;
-		}		
 		return false;
 	}
 	
 	public static boolean isPictureItem(MediaItem item){
 		String objectClass = item.getObjectClass();
-		if (objectClass != null && objectClass.contains(DLNA_OBJECTCLASS_PHOTOID))
-		{
+		if (isUPnPClassStartWith(objectClass, "object.item.image") || isUPnPClassStartWith(objectClass, "object.item.photo"))
 			return true;
-		}		
 		return false;
 	}
-	
-	
+
+	public static boolean isUPnPClassStartWith(String objectClass, String targetClass)
+	{
+		if (targetClass == null)
+			return false;
+		if (objectClass == null)
+			return false;
+		return objectClass.startsWith(targetClass);
+	}
+
 	/*public static boolean isLocalIpAddress(Device device){
 		try {
 			String addrip = device.getLocation();

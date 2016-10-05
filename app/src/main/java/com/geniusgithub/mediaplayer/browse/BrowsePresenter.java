@@ -18,6 +18,7 @@ import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
 import com.geniusgithub.mediaplayer.dlna.model.IDeviceChangeListener;
 import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.dlna.browse.BrowseDMSProxy;
 import com.geniusgithub.mediaplayer.dlna.util.UpnpUtil;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
@@ -76,7 +77,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
     @Override
     public void enterDevice(Device device) {
         setCurDevice(device);
-        mRequestTask =  BrowseDMSProxy.syncGetDirectory(mContext, device, this);
+        mRequestTask =  BrowseDMSProxy.asyncBrowseDirectory(mContext, device, this);
     }
 
 
@@ -89,7 +90,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
         }else if (UpnpUtil.isPictureItem(item)){
             goPhotoPlayerActivity(index, item);
         }else{
-            mRequestTask = BrowseDMSProxy.syncGetItems(mContext, mCurDevice, item.getStringid(), this);
+            mRequestTask = BrowseDMSProxy.asyncBrowseItems(mContext, mCurDevice, item.getStringid(), this);
         }
     }
 

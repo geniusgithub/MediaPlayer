@@ -27,6 +27,11 @@ public class UPnP
 	public final static String STORAGE_USED = "upnp:storageUsed";
 	public final static String ALBUMART_URI = "upnp:albumArtURI";
 
+	// add by geniusgithub begin
+	public final static String ALBUM = "upnp:album";
+	public final static String ARTIST = "upnp:artist";
+	// add by geniusgithub end
+
 	public final static String OBJECT_ITEM_IMAGEITEM_PHOTO = "object.item.imageItem.photo";
 	public final static String OBJECT_ITEM_VIDEOITEM_MOVIE = "object.item.videoItem.movie";
 	

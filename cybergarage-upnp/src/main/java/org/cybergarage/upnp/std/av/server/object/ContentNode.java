@@ -19,11 +19,16 @@
 
 package org.cybergarage.upnp.std.av.server.object;
 
-import java.io.*;
-import org.cybergarage.xml.*;
-import org.cybergarage.upnp.std.av.server.*;
-import org.cybergarage.upnp.std.av.server.object.container.*;
-import org.cybergarage.upnp.std.av.server.object.item.*;
+import org.cybergarage.upnp.std.av.server.ContentDirectory;
+import org.cybergarage.upnp.std.av.server.DC;
+import org.cybergarage.upnp.std.av.server.MediaServer;
+import org.cybergarage.upnp.std.av.server.UPnP;
+import org.cybergarage.upnp.std.av.server.object.container.ContainerNode;
+import org.cybergarage.upnp.std.av.server.object.item.ItemNode;
+import org.cybergarage.xml.Attribute;
+import org.cybergarage.xml.Node;
+
+import java.io.PrintWriter;
 
 public abstract class ContentNode extends Node
 {
@@ -275,6 +280,7 @@ public abstract class ContentNode extends Node
 	{
 		return getPropertyValue(DC.TITLE);
 	}
+
 
 	////////////////////////////////////////////////
 	// upnp:class

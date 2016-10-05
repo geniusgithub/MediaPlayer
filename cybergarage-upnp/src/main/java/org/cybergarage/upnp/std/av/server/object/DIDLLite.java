@@ -24,9 +24,14 @@
 
 package org.cybergarage.upnp.std.av.server.object;
 
-import java.io.*;
-import org.cybergarage.soap.*;
-import org.cybergarage.util.*;
+import org.cybergarage.soap.SOAP;
+import org.cybergarage.util.Debug;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 public class DIDLLite
 {
@@ -52,7 +57,7 @@ public class DIDLLite
 
 	public final static String RES = "res";
 	public final static String RES_PROTOCOLINFO = "protocolInfo";
-	
+
 	////////////////////////////////////////////////
 	// Constrictor
 	////////////////////////////////////////////////

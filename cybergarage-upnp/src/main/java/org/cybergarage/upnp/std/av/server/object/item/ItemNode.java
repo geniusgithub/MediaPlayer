@@ -17,16 +17,20 @@
 
 package org.cybergarage.upnp.std.av.server.object.item;
 
+import org.cybergarage.upnp.std.av.server.DC;
+import org.cybergarage.upnp.std.av.server.UPnP;
+import org.cybergarage.upnp.std.av.server.object.ContentNode;
+import org.cybergarage.upnp.std.av.server.object.DIDLLite;
+import org.cybergarage.upnp.std.av.server.object.container.ContainerNode;
+import org.cybergarage.util.Debug;
+import org.cybergarage.xml.Attribute;
+import org.cybergarage.xml.AttributeList;
+import org.cybergarage.xml.Node;
+
 import java.io.InputStream;
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
-import org.cybergarage.util.*;
-import org.cybergarage.xml.*;
-import org.cybergarage.upnp.std.av.server.*;
-import org.cybergarage.upnp.std.av.server.object.*;
-import org.cybergarage.upnp.std.av.server.object.container.ContainerNode;
+import java.util.Date;
 
 public class ItemNode extends ContentNode
 {
@@ -219,7 +223,30 @@ public class ItemNode extends ContentNode
 	{
 		return getPropertyValue(UPnP.ALBUMART_URI);
 	}
-	
+
+	// add by geniusgithub begin
+	public void setAlbum(String title)
+	{
+		setProperty(UPnP.ALBUM, title);
+	}
+
+	public String getAlbum()
+	{
+		return getPropertyValue(UPnP.ALBUM);
+	}
+
+	public void setArtist(String title)
+	{
+		setProperty(UPnP.ARTIST, title);
+	}
+
+	public String getArtist()
+	{
+		return getPropertyValue(UPnP.ARTIST);
+	}
+	// add by geniusgithub end
+
+
 	////////////////////////////////////////////////
 	// isXXXClass
 	////////////////////////////////////////////////
@@ -341,7 +368,7 @@ public class ItemNode extends ContentNode
 	{
 		return getPropertyAttribureValue(DIDLLite.RES, DIDLLite.RES_PROTOCOLINFO);
 	}
-	
+
 	
 	////////////////////////////////////////////////
 	// Abstract methods

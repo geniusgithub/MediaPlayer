@@ -18,7 +18,6 @@ public class MediaItemFactory {
 		intent.putExtra("size", item.getSize());
 		intent.putExtra("albumarturi", item.getAlbumUri());
 		intent.putExtra("protocolInfo", item.getprotocolInfo());
-		intent.putExtra("resolution", item.getresolution());
 	}
 	
 	public static MediaItem getItemFromIntent( Intent intent){
@@ -34,7 +33,6 @@ public class MediaItemFactory {
 		item.setSize(intent.getLongExtra("size", 0));
 		item.setAlbumUri(intent.getStringExtra("albumarturi"));
 		item.setprotocolInfo(intent.getStringExtra("protocolInfo"));
-		item.setresolution(intent.getStringExtra("resolution"));
 		return item;
 	}
 	
