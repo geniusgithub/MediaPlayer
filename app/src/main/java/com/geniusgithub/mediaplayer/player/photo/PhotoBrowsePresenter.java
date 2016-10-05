@@ -9,7 +9,7 @@ import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.component.CacheManager;
 import com.geniusgithub.mediaplayer.component.MediaItemFactory;
 import com.geniusgithub.mediaplayer.component.MediaManager;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 

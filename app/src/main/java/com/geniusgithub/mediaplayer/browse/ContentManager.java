@@ -1,6 +1,6 @@
 package com.geniusgithub.mediaplayer.browse;
 
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 import java.util.List;
 import java.util.Stack;

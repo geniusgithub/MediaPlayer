@@ -2,7 +2,7 @@ package com.geniusgithub.mediaplayer.component;
 
 import android.content.Intent;
 
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 public class MediaItemFactory {
 

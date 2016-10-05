@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.BaseFragment;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.photo.PhotoBrowseContact;
 import com.geniusgithub.mediaplayer.player.photo.PhotoBrowsePresenter;
 

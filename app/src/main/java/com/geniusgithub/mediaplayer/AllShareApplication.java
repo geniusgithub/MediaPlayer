@@ -23,9 +23,7 @@ import android.os.Handler;
 
 import com.geniusgithub.common.util.AlwaysLog;
 import com.geniusgithub.mediaplayer.component.CacheManager;
-import com.geniusgithub.mediaplayer.dlna.center.ControlPointImpl;
-import com.geniusgithub.mediaplayer.dlna.base.IEngineStatusCallback;
-import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.dlna.control.AllShareProxy;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -57,19 +55,13 @@ import java.util.HashMap;
  * @cnblog http://www.cnblogs.com/lance2016/
  * @github https://github.com/geniusgithub
  */
-public class AllShareApplication extends Application implements IEngineStatusCallback, ItatisticsEvent {
+public class AllShareApplication extends Application implements AllShareProxy.IEngineStatusCallback, ItatisticsEvent {
 
 	private final static String TAG = AllShareApplication.class.getSimpleName();
 
 	private static AllShareApplication mAllShareApplication;
-
 	private AllShareProxy mAllShareProxy;
-
-	private ControlPointImpl mControlPoint;
-	
 	private CacheManager mCacheManager;
-
-
 
 	private boolean mEnterMain = false;
 
@@ -85,6 +77,7 @@ public class AllShareApplication extends Application implements IEngineStatusCal
 		super.onCreate();
 		
 		mAllShareProxy = AllShareProxy.getInstance(this);
+		mAllShareProxy.setEngineStatusCallback(this);
 		mAllShareApplication = this;
 
 		mCacheManager = CacheManager.newInstance(this);

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.adapter.IBaseAdapterView;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.util.TimeUtil;
 
 import butterknife.BindView;

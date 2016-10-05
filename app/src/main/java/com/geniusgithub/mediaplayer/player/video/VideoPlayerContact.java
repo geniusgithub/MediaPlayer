@@ -5,7 +5,7 @@ import android.widget.SeekBar;
 
 import com.geniusgithub.mediaplayer.base.BasePresenter;
 import com.geniusgithub.mediaplayer.base.BaseView;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 public class VideoPlayerContact {
 

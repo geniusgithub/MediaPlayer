@@ -4,7 +4,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 import com.geniusgithub.common.util.AlwaysLog;
-import com.geniusgithub.mediaplayer.dlna.model.MediaEntry;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaEntry;
 
 import java.io.IOException;
 import java.util.ArrayList;

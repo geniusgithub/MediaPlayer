@@ -19,7 +19,7 @@ import com.geniusgithub.mediaplayer.component.IToolBar;
 import com.geniusgithub.mediaplayer.component.ToolEntry;
 import com.geniusgithub.mediaplayer.browse.BrowseContract;
 import com.geniusgithub.mediaplayer.browse.BrowsePresenter;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 import org.cybergarage.upnp.Device;
 

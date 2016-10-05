@@ -3,11 +3,11 @@ package com.geniusgithub.mediaplayer.main;
 import android.content.Context;
 
 import com.geniusgithub.mediaplayer.AllShareApplication;
-import com.geniusgithub.mediaplayer.dlna.base.IControlPointState;
+import com.geniusgithub.mediaplayer.dlna.control.model.IControlPointState;
 import com.geniusgithub.mediaplayer.R;
-import com.geniusgithub.mediaplayer.dlna.model.ControlStatusChangeBrocastFactory;
-import com.geniusgithub.mediaplayer.dlna.model.IStatusChangeListener;
-import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
+import com.geniusgithub.mediaplayer.dlna.control.model.ControlStatusChangeBrocastFactory;
+import com.geniusgithub.mediaplayer.dlna.control.base.IStatusChangeListener;
+import com.geniusgithub.mediaplayer.dlna.control.AllShareProxy;
 
 public class MainPresenter implements  MainContract.IPresenter, IStatusChangeListener{
 

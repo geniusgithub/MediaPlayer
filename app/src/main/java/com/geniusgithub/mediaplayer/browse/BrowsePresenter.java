@@ -14,11 +14,11 @@ import com.geniusgithub.mediaplayer.component.DialogFactory;
 import com.geniusgithub.mediaplayer.component.ImageLoader;
 import com.geniusgithub.mediaplayer.component.MediaItemFactory;
 import com.geniusgithub.mediaplayer.component.MediaManager;
-import com.geniusgithub.mediaplayer.dlna.model.DMSDeviceBrocastFactory;
-import com.geniusgithub.mediaplayer.dlna.model.IDeviceChangeListener;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
-import com.geniusgithub.mediaplayer.dlna.proxy.AllShareProxy;
-import com.geniusgithub.mediaplayer.dlna.browse.BrowseDMSProxy;
+import com.geniusgithub.mediaplayer.dlna.control.model.DMSDeviceBrocastFactory;
+import com.geniusgithub.mediaplayer.dlna.control.base.IDeviceChangeListener;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.AllShareProxy;
+import com.geniusgithub.mediaplayer.dlna.control.browsecontrol.BrowseControllerProxy;
 import com.geniusgithub.mediaplayer.dlna.util.UpnpUtil;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
-                                        BrowseDMSProxy.BrowseRequestCallback{
+                                        BrowseControllerProxy.BrowseRequestCallback{
 
 
     private static final String TAG = BrowsePresenter.class.getSimpleName();
@@ -45,7 +45,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
     private DMSDeviceBrocastFactory mBrocastFactory;
     private ContentManager mContentManager;
     private Device mCurDevice;
-    private BrowseDMSProxy.BrowseContentAsnyTask mRequestTask;
+    private BrowseControllerProxy.BrowseContentAsnyTask mRequestTask;
 
     private List<MediaItem> mCurItems;
     private final int VIEW_DMS = 0;
@@ -77,7 +77,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
     @Override
     public void enterDevice(Device device) {
         setCurDevice(device);
-        mRequestTask =  BrowseDMSProxy.asyncBrowseDirectory(mContext, device, this);
+        mRequestTask =  BrowseControllerProxy.asyncBrowseDirectory(mContext, device, this);
     }
 
 
@@ -90,7 +90,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
         }else if (UpnpUtil.isPictureItem(item)){
             goPhotoPlayerActivity(index, item);
         }else{
-            mRequestTask = BrowseDMSProxy.asyncBrowseItems(mContext, mCurDevice, item.getStringid(), this);
+            mRequestTask = BrowseControllerProxy.asyncBrowseItems(mContext, mCurDevice, item.getStringid(), this);
         }
     }
 
@@ -160,7 +160,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
 
         mContentManager = ContentManager.getInstance();
         mCurItems = new ArrayList<MediaItem>();
-        mCurDevice = mAllShareProxy.getDMSSelectedDevice();
+        mCurDevice = mAllShareProxy.getmDeviceOperator().getDMSSelectedDevice();
         mHandler = new Handler();
 
         mBrocastFactory = new DMSDeviceBrocastFactory(mContext);
@@ -204,13 +204,13 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
 
     private void setCurDevice(Device device){
         mCurDevice = device;
-        AllShareProxy.getInstance(mContext).setDMSSelectedDevice(mCurDevice);
+        AllShareProxy.getInstance(mContext).getmDeviceOperator().setDMSSelectedDevice(mCurDevice);
     }
 
 
 
     private void updateDeviceList(){
-        List<Device> list = mAllShareProxy.getDMSDeviceList();
+        List<Device> list = mAllShareProxy.getmDeviceOperator().getDMSDeviceList();
         mIBrowseView.updateDeviceList(list);
     }
 
@@ -241,7 +241,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
     private void updateToolTitle(int viewType){
         String title = "DLNA";
         if (viewType == VIEW_CONTENT){
-            Device device = mAllShareProxy.getDMSSelectedDevice();
+            Device device = mAllShareProxy.getmDeviceOperator().getDMSSelectedDevice();
             if (device != null){
                 title = device.getFriendlyName();
             }

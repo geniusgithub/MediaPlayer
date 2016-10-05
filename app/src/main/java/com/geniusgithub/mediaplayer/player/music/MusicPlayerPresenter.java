@@ -13,7 +13,7 @@ import com.geniusgithub.common.util.FileHelper;
 import com.geniusgithub.mediaplayer.AllShareApplication;
 import com.geniusgithub.mediaplayer.component.MediaItemFactory;
 import com.geniusgithub.mediaplayer.component.MediaManager;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 import com.geniusgithub.mediaplayer.player.AbstractTimer;
 import com.geniusgithub.mediaplayer.player.SingleSecondTimer;
 import com.geniusgithub.mediaplayer.player.base.MediaItemPlayList;

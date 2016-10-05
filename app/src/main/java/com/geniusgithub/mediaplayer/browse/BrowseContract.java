@@ -2,7 +2,7 @@ package com.geniusgithub.mediaplayer.browse;
 
 import com.geniusgithub.mediaplayer.base.BasePresenter;
 import com.geniusgithub.mediaplayer.base.BaseView;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 import org.cybergarage.upnp.Device;
 

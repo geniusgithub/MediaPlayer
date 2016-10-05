@@ -154,7 +154,7 @@
         </activity>
 
         <service
-            android:name=".dlna.center.DlnaService"
+            android:name=".dlna.control.ControlService"
             android:enabled="true"
             >
             <intent-filter>

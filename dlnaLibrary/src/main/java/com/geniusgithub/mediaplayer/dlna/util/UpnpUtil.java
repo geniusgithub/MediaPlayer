@@ -1,6 +1,6 @@
 package com.geniusgithub.mediaplayer.dlna.util;
 
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 import org.cybergarage.upnp.Device;
 

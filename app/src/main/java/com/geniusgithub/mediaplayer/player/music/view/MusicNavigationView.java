@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.geniusgithub.mediaplayer.R;
 import com.geniusgithub.mediaplayer.base.adapter.OnItemClickListener;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 import java.util.ArrayList;
 import java.util.List;

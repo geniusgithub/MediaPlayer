@@ -23,7 +23,7 @@ import com.geniusgithub.mediaplayer.base.BaseFragment;
 import com.geniusgithub.mediaplayer.component.CircleTransform;
 import com.geniusgithub.mediaplayer.component.IToolBar;
 import com.geniusgithub.mediaplayer.component.ToolEntry;
-import com.geniusgithub.mediaplayer.dlna.model.MediaItem;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.util.TimeUtil;
 import com.geniusgithub.mediaplayer.player.base.PlayMode;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerContact;
