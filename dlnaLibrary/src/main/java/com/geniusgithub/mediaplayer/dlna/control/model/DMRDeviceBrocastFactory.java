@@ -5,29 +5,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.geniusgithub.mediaplayer.dlna.control.base.IDMSDeviceChangeListener;
+import com.geniusgithub.mediaplayer.dlna.control.base.IDMRDeviceChangeListener;
 
-public class DMSDeviceBrocastFactory  {
-	
-	public static final String ADD_DEVICES = "com.geniusgithub.allshare.add_dms_device";
-	public static final String REMOVE_DEVICES = "com.geniusgithub.allshare.remove_dms_device";
-	public static final String REMOVE_EXTRA_FLAG = "com.geniusgithub.allshare.remove_dms_extra_flag";
-	public static final String CLEAR_DEVICES = "com.geniusgithub.allshare.clear_dms_device";
+public class DMRDeviceBrocastFactory {
+
+	public static final String ADD_DEVICES = "com.geniusgithub.allshare.add_dmr_device";
+	public static final String REMOVE_DEVICES = "com.geniusgithub.allshare.remove_dmr_device";
+	public static final String REMOVE_EXTRA_FLAG = "com.geniusgithub.allshare.remove_dmr_extra_flag";
+	public static final String CLEAR_DEVICES = "com.geniusgithub.allshare.clear_dmr_device";
+
 
 
 	protected Context mContext;
-	protected DMSDeviceChangeBrocastReceiver mReceiver;
+	protected DMRDeviceChangeBrocastReceiver mReceiver;
 
-
-	public DMSDeviceBrocastFactory(Context context) {
+	public DMRDeviceBrocastFactory(Context context) {
 		mContext = context;
 	
 	}
 
-	public void registerListener(IDMSDeviceChangeListener listener) {
+	public void registerListener(IDMRDeviceChangeListener listener) {
 		
 		if (mReceiver == null){
-			mReceiver = new DMSDeviceChangeBrocastReceiver();
+			mReceiver = new DMRDeviceChangeBrocastReceiver();
 			mContext.registerReceiver(mReceiver, new IntentFilter(ADD_DEVICES));
 			mContext.registerReceiver(mReceiver, new IntentFilter(REMOVE_DEVICES));
 			mContext.registerReceiver(mReceiver, new IntentFilter(CLEAR_DEVICES));
@@ -35,7 +35,6 @@ public class DMSDeviceBrocastFactory  {
 		}
 		
 	}
-
 
 	public void unRegisterListener() {
 	

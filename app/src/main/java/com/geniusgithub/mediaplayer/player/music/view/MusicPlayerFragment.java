@@ -27,6 +27,7 @@ import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.util.TimeUtil;
 import com.geniusgithub.mediaplayer.player.base.PlayMode;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerContact;
+import com.geniusgithub.mediaplayer.player.music.LocalMusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.lrc.LyricView;
 
@@ -87,7 +88,7 @@ public class MusicPlayerFragment extends BaseFragment{
     private void onUIReady(View view){
         mRootView = view.findViewById(R.id.dl_music_drawer);
 
-        mMusicPlayerPresenter = new MusicPlayerPresenter();
+        mMusicPlayerPresenter = new LocalMusicPlayerPresenter();
         mMusicPlayerView = new MusicPlayerView(getActivity());
         mMusicPlayerView.setupView(mRootView);
         mMusicPlayerPresenter.bindView(mMusicPlayerView);

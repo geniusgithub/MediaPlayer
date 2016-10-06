@@ -1,11 +1,8 @@
 package com.geniusgithub.mediaplayer.dlna.control.browsecontrol;
 
-import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
-
 import org.cybergarage.upnp.Device;
-
-import java.util.List;
+import org.cybergarage.upnp.std.av.server.object.container.ContainerNode;
 
 public interface IBrowseController {
-    public boolean browseItem(Device device, String id, List<MediaItem> list);
+    public boolean browseItem(Device device, String id, ContainerNode rootNode);
 }

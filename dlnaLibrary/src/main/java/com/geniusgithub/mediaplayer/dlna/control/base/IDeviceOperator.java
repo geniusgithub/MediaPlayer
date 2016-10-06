@@ -16,11 +16,11 @@ public interface IDeviceOperator {
 		public void setDMSSelectedDevice(Device selectedDevice);
 
 	}
-//
-//	public static interface IDMRDeviceOperator{
-//		public  List<Device> getDMRDeviceList();
-//		public Device getDMRSelectedDevice1();
-//		public void setDMRSelectedDevice(Device selectedDevice);
-//	}
+
+	public static interface IDMRDeviceOperator{
+		public  List<Device> getDMRDeviceList();
+		public Device getDMRSelectedDevice1();
+		public void setDMRSelectedDevice(Device selectedDevice);
+	}
 	
 }

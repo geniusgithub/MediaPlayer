@@ -6,6 +6,10 @@ import android.os.AsyncTask;
 import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 
 import org.cybergarage.upnp.Device;
+import org.cybergarage.upnp.std.av.server.object.ContentNode;
+import org.cybergarage.upnp.std.av.server.object.container.ContainerNode;
+import org.cybergarage.upnp.std.av.server.object.container.RootNode;
+import org.cybergarage.util.AlwaysLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +67,22 @@ public class BrowseControllerProxy {
 		protected List<MediaItem> doInBackground(Device... params) {
 
 			Device device = params[0];
-			List<MediaItem> list = new ArrayList<MediaItem>();
-			boolean ret = mController.browseItem(device, mReuqestID, list);
+
+			ContainerNode rootNode = new RootNode();
+			boolean ret = mController.browseItem(device, mReuqestID, rootNode);
 			if (ret){
-				return list;
+				List<MediaItem> list = new ArrayList<MediaItem>();
+				boolean parsetRet = parseResult(rootNode, list);
+				if (parsetRet) {
+					return list;
+				}else{
+					AlwaysLog.e(TAG, "parseResult fail!!!");
+				}
 			}else{
-				return null;
+				AlwaysLog.e(TAG, "browseItem fail!!!");
 			}
+
+			return null;
 		}
 
 		@Override
@@ -94,6 +107,26 @@ public class BrowseControllerProxy {
 			}
 		}
 
+	}
+
+
+	public static boolean parseResult(ContainerNode rootNode, List<MediaItem> list){
+
+		//	AlwaysLog.i(TAG, "parseResult rootNode = \n" + rootNode.toString());
+		int childCount = rootNode.getChildCount();
+		ContentNode node = null;
+		for(int i = 0; i < childCount; i++){
+			node = rootNode.getContentNode(i);
+
+			MediaItem item = MediaItem.Builder.create(node);
+			if (item != null){
+				list.add(item);
+			}else{
+				AlwaysLog.e(TAG, "unknow node??? index = " + i);
+			}
+		}
+
+		return true;
 	}
 
 }

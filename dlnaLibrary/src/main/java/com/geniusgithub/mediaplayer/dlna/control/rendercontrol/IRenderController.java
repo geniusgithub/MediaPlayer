@@ -3,61 +3,41 @@ package com.geniusgithub.mediaplayer.dlna.control.rendercontrol;
 import org.cybergarage.upnp.Device;
 
 public interface IRenderController {
+
+    public boolean setAVTransportURI(Device dev,String path);
+
+
     /**
      * Play the video with the video path.
      *
      * @param device
      *            The device be controlled.
-     * @param path
-     *            The path of the video.
+     *
      * @return If is success to play the video.
      */
-    boolean play(Device device, String path);
+    boolean play(Device device);
+
 
     /**
-     * Go on playing the video from the position.
+     * Pause the playing video.
      *
      * @param device
-     *            The device be controlled.
-     * @param pausePosition
-     *            The format must be 00:00:00.
+     *            The device to controlled.
+     * @return If if success to pause the video.
      */
-    boolean goon(Device device, String pausePosition);
+    boolean pause(Device device);
+
 
     /**
-     * All the state is "STOPPED" // "PLAYING" // "TRANSITIONING"//
-     * "PAUSED_PLAYBACK"// "PAUSED_RECORDING"// "RECORDING" //
-     * "NO_MEDIA_PRESENT//
-     */
-    String getTransportState(Device device);
-
-    /**
-     * Get the min volume value,this must be 0.
+     * Stop to play.
      *
      * @param device
-     * @return
+     *            The device to controlled.
+     * @return If if success to stop the video.
      */
-    int getMinVolumeValue(Device device);
+    boolean stop(Device device);
 
-    /**
-     * Get the max volume value, usually it is 100.
-     *
-     * @param device
-     *            The device be controlled.
-     * @return The max volume value.
-     */
-    int getMaxVolumeValue(Device device);
 
-    /**
-     * Seek the playing video to a target position.
-     *
-     * @param device
-     *            The device be controlled.
-     * @param targetPosition
-     *            Target position we want to set.
-     * @return
-     */
-    boolean seek(Device device, String targetPosition);
 
     /**
      * Get the current playing position of the video.
@@ -78,61 +58,36 @@ public interface IRenderController {
      */
     String getMediaDuration(Device device);
 
-    /**
-     * Mute the device or not.
-     *
-     * @param device
-     *            The device be controlled.
-     * @param targetValue
-     *            1 is that want mute, 0 if you want make it off of mute.
-     * @return If is success to mute the device.
-     */
-    boolean setMute(Device device, String targetValue);
 
     /**
-     * Get if the device is mute.
-     *
-     * @param device
-     *            The device be controlled.
-     * @return 1 is mute, otherwise will return 0.
+     * All the state is "STOPPED" // "PLAYING" // "TRANSITIONING"//
+     * "PAUSED_PLAYBACK"// "PAUSED_RECORDING"// "RECORDING" //
+     * "NO_MEDIA_PRESENT//
      */
-    String getMute(Device device);
+    String getTransportState(Device device);
 
     /**
-     * Set the device's voice.
+     * Seek the playing video to a target position.
      *
      * @param device
      *            The device be controlled.
-     * @param value
-     *            Target voice want be set.
+     * @param targetPosition
+     *            Target position we want to set.
      * @return
      */
-    boolean setVoice(Device device, int value);
+    boolean seek(Device device, String targetPosition);
 
-    /**
-     * Get the current voice of the device.
+
+
+
+/*    *//**
+     * Go on playing the video from the position.
      *
      * @param device
      *            The device be controlled.
-     * @return Current voice.
-     */
-    int getVoice(Device device);
+     * @param pausePosition
+     *            The format must be 00:00:00.
+     *//*
+    boolean goon(Device device, String pausePosition);*/
 
-    /**
-     * Stop to play.
-     *
-     * @param device
-     *            The device to controlled.
-     * @return If if success to stop the video.
-     */
-    boolean stop(Device device);
-
-    /**
-     * Pause the playing video.
-     *
-     * @param device
-     *            The device to controlled.
-     * @return If if success to pause the video.
-     */
-    boolean pause(Device device);
 }

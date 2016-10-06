@@ -2,10 +2,19 @@ package com.geniusgithub.mediaplayer.dlna.control.model;
 
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-public class DMSDeviceChangeBrocastReceiver extends AbstractDeviceChangeBrocastReceiver {
+import com.geniusgithub.mediaplayer.dlna.control.base.IDMSDeviceChangeListener;
+
+public class DMSDeviceChangeBrocastReceiver extends BroadcastReceiver {
+
+	protected IDMSDeviceChangeListener mListener;
+
+	public void setListener(IDMSDeviceChangeListener listener){
+		mListener  = listener;
+	}
 
 	
 	public void onReceive(Context context, Intent intent) {
@@ -17,7 +26,7 @@ public class DMSDeviceChangeBrocastReceiver extends AbstractDeviceChangeBrocastR
 				DMSDeviceBrocastFactory.CLEAR_DEVICES.equalsIgnoreCase(action)){			
 			boolean isSelDeviceChange = intent.getBooleanExtra(DMSDeviceBrocastFactory.REMOVE_EXTRA_FLAG, false);
 			if (mListener != null){
-				mListener.onDeviceChange(isSelDeviceChange);
+				mListener.onDMSDeviceChange(isSelDeviceChange);
 			}
 		}
 

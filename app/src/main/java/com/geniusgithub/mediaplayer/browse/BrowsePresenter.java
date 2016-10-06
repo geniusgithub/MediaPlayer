@@ -15,12 +15,12 @@ import com.geniusgithub.mediaplayer.component.ImageLoader;
 import com.geniusgithub.mediaplayer.component.MediaItemFactory;
 import com.geniusgithub.mediaplayer.component.MediaManager;
 import com.geniusgithub.mediaplayer.dlna.control.model.DMSDeviceBrocastFactory;
-import com.geniusgithub.mediaplayer.dlna.control.base.IDeviceChangeListener;
+import com.geniusgithub.mediaplayer.dlna.control.base.IDMSDeviceChangeListener;
 import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
 import com.geniusgithub.mediaplayer.dlna.control.AllShareProxy;
 import com.geniusgithub.mediaplayer.dlna.control.browsecontrol.BrowseControllerProxy;
 import com.geniusgithub.mediaplayer.dlna.util.UpnpUtil;
-import com.geniusgithub.mediaplayer.player.music.MusicPlayerPresenter;
+import com.geniusgithub.mediaplayer.player.music.LocalMusicPlayerPresenter;
 import com.geniusgithub.mediaplayer.player.music.view.MusicPlayerActivity;
 import com.geniusgithub.mediaplayer.player.photo.PhotoBrowsePresenter;
 import com.geniusgithub.mediaplayer.player.photo.view.PhotoBrowseActivity;
@@ -32,7 +32,7 @@ import org.cybergarage.upnp.Device;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
+public class BrowsePresenter implements IPresenter, IDMSDeviceChangeListener,
                                         BrowseControllerProxy.BrowseRequestCallback{
 
 
@@ -109,7 +109,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
 
 
     @Override
-    public void onDeviceChange(boolean isSelDeviceChange) {
+    public void onDMSDeviceChange(boolean isSelDeviceChange) {
         updateDeviceList();
         if (mViewType != VIEW_DMS && isSelDeviceChange){
             mContentManager.clear();
@@ -118,7 +118,6 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
             switchView(VIEW_DMS);
         }
     }
-
 
     @Override
     public void onRequestBegin() {
@@ -257,7 +256,7 @@ public class BrowsePresenter implements IPresenter, IDeviceChangeListener,
 
         Intent intent = new Intent();
         intent.setClass(mContext, MusicPlayerActivity.class);
-        intent.putExtra(MusicPlayerPresenter.PLAY_INDEX, index);
+        intent.putExtra(LocalMusicPlayerPresenter.PLAY_INDEX, index);
         MediaItemFactory.putItemToIntent(item, intent);
         mContext.startActivity(intent);
     }

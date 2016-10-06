@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.geniusgithub.mediaplayer.dlna.base.DlnaEngineObserver;
 import com.geniusgithub.mediaplayer.dlna.control.model.AbstractMediaMng;
 import com.geniusgithub.mediaplayer.dlna.control.model.ControlStatusChangeBrocastFactory;
+import com.geniusgithub.mediaplayer.dlna.control.model.MediaRenderMng;
 import com.geniusgithub.mediaplayer.dlna.control.model.MediaServerMng;
 import com.geniusgithub.mediaplayer.dlna.control.base.IControlOperator;
 import com.geniusgithub.mediaplayer.dlna.control.model.IControlPointState;
@@ -38,6 +39,8 @@ public class AllShareProxy implements IControlOperator,
 	private AllShareProxy(Context context) {
 		mContext = context;
 		dmsMediaMng = new MediaServerMng(context);
+		dmrMediaMng = new MediaRenderMng(context);
+
 		controlLock = new Mutex();
 		mDeviceOperator = new DeviceOperator();
 	}
@@ -141,25 +144,32 @@ public class AllShareProxy implements IControlOperator,
 
 	private DeviceOperator mDeviceOperator;
 	private AbstractMediaMng dmsMediaMng;
+	private AbstractMediaMng dmrMediaMng;
 	public DeviceOperator getmDeviceOperator(){
 		return mDeviceOperator;
 	}
 
-	public class DeviceOperator implements IDeviceOperator, IDeviceOperator.IDMSDeviceOperator{
+	public class DeviceOperator implements IDeviceOperator, IDeviceOperator.IDMSDeviceOperator, IDeviceOperator.IDMRDeviceOperator{
 
 		@Override
 		public void addDevice(Device d) {
 			if (UpnpUtil.isMediaServerDevice(d)){
-				AlwaysLog.i(TAG, "addDevice dev = " + d.getUDN());
+				AlwaysLog.i(TAG, "mediaserver addDevice dev = " + d.getUDN());
 				dmsMediaMng.addDevice(d);
+			}else if (UpnpUtil.isMediaRenderDevice(d)){
+				AlwaysLog.i(TAG, "mediarender addDevice dev = " + d.getUDN());
+				dmrMediaMng.addDevice(d);
 			}
 		}
 
 		@Override
 		public void removeDevice(Device d) {
 			if (UpnpUtil.isMediaServerDevice(d)){
-				AlwaysLog.i(TAG, "removeDevice dev = " + d.getUDN());
+				AlwaysLog.i(TAG, "mediaserver removeDevice dev = " + d.getUDN());
 				dmsMediaMng.removeDevice(d);
+			}else if (UpnpUtil.isMediaRenderDevice(d)){
+				AlwaysLog.i(TAG, "mediarender removeDevice dev = " + d.getUDN());
+				dmrMediaMng.removeDevice(d);
 			}
 		}
 
@@ -167,6 +177,7 @@ public class AllShareProxy implements IControlOperator,
 		public void clearDevice() {
 			AlwaysLog.i(TAG, "clearDevice dev ");
 			dmsMediaMng.clear();
+			dmrMediaMng.clear();
 		}
 
 		@Override
@@ -183,6 +194,21 @@ public class AllShareProxy implements IControlOperator,
 		@Override
 		public Device getDMSSelectedDevice() {
 			return dmsMediaMng.getSelectedDevice();
+		}
+
+		@Override
+		public List<Device> getDMRDeviceList() {
+			return dmrMediaMng.getDeviceList();
+		}
+
+		@Override
+		public Device getDMRSelectedDevice1() {
+			return dmrMediaMng.getSelectedDevice();
+		}
+
+		@Override
+		public void setDMRSelectedDevice(Device selectedDevice) {
+			dmrMediaMng.setSelectedDevice(selectedDevice);
 		}
 	}
 

@@ -27,12 +27,12 @@ public class UpnpUtil {
 //	}
 	
 	
-//	public static boolean isMediaRenderDevice(Device device){
-//		if ("urn:schemas-upnp-org:device:MediaRenderer:1".equalsIgnoreCase(device.getDeviceType())){
-//			return true;
-//		}
-//		return false;
-//	}
+	public static boolean isMediaRenderDevice(Device device){
+		if ("urn:schemas-upnp-org:device:MediaRenderer:1".equalsIgnoreCase(device.getDeviceType())){
+			return true;
+		}
+		return false;
+	}
 
 	public static boolean isAudioItem(MediaItem item){
 		String objectClass = item.getObjectClass();

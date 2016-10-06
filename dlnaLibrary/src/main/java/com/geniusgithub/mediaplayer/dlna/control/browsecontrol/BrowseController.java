@@ -1,7 +1,5 @@
 package com.geniusgithub.mediaplayer.dlna.control.browsecontrol;
 
-import com.geniusgithub.mediaplayer.dlna.control.model.MediaItem;
-
 import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.Argument;
 import org.cybergarage.upnp.Device;
@@ -12,7 +10,6 @@ import org.cybergarage.upnp.std.av.player.action.BrowseResult;
 import org.cybergarage.upnp.std.av.server.ContentDirectory;
 import org.cybergarage.upnp.std.av.server.object.ContentNode;
 import org.cybergarage.upnp.std.av.server.object.container.ContainerNode;
-import org.cybergarage.upnp.std.av.server.object.container.RootNode;
 import org.cybergarage.upnp.std.av.server.object.item.ItemNode;
 import org.cybergarage.util.AlwaysLog;
 import org.cybergarage.util.Debug;
@@ -20,65 +17,33 @@ import org.cybergarage.xml.Node;
 import org.cybergarage.xml.Parser;
 import org.cybergarage.xml.ParserException;
 
-import java.util.List;
-
 public class BrowseController implements IBrowseController {
 
     public static final String TAG = BrowseController.class.getSimpleName();
 
     @Override
-    public boolean browseItem(Device device, String id, List<MediaItem> list) {
+    public boolean browseItem(Device device, String id, ContainerNode rootNode) {
 
         if (id == null){
             id = "0";
         }
 
-        ContainerNode rootNode  = new RootNode();
-        boolean browseRet = browse(device, id, rootNode);
-        if (!browseRet){
-            return false;
-        }
-
-        boolean parsetRet = parseResult(rootNode, list);
-        if (!parsetRet) {
-            AlwaysLog.e(TAG, "parseResult fail!!!");
-            return false;
-        }
-
-        return true;
+        return browse(device, id, rootNode);
     }
 
 
-    public static boolean parseResult(ContainerNode rootNode, List<MediaItem> list){
 
-        //	AlwaysLog.i(TAG, "parseResult rootNode = \n" + rootNode.toString());
-        int childCount = rootNode.getChildCount();
-        ContentNode node = null;
-        for(int i = 0; i < childCount; i++){
-            node = rootNode.getContentNode(i);
-
-            MediaItem item = MediaItem.Builder.create(node);
-            if (item != null){
-                list.add(item);
-            }else{
-                AlwaysLog.e(TAG, "unknow node??? index = " + i);
-            }
-        }
-
-        return true;
-    }
-
-    public boolean browse(Device dev, ContainerNode parentNode)
+/*    public boolean browse(Device dev, ContainerNode parentNode)
     {
         return browse(dev, "0", parentNode);
-    }
+    }*/
 
-    public boolean browse(Device dev, String objectId, ContainerNode parentNode)
+    private boolean browse(Device dev, String objectId, ContainerNode parentNode)
     {
         return browse(dev, objectId, false, parentNode);
     }
 
-    public boolean browse(Device dev, String objectId, boolean hasBrowseChildNodes, ContainerNode parentNode)
+    private boolean browse(Device dev, String objectId, boolean hasBrowseChildNodes, ContainerNode parentNode)
     {
        return browse(parentNode, dev, objectId, hasBrowseChildNodes);
     }
@@ -132,7 +97,7 @@ public class BrowseController implements IBrowseController {
     }
 
 
-    public Node browseDirectChildren(
+    private Node browseDirectChildren(
             Device dev,
             String objectID,
             String filter,
@@ -143,7 +108,7 @@ public class BrowseController implements IBrowseController {
         return browse(dev, objectID, org.cybergarage.upnp.std.av.player.action.BrowseAction.BROWSE_DIRECT_CHILDREN, filter, startIndex, requestedCount, sortCaiteria);
     }
 
-    public Node browse(
+    private Node browse(
             Device dev,
             String objectID,
             String browseFlag,
