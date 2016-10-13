@@ -252,7 +252,7 @@ public class BrowsePresenter implements IPresenter, IDMSDeviceChangeListener,
 
     private void goMusicPlayerActivity(int index, MediaItem item){
 
-        MediaManager.getInstance().setMusicList(mCurItems);
+        index = MediaManager.getInstance().filterMusicList(mCurItems, index);
 
         Intent intent = new Intent();
         intent.setClass(mContext, MusicPlayerActivity.class);
@@ -263,7 +263,7 @@ public class BrowsePresenter implements IPresenter, IDMSDeviceChangeListener,
 
     private void goVideoPlayerActivity(int position, MediaItem item){
 
-        MediaManager.getInstance().setVideoList(mCurItems);
+        position = MediaManager.getInstance().filterVideoList(mCurItems, position);
 
 
 
@@ -290,7 +290,7 @@ public class BrowsePresenter implements IPresenter, IDMSDeviceChangeListener,
 
     private void goPhotoPlayerActivity(int position, MediaItem item){
 
-        MediaManager.getInstance().setPictureList(mCurItems);
+        position = MediaManager.getInstance().filterPictureList(mCurItems, position);
 
         Intent intent = new Intent();
         intent.setClass(mContext, PhotoBrowseActivity.class);

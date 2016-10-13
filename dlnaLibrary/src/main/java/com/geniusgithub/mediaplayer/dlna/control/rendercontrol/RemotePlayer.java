@@ -264,6 +264,7 @@ public class RemotePlayer implements  IRemotePlayback{
                 mTransportState = transportState;
                 return true;
             }
+
             return false;
         }
 

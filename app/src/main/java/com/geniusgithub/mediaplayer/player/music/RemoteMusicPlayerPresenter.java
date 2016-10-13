@@ -272,7 +272,7 @@ public class RemoteMusicPlayerPresenter extends MusicPlayerPresenter implements 
         mMediaInfo.albumarturi = "http://192.168.1.107:57645/external/audio/albums/5.jpg";
         List<MediaItem> list = new ArrayList<MediaItem>();
         list.add(mMediaInfo);
-        MediaManager.getInstance().setMusicList(list);
+        MediaManager.getInstance().filterMusicList(list, 0);
         return 0;
     }
 

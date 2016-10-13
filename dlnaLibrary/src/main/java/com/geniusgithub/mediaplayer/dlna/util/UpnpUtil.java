@@ -34,25 +34,49 @@ public class UpnpUtil {
 		return false;
 	}
 
+	public static final String AUDIO_OBJECT = "object.item.audio";
+	public static final String AUDIO_OBJECT1 = "object.item.music";
 	public static boolean isAudioItem(MediaItem item){
 		String objectClass = item.getObjectClass();
-		if (isUPnPClassStartWith(objectClass, "object.item.audio") || isUPnPClassStartWith(objectClass, "object.item.music"))
+		return isAudioItem(objectClass);
+	}
+	public static boolean isAudioItem(String objectClass){
+		if (isUPnPClassStartWith(objectClass, AUDIO_OBJECT) || isUPnPClassStartWith(objectClass, AUDIO_OBJECT1))
 			return true;
 		return false;
 	}
 
-
-
+	public static final String VIDEO_OBJECT = "object.item.movie";
+	public static final String VIDEO_OBJECT1 = "object.item.video";
 	public static boolean isVideoItem(MediaItem item){
 		String objectClass = item.getObjectClass();
-		if (isUPnPClassStartWith(objectClass, "object.item.movie") || isUPnPClassStartWith(objectClass, "object.item.video"))
+		return isVideoItem(objectClass);
+	}
+	public static boolean isVideoItem(String objectClass){
+		if (isUPnPClassStartWith(objectClass, VIDEO_OBJECT) || isUPnPClassStartWith(objectClass, VIDEO_OBJECT1))
 			return true;
 		return false;
 	}
-	
+
+	public static final String PHOTO_OBJECT = "object.item.image";
+	public static final String PHOTO_OBJECT1 = "object.item.photo";
 	public static boolean isPictureItem(MediaItem item){
 		String objectClass = item.getObjectClass();
-		if (isUPnPClassStartWith(objectClass, "object.item.image") || isUPnPClassStartWith(objectClass, "object.item.photo"))
+		return isPictureItem(objectClass);
+	}
+	public static boolean isPictureItem(String objectClass){
+		if (isUPnPClassStartWith(objectClass, PHOTO_OBJECT) || isUPnPClassStartWith(objectClass, PHOTO_OBJECT1))
+			return true;
+		return false;
+	}
+
+	public static final String FOLDER_OBJECT = "object.container";
+	public static boolean isFolderItem(MediaItem item){
+		String objectClass = item.getObjectClass();
+		return isFolderItem(objectClass);
+	}
+	public static boolean isFolderItem(String objectClass){
+		if (isUPnPClassStartWith(objectClass, FOLDER_OBJECT))
 			return true;
 		return false;
 	}
